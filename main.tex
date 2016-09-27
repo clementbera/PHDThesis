@@ -1,0 +1,49 @@
+\documentclass[a4paper,12pt,twoside]{includes/ThesisStyle}
+
+\input{includes/macros}
+\include{includes/formatAndDefs}
+
+\graphicspath{{.}{figures/}}
+\newcommand\logoInria{./includes/logos/Inria}
+\newcommand \logoLifl{./includes/logos/lifl}
+\newcommand \logoUSTL{./includes/logos/Lille1}
+
+
+\let\wholebook=\relax
+
+\begin{document}
+\include{chapters/titlePage}
+\dominitoc
+
+\pagenumbering{roman}
+
+\cleardoublepage
+
+\section*{Acknowledgments}
+
+Last thing to do :-)
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\mainmatter
+
+\include{chapters/ch1-intro}
+
+\appendix
+
+\include{appendix/def}
+
+\bibliographystyle{includes/ThesisStyle}
+\bibliography{bib/others,bib/rmod}
+
+
+\end{document}
+
+%%% Local Variables: 
+%%% coding: utf-8
+%%% mode: latex
+%%% TeX-master: "main"
+%%% TeX-PDF-mode: t
+%%% End:
