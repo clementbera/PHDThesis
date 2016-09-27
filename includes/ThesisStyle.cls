@@ -852,9 +852,10 @@
     {\renewcommand{\@ThesisJuryTitle}{{\UseEntryFont{ThesisJuryTitle}#1}}}
 
 \newcommand\includesLogo {
-		\includegraphics[scale=0.3]\logoInria\hspace{9em}
-		\includegraphics[scale=0.45]\logoLifl \hspace{9em}
-		\includegraphics[scale=0.4]\logoUSTL
+		\includegraphics[scale=0.25]\logoInria\hspace{2em}
+		\includegraphics[scale=0.45]\logoLifl \hspace{2em}
+		\includegraphics[scale=0.4]\logoUSTL\hspace{2em}
+		\includegraphics[scale=0.15]\logoRegion 
 	}
 	
 \newcommand\Logo{%
