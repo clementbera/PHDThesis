@@ -1,0 +1,31 @@
+\ifx\wholebook\relax\else
+% --------------------------------------------
+% Lulu:
+    \documentclass[a4paper,12pt,twoside]{../includes/ThesisStyle}
+
+	\input{../includes/macros}	
+	\input{../includes/formatAndDefs}
+
+	\graphicspath{{.}{../figures/}}
+	\begin{document}
+\fi
+
+\chapter{Existing runtime and related work}
+\label{chap:comparison}
+\minitoc
+
+\section{Existing production runtimes}
+-- Existing C++ runtimes and why C++ blabla
+
+\section{Minimal interface and HL optimizer}
+-- HLL opt with truffle and pypy
+
+\section{Persisting opt and process}
+-- persisting opt see paper related / process, we don't know anybody doing that
+
+--> arch paper for persisting opt. Comp to Truffle to do. (Thread, same runtime, interface different)
+
+
+\ifx\wholebook\relax\else
+    \end{document}
+\fi

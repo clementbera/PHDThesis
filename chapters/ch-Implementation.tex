@@ -1,0 +1,63 @@
+\ifx\wholebook\relax\else
+% --------------------------------------------
+% Lulu:
+    \documentclass[a4paper,12pt,twoside]{../includes/ThesisStyle}
+
+	\input{../includes/macros}	
+	\input{../includes/formatAndDefs}
+
+	\graphicspath{{.}{../figures/}}
+	\begin{document}
+\fi
+
+\chapter{Evolving the existing runtime}
+\label{chap:archImpl}
+\minitoc
+
+Paper: sista arch + bytecode set paper + read-only paper
+
+small intro. 
+
+\section{Existing runtime}
+
+what matters:
+- context to stack mapping + explanations
+Doc: eliot post and my lecture (quit some to do)
+- baseline JIT behavior
+Doc: my blog posts. need to explain template and co
+- the crap in V3 mem manager
+Doc: my blog post. need to explain
+-- maybe the architecture with Slang and the simulator
+Doc: not much really. My simulator blog post ?
+
+interpreter and FFI / plugin don't really matter
+
+\section{Extending the VM interface}
+
+bytecode set (Doc: paper)
+new primitive
+new call backs
+
+\section{VM evolution}
+
+counters
+=>Needs to find ref to paper again
+send and branch data
+SpurMemManager complexity in machine code of the first one, representation of counters
+Doc: spur paper
+Linear scan and reg alloc, plus branches
+Doc: TODO
+
+\section{Front-end evolution}
+
+optimizer, deoptimizer 
+Doc: my blog post + sista arch
+literal mutability (paper)
+Doc: my paper ?
+FullBlock
+Doc: ? well... the FullBlock talk
+
+
+\ifx\wholebook\relax\else
+    \end{document}
+\fi

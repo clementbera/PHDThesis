@@ -1,0 +1,48 @@
+\ifx\wholebook\relax\else
+% --------------------------------------------
+% Lulu:
+    \documentclass[a4paper,12pt,twoside]{../includes/ThesisStyle}
+
+	\input{../includes/macros}	
+	\input{../includes/formatAndDefs}
+
+	\graphicspath{{.}{../figures/}}
+	\begin{document}
+\fi
+
+\chapter{The Sista Architecture}
+\label{chap:archTheory}
+\minitoc
+
+Paper: sista arch
+small intro. 
+
+\section{General approach}
+
+optimization process, deoptimization process in a nutshell.
+
+the recursive problem
+
+Doc: blog post Sista chronicles 1, an update on the sista, talks at ESUG and Smalltalks + arch paper
+
+\section{The VM interface}
+
+bytecode, primitive, call-backs
+
+Doc: bytecode paper + arch paper
+
+\section{Pros and cons}
+=> optimizer capabilities and limitations
+=> advantages and disadvantages
+-- persisting opt across start-up 
+-- low engineering cost ?
+-- ST problem, save process across start-up
+-- sharing the VM info for other purpose
+disadvantages
+-- opt info lost, waste time going to bc, etc.
+-- problem of having it in the language: hard to keep the programmer unaware
+-- new opt may be difficult if need to extend too much the interface, it has to be small
+
+\ifx\wholebook\relax\else
+    \end{document}
+\fi
