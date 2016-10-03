@@ -19,7 +19,13 @@ small intro.
 
 \section{General approach}
 
+\subsection {Optimisation process}
+
+
+\subsection {Deoptimisation process}
 optimization process, deoptimization process in a nutshell.
+
+\subsection{The recursion problem}
 
 the recursive problem
 
@@ -27,21 +33,47 @@ Doc: blog post Sista chronicles 1, an update on the sista, talks at ESUG and Sma
 
 \section{The VM interface}
 
-bytecode, primitive, call-backs
+\subsection{Accessing VM info}
+
+\subsection{New call-backs}
+
+\subsection{New unsafe instructions}
+
+description of new instructions
+
 
 Doc: bytecode paper + arch paper
 
-\section{Pros and cons}
-=> optimizer capabilities and limitations
-=> advantages and disadvantages
--- persisting opt across start-up 
--- low engineering cost ?
--- ST problem, save process across start-up
--- sharing the VM info for other purpose
-disadvantages
+\section{Advantages}
+
+\subsection{Persisting optimisations through snapshots}
+
+\subsection{Process persistance through snapshots}
+
+\subsection{VM info available}
+
+is it good ? May change
+
+\subsection{Engineering cost}
+
+or maybe that should be discussed
+
+\subsection{Modification at runtime}
+
+disable, change, re-enable, etc.
+Or is it the same as engineering cost.
+
+\section{Issues}
+
+\subsection{Towards highest performance}
 -- opt info lost, waste time going to bc, etc.
+
+\subsection{In-language optimizer issues}
 -- problem of having it in the language: hard to keep the programmer unaware
+
+\subsection{New optimizations}
 -- new opt may be difficult if need to extend too much the interface, it has to be small
+Up until now it's fine.
 
 \ifx\wholebook\relax\else
     \end{document}

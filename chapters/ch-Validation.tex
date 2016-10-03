@@ -19,17 +19,53 @@ small intro
 
 \section{Validation benchmarks}
 
-
 Doc: from sista arch paper + do better benchmarks
 
+we need to discuss the maturity of the project and why start-up time is not that good any way. we dont want to spend time here as persistent.
+
+We have both performance result and start-up time result.
+
+\subsection{Performance evaluation}
+
+\subsection{Start-up time evaluation}
+
 \section{Integration for enterprise-application}
+
+\subsection{Pharo integration}
+
+\subsection{Cog integration}
+
+Do we want to do it that way or feature per feature ?
 
 TODO - experience report with the integration
 => VM integration at each commit because slang generation remove unsued things
 
-\section{Tests architecture}
+\section{Test architecture}
 
-test separatedly back end front end + paper in the end deopt every n times
+Testing separatedly the back-end from the front-end intro
+
+\subsection{Language-side tests}
+
+both optimizer and deoptimizer
+
+Test framework inputs, passes
+
+deopt from context to context<SSS>
+
+\subsection{Back-end side}
+
+tests for unsafe op.
+
+mapping bcpc mcpc
+
+\subsection{Large validation}
+
+on all methods in the system
+
+in the end deopt every n times
+
+\subsection{Experimentation Symbolic execution}
+
 Doc: paper tests + TODO.
 
 \ifx\wholebook\relax\else

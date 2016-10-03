@@ -10,24 +10,41 @@
 	\begin{document}
 \fi
 
-\chapter{Existing runtime and related work}
+\chapter{Existing and related runtime environment}
 \label{chap:comparison}
 \minitoc
 
-\section{Existing production runtimes}
--- Existing C++ runtimes and why C++ blabla
+\section{High-performance production virtual machines}
 
-\section{Minimal interface and HL optimizer}
--- HLL opt with truffle and pypy
+\subsection{Existing C++ runtimes}
+-- Existing C++ runtimes and why C++ blabla
+talk about java and Javascript and maybe CLR.
+
+\subsection{Smalltalk production virtual machines}
+
+\section{Interface between the VM and the runtime}
+
+\subsection{Truffle runtime}
+In truffle same runtime, similar to us, but different interface. deopt in C++.  
+
+\subsection{Pypy runtime}
+I believe it's like slang ? More complete with CPython
+
+\subsection{Other metacircular runtimes}
 
 => focus on no interface with Metacircular VM
 different because cut at different places (lower or higher level ?)
+Discuss Klein, Maxine, Jikes
 
-\section{Persisting opt and process}
+\section{Cross-start-up persistance}
+
+\subsection{optimisations}
+Note: title should be the same (no ing and not ing.)
+
 -- persisting opt see paper related / process, we don't know anybody doing that
-
 --> arch paper for persisting opt. Comp to Truffle to do. (Thread, same runtime, interface different)
 
+\subsection{processes}
 
 \ifx\wholebook\relax\else
     \end{document}

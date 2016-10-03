@@ -31,7 +31,7 @@ Doc: not much really. My simulator blog post ?
 Doc: eliot post and my lecture (quit some to do)
 
 \subsection{Baseline JIT}
-- baseline JIT behavior
+- baseline JIT behavior + reg alloc + templates + abstractions over back-ends, literal management, Cogits, memory managers
 Doc: my blog posts. need to explain template and co
 
 \subsection{Existing Memory Manager}
@@ -42,29 +42,54 @@ interpreter and FFI / plugin don't really matter
 
 \section{Extending the VM interface}
 
+\subsection{New bytecode set}
+
 bytecode set (Doc: paper)
+
+\subsection{New primitives}
+
 new primitive
+
+\subsection{New call-backs}
+
 new call backs
 
 \section{VM evolution}
 
+\subsection{Profiling counters}
 counters
 =>Needs to find ref to paper again
+
+\subsection{Runtime information}
+
 send and branch data
+
+\subsection{Memory Management}
+
 SpurMemManager complexity in machine code of the first one, representation of counters
 Doc: spur paper
+
+\subsection{register allocation}
 Linear scan and reg alloc, plus branches
 Doc: TODO
 
 \section{Front-end evolution}
 
-optimizer, deoptimizer 
-Doc: my blog post + sista arch
+\subsection{Literal mutability}
+
 literal mutability (paper)
 Doc: my paper ?
+
+\subsection{Closure implementation}
 FullBlock
 Doc: ? well... the FullBlock talk
 
+\subsection{Optimizer}
+optimizer, 
+
+\subsection{Deoptimizer}
+deoptimizer 
+Doc: my blog post + sista arch
 
 \ifx\wholebook\relax\else
     \end{document}
