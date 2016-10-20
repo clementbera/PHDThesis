@@ -1,0 +1,49 @@
+\ifx\wholebook\relax\else
+% --------------------------------------------
+% Lulu:
+    \documentclass[a4paper,12pt,twoside]{../includes/ThesisStyle}
+
+	\input{../includes/macros}	
+	\input{../includes/formatAndDefs}
+
+	\graphicspath{{.}{../figures/}}
+	\begin{document}
+\fi
+
+\chapter{Related work}
+\label{chap:comparison}
+\minitoc
+
+\section{Language - virtual machine interface}
+
+intro with C++ and nothing like we have for context, runtime optimizer
+
+\subsection{Truffle runtime}
+In truffle same runtime, similar to us, but different interface. deopt in C++. 
+
+
+\subsection{Pypy runtime}
+I believe it's like slang ? More complete with CPython. Similar to slang.
+
+\subsection{Other metacircular runtimes}
+
+=> focus on no interface with Metacircular VM
+different because cut at different places (lower or higher level ?)
+Discuss Klein, Maxine, Jikes
+
+\section{Cross-start-up persistance}
+
+\subsection{Optimisations}
+Note: title should be the same (no ing and not ing.)
+
+-- persisting opt see paper related / process, we don't know anybody doing that
+--> arch paper for persisting opt. Comp to Truffle to do. (Thread, same runtime, interface different)
+
+\subsection{Processes}
+
+no related work ?
+Nobody does that.
+
+\ifx\wholebook\relax\else
+    \end{document}
+\fi

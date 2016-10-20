@@ -1,0 +1,97 @@
+\ifx\wholebook\relax\else
+% --------------------------------------------
+% Lulu:
+    \documentclass[a4paper,12pt,twoside]{../includes/ThesisStyle}
+
+	\input{../includes/macros}	
+	\input{../includes/formatAndDefs}
+
+	\graphicspath{{.}{../figures/}}
+	\begin{document}
+\fi
+
+\chapter{The Sista Architecture}
+\label{chap:archTheory}
+\minitoc
+
+Paper: sista arch
+small intro. 
+
+\section{General approach}
+
+explain first the system: snapshot, runtime objects available and stack reification.
+
+stack reification we explain later (quote chapter and section) 
+
+\subsection {Overview}
+
+split architecture, what is where. 
+
+in theory, optimised bc method could be interpreted. In practice it does not really make sense. But in some cases it does.
+
+\subsection {Optimisation process}
+
+
+
+\subsection {Deoptimisation process}
+
+optimization process, deoptimization process in a nutshell.
+
+\subsection{Recursion problem}
+
+the recursive problem
+
+Doc: blog post Sista chronicles 1, an update on the sista, talks at ESUG and Smalltalks + arch paper
+
+\section{Virtual Machine interface extension}
+
+\subsection{Runtime information access}
+
+both branch and send data
+
+\subsection{New call-backs}
+
+\subsection{New unsafe instructions}
+
+description of new instructions
+
+Doc: bytecode paper + arch paper
+
+\section{Advantages}
+
+\subsection{Persistance through snapshots}
+
+optimization and processes
+
+\subsection{Runtime information available}
+
+is it good ? May change
+
+\subsection{High-level language and engineering cost}
+
+start with efficiency ratio from known books.
+
+why it is not really high level language.
+
+they conclude that we believe (but maybe not) that we are more efficient. Maybe other solution better like DSL
+
+\subsection{Modification at runtime}
+
+disable, change, re-enable, etc.
+Or is it the same as engineering cost.
+
+\section{Issues}
+
+\subsection{Towards highest performance}
+-- opt info lost, waste time going to bc, etc.
+
+\subsection{High-level virtual machine and programmer awareness}
+-- problem of having it in the language: hard to keep the programmer unaware
+
+\subsection{New optimizations}
+-- new opt may be difficult if need to extend too much the interface, it has to be small
+Up until now it's fine.
+
+\ifx\wholebook\relax\else
+    \end{document}
+\fi

@@ -1,0 +1,85 @@
+\ifx\wholebook\relax\else
+
+% --------------------------------------------
+% Lulu:
+
+    \documentclass[a4paper,12pt,twoside]{../includes/ThesisStyle}
+
+	\input{../includes/macros}
+	\input{../includes/formatAndDefs}
+
+	\graphicspath{{.}{../figures/}}
+	\begin{document}
+\fi
+
+\chapter{Introduction}
+\label{chap:intro}
+\minitoc
+
+\section{Context}
+
+NOTE we need to disambiguate with OS VMs.
+
+\subsection{Virtual machines for high-level programming languages}
+
+Many high-level object-oriented programming languages run on top of a virtual machine (VM) which provides certain advantages from running directly on the underlying hardware. Many of these programming languages pursue a strict separation between language-side and VM-side. VMs for instance provide automatic memory management or use platform agnostic instructions such as bytecodes. These properties allow a programming language to develop independently from the underlying hardware.
+
+High performance VMs, such as Java HotSpot or current Javascript VMs achieve high performance through just-in-time compilation techniques: once the VM has detected that a portion of code is frequently used, it recompiles it on-the-fly with speculative optimizations based on previous runs of the code. If usage patterns change and the code is not executed as previously speculated anymore, the VM dynamically deoptimizes the execution stack and resumes execution with the unoptimized code.
+
+Originally VMs were built in performance oriented low-level programming languages such as C. However, as the VMs were reaching higher and higher performance, the complexity of their code base increased and some VMs started to get written in higher-level languages as an attempt to ease develpment. Such VMs got written either in the language run by the VM itself or in specific DSLs.
+
+\subsection{Pharo programming language}
+
+In this thesis the focus is on a specific high-level object-oriented programming language, the Smalltalk dialect named Pharo. In Pharo, everything is an object, including classes, bytecoded versions of methods or processes. It is dynamically-typed and every call is a virtual call. The VM relies on a bytecode interpreter and a baseline JIT to gain performance. Modern Smalltalk dialects directly inherit from Smalltalk-80 specified in CITE (Goldberg  Robson 1983) but have evolved during the past 35 years. For example, real closures and exceptions were added.
+
+As Pharo is evolving, the community is looking for better VM performance. Compared to many high performance VMs, the Pharo VM is lacking an optimising JIT with speculative optimisations. However, in high performance VMs, the optimising JIT is one of the most complex part, if not the most complex and the Pharo community has just enough ressources to fund the maintenance and evolution of the existing VM. Hence, the optimising JIT design has to be done under two main constraints:
+\begin{itemize}
+\item The maintenance of the resulting VM has to remain affordable
+\item The resulting VM should be built on top of the existing runtime
+\end{itemize}
+
+A first design emerged in the early 2000s according to those constraints. The main ideas were:
+\begin{itemize}
+	\item To build the optimising JIT in the Pharo runtime itself. The existing VM is written in a DSL compiling to native code through C. As the DSL semantics are very close to C and that most people in the Smalltalk community are either not familiar with C or more productive with Smalltalk than C, this design was seen as a way to reduce the maintenance cost.
+	\item To build the optimising JIT as a bytecode to bytecode optimiser and reuse the baseline JIT as a back-end of the optimising JIT to produce efficent machine code. This design would avoid implementing and maintaining two native code back-ends while reusing and extending the existing language-VM interface with the bytecodes, overall lowering the development cost.
+\end{itemize}
+
+The design looked interesting but was very abstract so it was unclear how multiple part of the system would be implemented. The thesis started from this proposal and explore multiple aspects of the design that are different from existing designs, what their advantages and issues are and how they are implemented as an attempt to implement the proposal was made.
+
+\section{Problem}
+
+Scheme:
+
+The design is the closest to Truffle. 
+we tried to keep minimal interface (no n code installation and bytecode as they do)
+in the context of st snapshot, persist processes and because bc to bc, we had everything to persist optimization to avoid deopt for snapshots.
+While first bench working and trying to reach production state, we tested opt and deopt separatedly. 
+
+ToREMOVE:
+\begin{itemize} 
+	\item The interface between the VM including the baseline JIT and the bytecode compiler and the language including the optimising bytecode to bytecode JIT needs to be expressive so optimised code can be installed and run while it needs to be small to keep the design easy to work with. 
+	\item Multiple properties can be conserved across multiple start-ups in this design, including the persistance of the running processes state and runtime optimisations.
+	\item Testing and validating that an optimising JIT compiler is a difficult task. As the design splits this part of the VM in two independent parts, with the optimising bytecode to bytecode JIT in the language and the back-end as the baseline JIT in the VM, it is possible to consider new ways of testing and validating the optimising JIT.
+\end{itemize}
+
+END ToREMOVE.
+
+The thesis focuses on these three problems:
+
+\begin{itemize}
+	\item \emph{Problem 1:} How to design a minimal interface between the VM and the language in the context of a language-side optimising JIT ?
+	\item \emph{Problem 2:} How to persist the runtime state across multiple VM start-up, including the running processes state and the optimised code state ?
+	\item \emph{Problem 3:} Is it possible to validate the language-side optimising JIT independently from the back-end ?
+\end{itemize}
+
+\section{Contributions}
+
+we implemented to validate blabla. PArt of it is integrated, other part is available as separate MIT project.
+
+\section{Artifacts}
+
+\section{Outline}
+
+\ifx\wholebook\relax\else
+    \end{document}
+\fi

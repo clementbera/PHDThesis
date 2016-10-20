@@ -1,0 +1,59 @@
+\ifx\wholebook\relax\else
+% --------------------------------------------
+% Lulu:
+    \documentclass[a4paper,12pt,twoside]{../includes/ThesisStyle}
+
+	\input{../includes/macros}	
+	\input{../includes/formatAndDefs}
+
+	\graphicspath{{.}{../figures/}}
+	\begin{document}
+\fi
+
+\chapter{Test architecture}
+\label{chap:tests}
+\minitoc
+
+Testing separatedly the back-end from the front-end intro
+
+\section{Language-side tests}
+
+\subsection{Test framework: inputs and passes}
+
+optimizer used statically.
+
+Validator thing
+
+- methods
+- opt passes
+- what to validate
+
+graph sanity and co
+
+\subsection{Testing context to context deoptimization}
+
+deopt split in 2, test both separatedly.
+
+\subsection{Experimentation Symbolic execution}
+
+Doc: paper tests + TODO.
+
+\section{Back-end tests}
+
+back-end is normally working. We reuse the same. We can still detail the mcpc bcpc mapping that was used to stabilized the baseline jit. only new and complex thing is unsafe ops as they can generate multiple version of machine code. Tries to test each version.
+
+\subsection{Stack frame to context mapping tests}
+
+mapping bcpc mcpc
+
+\subsection{Unsafe operations tests}
+
+tests for unsafe op. bytecode manipulation (can't be expressed at source level)
+
+
+
+
+
+\ifx\wholebook\relax\else
+    \end{document}
+\fi

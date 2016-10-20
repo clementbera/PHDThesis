@@ -1,0 +1,84 @@
+\ifx\wholebook\relax\else
+% --------------------------------------------
+% Lulu:
+    \documentclass[a4paper,12pt,twoside]{../includes/ThesisStyle}
+
+	\input{../includes/macros}	
+	\input{../includes/formatAndDefs}
+
+	\graphicspath{{.}{../figures/}}
+	\begin{document}
+\fi
+
+\chapter{Evolving the existing runtime}
+\label{chap:archImpl}
+\minitoc
+
+Paper: sista arch + bytecode set paper + read-only paper
+
+small intro. 
+
+\section{Virtual machine interface extension}
+
+\subsection{New bytecode set}
+
+bytecode set (Doc: paper)
+
+\subsection{New primitives}
+
+new primitive
+
+\subsection{New call-backs}
+
+new call backs
+
+\section{Virtual machine evolution}
+
+\subsection{Profiling counters}
+counters
+=>Needs to find ref to paper again
+
+\subsection{Runtime information}
+
+send and branch data
+
+\subsection{Memory Management}
+
+SpurMemManager complexity in machine code of the first one, representation of counters
+Doc: spur paper
+
+\subsection{register allocation}
+Linear scan and reg alloc, plus branches
+Doc: TODO
+
+\section{Language evolution}
+
+\subsection{Literal mutability}
+
+literal mutability (paper)
+Doc: my paper ?
+
+\subsection{Closure implementation}
+FullBlock
+Doc: ? well... the FullBlock talk
+
+\subsection{Multiple bytecode set support}
+Migration to new bc ?
+
+\subsection{Optimizer}
+
+Explain simple behavior.
+
+Maybe it makes sense to say Context are the same as objects.
+
+\subsection{Deoptimizer}
+deoptimizer 
+Doc: my blog post + sista arch
+
++ discussion: is in-image deopt good
+
+
+
+\ifx\wholebook\relax\else
+    \end{document}
+\fi
