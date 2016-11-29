@@ -21,7 +21,6 @@ intro with C++ and nothing like we have for context, runtime optimizer
 \subsection{Truffle runtime}
 In truffle same runtime, similar to us, but different interface. deopt in C++. 
 
-
 \subsection{Pypy runtime}
 I believe it's like slang ? More complete with CPython. Similar to slang.
 
@@ -31,6 +30,8 @@ I believe it's like slang ? More complete with CPython. Similar to slang.
 different because cut at different places (lower or higher level ?)
 Discuss Klein, Maxine, Jikes
 
+In our case built from existing.
+
 \section{Cross-start-up persistance}
 
 \subsection{Optimisations}
@@ -38,6 +39,50 @@ Note: title should be the same (no ing and not ing.)
 
 -- persisting opt see paper related / process, we don't know anybody doing that
 --> arch paper for persisting opt. Comp to Truffle to do. (Thread, same runtime, interface different)
+
+\subsection{Preheating through snapshots in Dart}
+
+The Dart programming languages features snapshots for fast application start-up. In Dart, the programmer can generate different kind of snapshots \cite{Anna13a}. Since that publication, the Dart team have added two new kind of snapshots, specialized for iOS and Android application deployment, which are the most similar to our snapshots.
+
+\paragraph{Android.} A Dart snapshot for an Android application is a complete representation of the application code and the heap once the application code has been loaded but before the execution of the application. The Android snapshots are taken after a warm-up phase to be able to record call site caches in the snapshot. The call site cache is a regular heap object accessed from machine code, and its presence in the snapshot allows to persist type feedback and call site frequency.
+
+In this case, the code is loaded pre-optimized with inline caches prefilled values. However, optimized functions are not loaded as our architecture allows to do. Only unoptimized code with precomputed runtime information is loaded.
+
+\paragraph{iOS.} For iOS, the Dart snapshot is slightly different as iOS does not allow JIT compilers. All reachable functions from the iOS application are compiled ahead of time, using only the features of the Dart optimizing compiler that don't require dynamic deoptimization. A shared library is generated, including all the instructions, and a snapshot that includes all the classes, functions, literal pools, call site caches, etc.
+
+This second case is difficult to compare to our architecture: iOS forbids machine code generation, which is currently required by our architecture. A good application of our architecture to iOS is future work.
+
+\subsection{Fast warm-up}
+
+An alternative to snapshots is to improve the JIT compiler so the peak performance can be reached as early as possible. The improvements would consists of decreasing the JIT compilation time by improving the efficiency of the JIT code, or have better heuristic so the JIT can generate optimized code with the correct speculations with little runtime information.
+
+\paragraph{Tiered architecture}
+One solution, used by the most recent JVMs and several Javascript VMs such as V8~\cite{V8} or Webkit, is to have a tiered architecture. The idea is that code would be executed slowly the few first iterations, a bit faster the next iterations, and very quickly after an certain number of optimizations. 
+
+If we take the example of Webkit (version in production from March 2015 to February 2016) \cite{Webkit15}, the code is:
+\begin{itemize}
+\item interpreted by a bytecode interpreter the first 6 executions.
+\item compiled to machine code at 7th execution, with a non optimizing compiler, and executed as machine code up to 66 executions.
+\item recompiled to more optimized machine code at 67th execution, with an optimizing compiler doing some but not all optimizations, up to 666 executions.
+\item recompiled to heavily optimized machine code at 667th execution, with an optimizing compiler using LLVM as a backend.
+\end{itemize}
+
+At each step, the compilation time is greater but the execution time decreases. This tiered approach (4 tiers in the case of Webkit), allows to have good performance from start-up, while reaching high performance for long running code.
+%\emph{number of iterations for hot spot: does not really matter for long running, very hot code optimized anyway, time to reach peak perf + instability.}
+
+\paragraph{Saving metadata.}
+
+To reach quickly peak performance, an alternative of saving optimized code is to save the runtime information. The Dart snapshot saves already the call site information in its Android snapshots. Other techniques are available.
+
+In Strongtalk \cite{Sun06}, a high-performance Smalltalk, it is possible to save the inlining decision of the optimizing compiler in a separate file. The optimizing compiler can then reuse this file to make the right inlining decision the first time a hot spot is detected.
+
+In the Azul virtual machine Zing \cite{Azul}, available for Java, the official web site claims that "operations teams can save accumulated optimizations from one day or set of market conditions for later reuse" thanks to the technology called \emph{Ready Now!}. In addition, Azul provides an API for the developer to help the JIT to make the right optimization decisions. As Azul is closed source, implementation details are not known. 
+
+\paragraph{Ahead-of-time compilation}
+
+The last alternative is to pre-optimize the code ahead of time. This can be done by doing static analysis over the code to try to infer types. Applications for the iPhone are a good example where static analysis is used to pre-optimize the Objective-C application. The peak performance is lower than with a JIT compiler if the program uses a lot of virtual calls, as static analysis are not as precised as runtime information on highly dynamic language. 
+However, if the program uses few dynamic features (for example most of the calls are not virtual) and is running on top of a high-performance language kernel like the Objective-C kernel, the result can be satisfying.
+
 
 \subsection{Processes}
 
