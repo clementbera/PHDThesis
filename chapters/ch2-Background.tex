@@ -33,11 +33,13 @@ talk about java and Javascript (maybe ClR ?) Discuss Azul.
 
 one important focus now is to hvae cross language VM to avoid cost of dev...
 
+the interesting approach is that it's more or less meta-circular.
+
 main attempts are pypy and truffle.
 
 generic approach with interpreters.
 
-\subsubsection{Truffle}
+\subsubsection{Truffle-Graal}
 
 describe the runtime model
 
@@ -64,14 +66,19 @@ small intro, repeat what is pharo. we discuss only what matters for the phd, eit
 
 \subsection{Snapshots}
 
+COPIED FROM PAPER. TO change
+
+To avoid this warm-up time, this paper intro- duces an architecture to save a platform-independent ver- sion of the optimized code as part of a snapshot. Snapshots are available in multiple object-oriented languages such as Smalltalk (Goldberg (and) Robson 1983) and later Dart (Anna- malai 2013). Snapshots allow the program to save the heap in a given state, and the virtual machine can resume exe- cution from this snapshot later. Usually, compiled code is available in different versions. On the one hand, a bytecoded version, which is on the heap if the bytecoded version of functions is reified as an object (as in Dart and Smalltalk). On the other hand one or several machine code versions are available in the machine code zone. Machine code versions are usually not part of the heap directly but of a separated part of memory which is marked as executable. Snapshots cannot save easily machine code versions of functions as a snapshot needs to be platform-independent and machine code versions of functions are not regular objects.
+
+SUMMARY:
+
 explain what they are and that they are used in normal development workflow. We look into non workflow breaking solution even if arguably it's bad to use the system that way.
 
-\subsection{Bytecode representation and compiler}
+\subsection{Executable code and bytecode representation}
 
 explain stack-based bytecode.
 explain compilation to if and loop
-
-+ representation of compiled methods ?
++ representation of compiled methods 
 
 \subsection{Virtual machine executable generation}
 -- maybe the architecture with Slang and the simulator

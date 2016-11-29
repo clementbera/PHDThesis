@@ -18,7 +18,7 @@
 
 \section{Context}
 
-NOTE we need to disambiguate with OS VMs.
+We need a small intro about VM in general and disambiguate with OS VMs.
 
 \subsection{Virtual machines for high-level programming languages}
 
@@ -44,25 +44,17 @@ A first design emerged in the early 2000s according to those constraints. The ma
 	\item To build the optimising JIT as a bytecode to bytecode optimiser and reuse the baseline JIT as a back-end of the optimising JIT to produce efficent machine code. This design would avoid implementing and maintaining two native code back-ends while reusing and extending the existing language-VM interface with the bytecodes, overall lowering the development cost.
 \end{itemize}
 
-The design looked interesting but was very abstract so it was unclear how multiple part of the system would be implemented. The thesis started from this proposal and explore multiple aspects of the design that are different from existing designs, what their advantages and issues are and how they are implemented as an attempt to implement the proposal was made.
+The design looked interesting but was very abstract so it was unclear how multiple part of the system would be implemented. The thesis started from this proposal and explore multiple aspects of the design that are different from existing designs, especially their advantages and issues.
 
 \section{Problem}
 
-Scheme:
+The existing proposal is in multiple ways close to the Graal compiler running on top of the Java hotspot VM (CITE). In this case, the optimising JIT is written in Java and runs in the same runtime than the Java application (though in different threads). 
 
-The design is the closest to Truffle. 
-we tried to keep minimal interface (no n code installation and bytecode as they do)
-in the context of st snapshot, persist processes and because bc to bc, we had everything to persist optimization to avoid deopt for snapshots.
-While first bench working and trying to reach production state, we tested opt and deopt separatedly. 
+One of the main difference is that the Graal compiler produces machine code which is handed over to the VM (holding the bytecode interpreter and the baseline JIT) to be installed. In this context, we studied the interface between the in-language optimising JIT and the rest of the VM. One of the goal was to build a small but expressive interface between the two elements.
 
-ToREMOVE:
-\begin{itemize} 
-	\item The interface between the VM including the baseline JIT and the bytecode compiler and the language including the optimising bytecode to bytecode JIT needs to be expressive so optimised code can be installed and run while it needs to be small to keep the design easy to work with. 
-	\item Multiple properties can be conserved across multiple start-ups in this design, including the persistance of the running processes state and runtime optimisations.
-	\item Testing and validating that an optimising JIT compiler is a difficult task. As the design splits this part of the VM in two independent parts, with the optimising bytecode to bytecode JIT in the language and the back-end as the baseline JIT in the VM, it is possible to consider new ways of testing and validating the optimising JIT.
-\end{itemize}
+Then, as the attempt to implement the proposal was started to work, we analysed the interaction between optimising JITs and Smalltalk-style \emph{snapshots}. In Smalltalk, a normal programmer regularly takes a snapshot, a memory dump of all the existing objects, to save the running system state. The Smalltalk VM is able to resume execution from a snapshot, restoring all the object states and resuming all running processes. Each process has its own execution stack, which may refer to optimised code, which is normally not kept across multiple start-ups. With the bytecode to bytecode optimisation design, we focused on the persistance of running processes, including the persistance of optimised code refered by such processes.
 
-END ToREMOVE.
+Lastly, as the implementation was getting more stable, we focused on tests and validation processes to ensure the correctness of the system. Testing and validating the correctness of an optimising JIT compiler is a difficult task. As the design splits this part of the VM in two independent parts, with the optimising bytecode to bytecode JIT in the language and the back-end as the baseline JIT in the VM, it is possible to consider testing and validating each part of the optimising JIT separatedly.
 
 The thesis focuses on these three problems:
 
@@ -79,6 +71,8 @@ we implemented to validate blabla. PArt of it is integrated, other part is avail
 \section{Artifacts}
 
 \section{Outline}
+
+
 
 \ifx\wholebook\relax\else
     \end{document}
