@@ -1,38 +1,23 @@
 \ifx\wholebook\relax\else
+
 % --------------------------------------------
 % Lulu:
+
     \documentclass[a4paper,12pt,twoside]{../includes/ThesisStyle}
 
-	\input{../includes/macros}	
+	\input{../includes/macros}
 	\input{../includes/formatAndDefs}
 
 	\graphicspath{{.}{../figures/}}
 	\begin{document}
 \fi
 
-\chapter{Related work}
-\label{chap:comparison}
+\chapter{Runtime state persistance across start-ups}
+\label{chap:persistance}
 \minitoc
 
-\section{Language - virtual machine interface}
 
-intro with C++ and nothing like we have for context, runtime optimizer
-
-\subsection{Truffle runtime}
-In truffle same runtime, similar to us, but different interface. deopt in C++. 
-
-\subsection{Pypy runtime}
-I believe it's like slang ? More complete with CPython. Similar to slang.
-
-\subsection{Other metacircular runtimes}
-
-=> focus on no interface with Metacircular VM
-different because cut at different places (lower or higher level ?)
-Discuss Klein, Maxine, Jikes
-
-In our case built from existing.
-
-\section{Cross-start-up persistance}
+\section{Persistance through snapshots}
 
 \subsection{Optimisations}
 Note: title should be the same (no ing and not ing.)
@@ -88,6 +73,18 @@ However, if the program uses few dynamic features (for example most of the calls
 
 no related work ?
 Nobody does that.
+
+\section{Evaluation}
+
+Doc: from sista arch paper + do better benchmarks
+
+we need to discuss the maturity of the project and why start-up time is not that good any way. we dont want to spend time here as persistent.
+
+We have both performance result and start-up time result.
+
+\subsection{Performance evaluation}
+
+\subsection{Start-up time evaluation}
 
 \ifx\wholebook\relax\else
     \end{document}

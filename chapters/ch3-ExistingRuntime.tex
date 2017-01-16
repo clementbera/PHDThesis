@@ -1,0 +1,68 @@
+\ifx\wholebook\relax\else
+
+% --------------------------------------------
+% Lulu:
+
+    \documentclass[a4paper,12pt,twoside]{../includes/ThesisStyle}
+
+	\input{../includes/macros}
+	\input{../includes/formatAndDefs}
+
+	\graphicspath{{.}{../figures/}}
+	\begin{document}
+\fi
+
+\chapter{Existing Pharo runtime}
+\label{chap:existing}
+\minitoc
+
+This chapter describes Pharo and part of its implementation. Pharo is the high-level object-oriented programming language used to implement the thesis' architecture. As the architecture is built by reusing most of the existing implementation, this chapter details multiple features and implementation details that are not necessarily common in other programming langues to help the reader understanding the design decisions explained in further chapters. The chapter is not meant to explain the whole existing implementation, but only the relevant points for the thesis.
+
+\section{Snapshots}
+
+Snapshots are available in multiple object-oriented languages such as Smalltalk (CITE Goldberg (and) Robson 1983) and later Dart (CITE Annamalai 2013). Snapshots allow the program to save the heap~\footnote{The memory zone including the memory of all the objects in the system.} in a given state, and the virtual machine can resume execution from this snapshot later. 
+
+During code execution, compiled code is available in different versions. On the one hand, a bytecoded version, which is on the heap if the bytecoded version of functions is reified as an object (as in Dart and Smalltalk). On the other hand one or several machine code versions are available in the machine code zone. Machine code versions are usually not part of the heap directly but of a separated part of memory which is marked as executable. 
+
+Snapshots cannot save easily machine code versions of functions for two main reasons:
+\begin{itemize}
+	\item a snapshot needs to be platform-independent.
+	\item machine code versions of functions are not usually represented in memory as regular objects.
+\end{itemize}
+
+In the Smalltalk normal development workflow, one persists the code one writes by taking snapshot of the current runtime, the snapshot including compiled code objects. A Smalltalk VM always uses a snapshot to start-up. Although one can argue that this workflow is not a good idea, the architecture was designed for Smalltalk developers and hence this usage of snapshot does not require any change in the programmer's workflow.
+
+\section{Executable code and bytecode representation}
+
+explain stack-based bytecode.
+explain compilation to if and loop
++ representation of compiled methods 
+
+\section{Virtual machine executable generation}
+-- maybe the architecture with Slang and the simulator
+It's important to understand the compilation versus runtime model.
+Maybe take the example of the interpreter with duplication push temp ? Compiler can't guess, you need annotation or C extensions. Support originally for not so clever compiler.
+
+Doc: not much really. My simulator blog post ?
+Or the simulator is just a paragraph, it has no real impact on the thesis.
+
+\section{Stack frame reification}
+- context to stack mapping + explanations
+This is important as used to introspect and edit the stack from the language. Normal uses (exceptions, continuations, debugger) but also now the runtime compiler
+Doc: eliot post and my lecture (quit some to do)
+
+\section{Baseline JIT}
+- baseline JIT behavior + reg alloc + templates + abstractions over back-ends, literal management, Cogits, memory managers
+Doc: my blog posts. need to explain template and co
+
+\section{Existing Memory Manager}
+- the crap in V3 mem manager. Why it needed to change.
+take the example of inline cache and class tags and memory representation.
+Doc: my blog post. need to explain
+
+
++ become because used both in Mem manager paper and deopt solution 1.
+
+\ifx\wholebook\relax\else
+    \end{document}
+\fi

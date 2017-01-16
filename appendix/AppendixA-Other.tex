@@ -1,0 +1,51 @@
+\ifx\wholebook\relax\else
+
+% --------------------------------------------
+% Lulu:
+
+    \documentclass[a4paper,12pt,twoside]{../includes/ThesisStyle}
+
+	\input{../includes/macros}
+	\input{../includes/formatAndDefs}
+
+	\graphicspath{{.}{../figures/}}
+	\begin{document}
+\fi
+
+\chapter{Related Topics}
+\label{appendix:Other}
+\minitoc
+
+During the thesis, I have worked on three topics, leading to publications, that are using the architecture proposed but are not directly related to the main thesis topic. I describe these two topics in this appendix
+
+\section{Bytecode compiler}
+
+Doc: Opal paper.
+
+\section{Runtime type information for type inference}
+
+Dynamically-typed languages allow developers to write more expressive source code and reduce development time. On the other hand, the lack of static type information in such languages often poses obstacles for program comprehension and increases maintenance time. Type inference algorithms can overcome this obstacle, but inferring precise type information requires complex algorithms that are often slow.
+
+A simple approach that considers only the locally used interface of variables can identify potential classes for variables, but popular interfaces can generate a large number of false positives. We propose an approach called \emph{inline-cache type inference} (ICTI) to augment the precision of fast and simple type inference algorithms. ICTI uses type information available in the inline caches during multiple software runs, to provide a ranked-list of possible classes that most likely represent a variable's type. We evaluate ICTI through a proof-of-concept that we implement in Pharo Smalltalk. Analyzing the top-\emph{n}+2 inferred types (where \emph{n} is the number of recorded run-time types for a variable) for 5486 variables from four different software systems show that ICTI produces promising results for about 75\% of the variables. For more than 90\% of variables, the correct run-time type was present among first ten inferred types. Our ordering shows a twofold improvement when compared with the unordered base approach, \ie for a significant number of variables for which the base approach offered ambiguous results, ICTI was able to promote the correct type to the top of the list.
+
+
+uses of runtime type info for something else than compiler because already in the language, and there before runtime compiler works.
+
+Use in tools at runtime in Smalltalk cause program running. (though not necessarily the same app, IDE instead of app)
+
+comparaison against static type inference.
+
+Ref: Nevena paper * 2
+
+discussion once adaptive opt what needs to be kept.
+=> problem of VM evolution and changing information
+
+\section{Experimental symbolic execution}
+
+\paragraph{Approach.}Speculative optimisations in JITs enable many performance optimisations. However, they also introduce significant complexity. The compiler optimizations themselves, as well as the deoptimization mechanism are complex and error prone. To stabilize our bytecode to bytecode JIT, we designed a new approach to validate the correctness of dynamic deoptimization. The approach \cite{bera16a} consists of the symbolic execution of an optimized and an unoptimized bytecode function side by side, deoptimizing the abstract stack at each deoptimization point (where dynamic deoptimization is possible) and comparing the deoptimized and unoptimized abstract stack to detect bugs. 
+
+\paragraph{Discussion.}Although this approach is interesting, the complexity required to maintain a good partial evaluator is significant compared to the time available for the maintenance of the overall VM. Alternative approaches, such as the "deopt-every-n-time" approach from mainstream C++ virtual machines, where the programmed is regularly deoptimised (every n deoptimisation point met), is way simpler to maintain and finds in practice a similar number of bugs than the approach built. 
+
+\ifx\wholebook\relax\else
+    \end{document}
+\fi

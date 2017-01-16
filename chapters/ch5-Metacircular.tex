@@ -1,0 +1,35 @@
+\ifx\wholebook\relax\else
+
+% --------------------------------------------
+% Lulu:
+
+    \documentclass[a4paper,12pt,twoside]{../includes/ThesisStyle}
+
+	\input{../includes/macros}
+	\input{../includes/formatAndDefs}
+
+	\graphicspath{{.}{../figures/}}
+	\begin{document}
+\fi
+
+\chapter{Metacircular optimising JIT}
+\label{chap:metacircular}
+\minitoc
+
+intro architecture versus problems
+
+\section{Infinite recursion in metacircular virtual machine}
+
+Doc: blog post Sista chronicles 1, an update on the sista, talks at ESUG and Smalltalks + arch paper
+
+same runtime versus compiled runtime. Compare with Pypy, Graal. Modification at runtime of the optimiser in our case (Smalltalk + same runtime).
+Both optimiser deoptimiser. => constraint
+optimiser => disable it while running, each dependency becomes bilateral hence modifying dependency crash the VM
+deoptimiser => can't disable it while running. Attempt to recovery state with limited portion that cannot be optimised, issues with green threads and complexity, made it independent.
+Example of debugging -> can't log from deoptimiser or dependencies
+
+
+
+\ifx\wholebook\relax\else
+    \end{document}
+\fi

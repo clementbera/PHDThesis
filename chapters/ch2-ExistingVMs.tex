@@ -1,0 +1,85 @@
+\ifx\wholebook\relax\else
+
+% --------------------------------------------
+% Lulu:
+
+    \documentclass[a4paper,12pt,twoside]{../includes/ThesisStyle}
+
+	\input{../includes/macros}
+	\input{../includes/formatAndDefs}
+
+	\graphicspath{{.}{../figures/}}
+	\begin{document}
+\fi
+
+\chapter{Mainstream and Research Virtual Machines}
+\label{chap:stateOfTheArt}
+\minitoc
+
+In this chapter, the most popular production VMs and relevant research VMs are discussed. In further chapter, the thesis' proposed architecture will be compared against those VMs. 
+
+\section{C++ virtual machines}
+
+Most popular production VMs, such as Java hotspot (Cite) or Javascript's V8 (Cite) VMs are written in C++. Using C++ as a performance oriented low-level programming language proved to be very effective as it is possible to write code in a performance oriented fashion. A clear separation is made between the VM and the programming language run so there are no metacircular problems.
+
+Most of those VMs start-up from the language kernel, a set of core librairies and either source files or files containing bytecodes. Reaching peak performance takes a certain amount of time as the VM needs to detect and optimise correctly frequently used patterns of code. Reportedly, this warm-up time can be from several milliseconds up to multiple days. To solve partially the warm-up problem, such VMs are built with a tiered-architecture: the first few executions are run slowly but without any compilation time, subsequent hundreds of executing are run a bit faster with limited compilation time while further execution are run at peak performance after a certain amount of compilation time.
+
+An interesting point ot note is that several mainstream VMs were led by the same person (Lars Bak), who became very good at implementing very efficient and easy-to-maintain VMs in C++ as he implemented multiple of those in his life. His work therefore pushed the direction of VM implementation in the C++ direction.
+
+Among the C++ virtual machines, we will detail two specific VMs have uncommon features that are relevant in the context of the thesis. 
+
+\paragraph{Azul.}
+The Azul VM \cite{Azul} is a closed-source VM and expensive VM for Java. As for all closed-source projects, no one external to the project can be certain of what the code is doing. However, word has been that the Azul VM is able to persist optimised machine code across multiple start-ups. If the application is started on another processor, then the saved machine code is simply discarded. 
+
+\paragraph{Dart.}
+The Dart VM is an open-source VM for the Dart programming language. Dart features snapshots for fast application start-up. In Dart, the programmer can generate different kind of snapshots \cite{Anna13a}. Since that publication, the Dart team have added two new kind of snapshots, specialized for iOS and Android application deployment, which are quite similar to our snapshots.
+
+\subparagraph{Android snapshot.} A Dart snapshot for an Android application is a complete representation of the application code and the heap once the application code has been loaded but before the execution of the application. The Android snapshots are taken after a warm-up phase to be able to record call site caches in the snapshot. The call site cache is a regular heap object accessed from machine code, and its presence in the snapshot allows to persist type feedback and call site frequency.
+
+\subparagraph{iOS snapshot.} For iOS, the Dart snapshot is slightly different as iOS does not entirely allow JIT compilers. All reachable functions from the iOS application are compiled ahead of time, using only the features of the Dart optimizing compiler that don't require dynamic deoptimization. A shared library is generated, including all the instructions, and a snapshot that includes all the classes, functions, literal pools, call site caches, etc.
+
+\section{Meta-circular VMs}
+TODO
+
+One of the direction was full metacircular.
+
+Klein and failure
+
+Jikes
+
+Maxine
+
+Not built on top of existing but from scratch, not really interesting to us.
+
+\section{The new era: Multi-languages VMs}
+TODO
+
+one important focus now is to hvae cross language VM to avoid cost of dev...
+
+the interesting approach is that it's more or less meta-circular.
+
+main attempts are pypy and truffle.
+
+generic approach with interpreters.
+
+\subsection{Truffle-Graal}
+
+describe the runtime model
+
+explain JIT generation from annotation on AST interpreter
+
+\subsection{Pypy}
+
+explain quickly metatracing from interpreter
+
+present them here so they can be compared to later.
+
+\section{Smalltalk virtual machines}
+
+As the thesis' architecture is implemented in the context of Smalltalk, it could be relevant to discuss existing Smalltalk virtual machines. These VMs are interesting for multiple reasons, but unfortunately many of the Smalltalk virtual machines in production today are closed-source, making the discussion around them not that relevant as information is missing and unaccessible. In addition, as far as we know, there are no production Smalltalk VM today with an optimising JIT compiler, so the comparison with such VMs is even less relevant. 
+
+However, speculative optimisations in VMs started with the Self VM (CITE), with Self being a Smalltalk-like language, and was followed up with the strongtalk VM (CITE). Both VMs are open-source and available today but none of them are used in production. Self had never really broken through mainstream programming while strongtalk had never reached production state.
+
+\ifx\wholebook\relax\else
+    \end{document}
+\fi
