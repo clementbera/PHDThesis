@@ -55,17 +55,23 @@ Change in deopt metadata generation.
 
 \section{In-language deoptimiser}
 
-deoptimiser
-sol1
-- recovery state (not working with threads)
-sol2
-- completely independent and forbid deopt
-).
+\subsection{Constraints}
+can't disable it while running. 
+
 - any change imply existing code cannot be deopt and hard crashes.
 
+cannot deopt itself (we cannot disbale it)
+
+\subsection{First solution: recovery state}
+ Attempt to recovery state with limited portion that cannot be optimised, issues with green threads and complexity, made it independent.
+
+- recovery state (not working with threads)
+
+\subsection{Final solution: independent library}
+
+- completely independent and forbid deopt
 Strong constraints: no dependency at all (duplicate array and dict), debugging is hardly possible.
 
-deoptimiser => can't disable it while running. Attempt to recovery state with limited portion that cannot be optimised, issues with green threads and complexity, made it independent.
 
 Example of debugging -> can't log from deoptimiser. 
 

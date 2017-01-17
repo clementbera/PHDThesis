@@ -24,19 +24,19 @@ machine interface versus bytecode interface, truffle comparison.
 Discussion on performance limitation. For example integer overflow or not, at: with all checks.
 
 
-\subsection{Runtime information access}
+\section{Runtime information access}
 
 new primitive operation
 
 To extract information from the machine code version of a method, we added a new primitive operation \emph{sendAndBranchData}. This operation can be performed only on compiled methods. If the method has currently a machine code version, the primitive answers the types met at each inline cache and the values of the counters at each branch. This information can be then used by the runtime optimizer to type variables and to detect the usage of each basic block. The primitive answers the runtime information relative to the compiled method and all the closures defined in the compiled method.
 
-\subsection{New call-backs}
+\section{New call-backs}
 
 As in our implementation the runtime optimizer and deoptimizer are implemented in Smalltalk run and not in the virtual machine itself, we needed to introduce callbacks activated by the virtual machine to activate the optimizer and the deoptimizer. 
 
 These callbacks use the reification of stack frame available for the debugger to inform the language which frame had its method detected as a hot spot and which frame has to be deoptimized.
 
-\paragraph{Extending the bytecode set.}
+\section{Bytecode set extension}
 
 (our work not blind)
 To support unsafe operations, the bytecode set needed to be extended. In our previous work, we describe the extended bytecode set used \cite{Bera14a}. The extended bytecode set design relies on the assumption that only a small number of new bytecode instructions are needed for the baseline JIT to produce efficient machine code. Three main kind of instructions were added into the bytecode set:
