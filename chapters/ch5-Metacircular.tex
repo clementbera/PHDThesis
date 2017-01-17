@@ -12,24 +12,46 @@
 	\begin{document}
 \fi
 
-\chapter{Metacircular optimising JIT}
+\chapter{Metacircular optimising and deoptimising processes}
 \label{chap:metacircular}
 \minitoc
+
+By design, the runtime optimiser and deoptimiser are written in Smalltalk running in the same runtime than the optimised application. This chapter details advantages and limitations of this design and then compares the approach with similar VMs.
 
 Doc: blog post Sista chronicles 1, an update on the sista, talks at ESUG and Smalltalks + arch paper
 
 \section{In-language optimiser}
 
-constraints 
+The runtime optimiser is written in Smalltalk and runs in the same runtime as the optimised application. While writting it and running the first prototypes, we noticed two main constraints on the Smalltalk code.
 
-optimiser
-- dependency
-- disable it while running
-optimiser => disable it while running, each dependency becomes bilateral hence modifying dependency crash the VM
+\subsection{Constraints}
 
-debugging + runtime modification, is it possible ? Kind of, you may break the VM. If error nothing's installed. But silent error generating incorrect n-code are not tracked down.
+\begin{itemize}
+	\item \emph{Constaint 1:} The runtime optimiser cannot depend on any library in the language at the exception of the kernel to access runtime objects (compiled code, stack frames, closures) and to use core library (basic collections). 
+	\item \emph{Constraint 2:} The runtime optimiser cannot optimise itself.
+\end{itemize}
 
-with no lib is it smalltalk anymore ? Same syntax.
+Indeed, any dependency implies that the maintainer of the dependency cannot modify his library without breaking the runtime, leading to \emph{Constaint 1}. In fact, all the libraries in the system depends on the runtime optimiser and no bidirectional dependency can be created without running into problems. This was very annoying in specific cases. For example, while trying to reduce the deoptimisation metadata generated we wanted to compress it using Fuel (CITE), the Pharo serializer. This was not possible as further updates on Fuel would break the running system.
+
+The second constraint comes from an infinite recursion problem. If the optimiser is triggered on itself, then the program ends up in an infinite loop where the optimiser keeps trying optimising itself up to the point where it retries. To avoid this problem, the VM call-back is disabled while the optimiser is running, and re-enabled when the optimised code is installed.
+
+As the optimiser uses code in the kernel, it can potentially use optimised code, but it cannot optimise the code specific to it. The main case is basic collection: the optimiser uses Arrays, Sets, OrderedCollections and Dictionaries, which are typically frequently used and optimised. This means that the optimisation process may trigger dynamic deoptimisation, but that's not a problem. 
+
+\subsection{Debugging and runtime modification}
+
+To modify the optimiser, one can change the code in the debugger while the optimiser is running, as in any Smalltalk program. If the modifications leads to incorrect optimiser behavior, two cases are to considered:
+\begin{itemize}
+	\item the optimisation process raises an exception: to avoid having the optimiser triggering exception, the optimisation process is protected by an exception handler catching all exceptions. On a normal application, if by mistake the optimiser raises an exception, the optimiser marks the faulty code as not being able to be optimised, and resumes with unoptimised code. If the optimiser is behaving badly due to runtime modifications and that it raises an error, no further optimisations will happen but the runtime will not crash.
+	\item the optimisation process generates silent errors. If runtime changes makes the runtime optimiser generating incorrect code without any errors, then the VM crashes.
+\end{itemize}
+
+=> this is used to understand what is going on in the optimiser by programmers
+
+Another thing to note is that
+
+Disabling runtime optimisation.
+
+Change in deopt metadata generation.
 
 \section{In-language deoptimiser}
 
@@ -39,6 +61,7 @@ sol1
 sol2
 - completely independent and forbid deopt
 ).
+- any change imply existing code cannot be deopt and hard crashes.
 
 Strong constraints: no dependency at all (duplicate array and dict), debugging is hardly possible.
 
@@ -48,11 +71,13 @@ Example of debugging -> can't log from deoptimiser.
 
 \section{Related work}
 
-same runtime versus compiled runtime. Compare with Pypy, Graal. Modification at runtime of the optimiser in our case (Smalltalk + same runtime
+\subsection{DSL compiled to machine code}
 
-Compare with full metacircular. What do they do ?
+Modification at runtime of the optimiser in our case (Smalltalk + same runtime
 
+\subsection{Metacircular VMs}
 
+\subsection{Graal}
 
 \ifx\wholebook\relax\else
     \end{document}
