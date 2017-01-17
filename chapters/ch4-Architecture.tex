@@ -128,6 +128,8 @@ The data is answered as an array of array, with each entry being composed of:
 
 \subsection{Memory Management}
 
+pinned objects
+
 SpurMemManager complexity in machine code of the first one, representation of counters
 Doc: spur paper
 
@@ -141,29 +143,29 @@ Doc: TODO
 
 \section{Language evolution}
 
-\subsection{Literal mutability}
+\subsection{Read-only objects}
 
-literal mutability (paper)
-Doc: my paper ?
+One of the main problem encountered while trying to improve the performance of the Pharo runtime was literal mutability. In most programming languages, if the program executes a simple double addition between two double constants the compiler can compute at compile-time the result. In Pharo, as literals are mutable, one of the double constant may be accessed through reflective APIs and mutated into another boxed double, invalidating the compile-time result. 
+
+To solve the problem, I introduced a feature, called read-only objects. With this feature, a program can mark any object as read-only. Such read-only objects cannot be mutated unless the program explicitly revert them to a writable state. This feature was introduced with little to no overhead on the production VM (CITE). 
+
+Literals can now all be read-only objects, and any attempt to mutate a read-only literal is caught and, if the literal was used for compile-time computation, dependant optimised code is discarded if the mutation happens. This way, traditional compiler optimisation can be applied to the Pharo runtime.
 
 \subsection{Closure implementation}
+
+The second major issue encountered was related to the closure implementation. 
+
 FullBlock
 Doc: ? well... the FullBlock talk
 
-\subsection{Multiple bytecode set support}
-Migration to new bc ? Maybe I remove this ?
-
-\subsection{Optimizer}
+\subsection{Runtime optimisation and deoptimisation}
 
 Explain simple behavior.
 
 Maybe it makes sense to say Context are the same as objects.
 
-\subsection{Deoptimizer}
 deoptimizer 
 Doc: my blog post + sista arch
-
-+ discussion: is in-image deopt good
 
 
 \ifx\wholebook\relax\else
