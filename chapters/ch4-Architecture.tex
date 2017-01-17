@@ -103,15 +103,45 @@ These callbacks use the reification of stack frames available for the debugger t
 
 \section{Virtual machine evolution}
 
+\subsection{Memory management}
+
+The first problem met was related to the complexity of the existing memory manager (called V3) in the virtual machine. The memory manager is responsible for the representation of object in memory, as well as object allocation and garbage collection. The main issue lied with memory representation of objects: V3 was designed for an interpreter-based VM running heaps of several Mbs at most and it did not allow the JIT to generate efficient machine code nor scaling to large heap of objects.
+
+\paragraph{Efficient JIT compilation.} Let's take a simple example. With V3, an object can access to its class in three different ways. Firstly, immediate objects\footnote{An immediate object is an object directly encoded in the object pointer, typically tagged integers.} access their classes through a special table, a list of 16 common classes have their instances access their class through another special table, while the rest of the objects have a pointer to their class in their header. In machine code, efficient class access becomes critical for efficient type tests (typically deoptimisation guards) and for inline caches, used in the baseline JIT to collect virtual calls receiver types. With V3, each class access in machine code requires to compile the three different paths. 
+
+\paragraph{Heap scaling.} The second main issue was related to heap scaling. Let's take another simple example. V3 memory manager requests 1 Gb of memory to the operating system at start-up to keep all the heap contiguous, instead of segmenting its heap in smaller portions. This is very problematic in multiple OS such as Windows, where the OS may refuse to provide such a large amount of memory. 
+
+(CITE Spur paper)
+
+Spur solutions.
+
+pinned objects
+
+Doc: spur paper
+
+\subsection{Register allocation}
+
+As
+
+Linear scan and reg alloc, plus branches
+Doc: TODO
+
 \subsection{Profiling counters}
 
-Each bytecoded method is marked as being optimized or not. If the method has not yet been optimized, the baseline JIT will generate counters in the machine code that are incremented each time they are reached by the flow of execution. This way, once a counter reaches a threshold, the JIT compiler can ask the runtime optimizer to generate optimized code.
+To detect frequently used method, counters were introduced in code compiled by the baseline JIT, triggering a call-back when the counter reaches a specific threshold. Profiling counters add some overhead. As the baseline JIT is used both to compile non optimised and optimised code, compilation became conditional to introduce counters only in non optimised code. For this purpose, each bytecoded function is marked as being optimized or not thanks to a bit in the header. If the function has not yet been optimized, the baseline JIT generates counters in the machine code that are incremented each time they are reached by the flow of execution. Once a counter reaches a threshold, a call-back requests the runtime optimizer to generate optimized code.
 
-%p8: "The technique we used allowed us to reduce the counter overhead as branches are 6 times less frequent" I don't see how adding counters at branches is equivalent to adding them at function calls. Am I missing out on something obvious?
-Based on \cite{Arn02}, we decided to extend the way the baseline JIT generates conditional jumps to add counters just before and just after the branch. In several other VMs, the counters are added at the beginning of each function. The technique we used allowed us to reduce the counter overhead as branches are 6 times less frequent that virtual calls in the Smalltalk code we observe on production application. In addition, the counters provide information about basic block usage. Every finite loop requires a branch to stop the loop iteration and most recursive code requires a branch to stop the recursion, so the main cases for which we wanted to detect hot spots for are covered.
+Based on \cite{Arn02}, we added counters by extending the way the baseline JIT generates conditional jumps to add counters just before and just after the branch. In several other VMs, the counters are added at the beginning of each function. The technique we used allowed us to reduce the counter overhead as branches are 6 times less frequent that virtual calls in the Smalltalk code we observe on production application. In addition, the counters provide information about basic block usage. Every finite loop requires a branch to stop the loop iteration and most recursive code requires a branch to stop the recursion, so the main cases for which we wanted to detect hot spots for are covered.
+
+TODO why pinned array and not normal object like symbol literals ? => because direct access to object slot 
+Using an immovable object results in 
+- not having to add new method map entries
+- not having to add new map/reference scanning machinery to update derived pointers (pointers into objects)
+- the most direct access to the counter and hence the simplest possible instruction sequence (remember the AbstractInstrcution set is somewhat RISC like)
+ENd TODO
+
+To make the processor instruction-cache happy, counter values could not be next the machine code of each function. Indeed, doing so reuire the processor to flush the instruction-cache each time the counter is modified, slowing down massively code execution. To keep it efficient, at machine code compilation time a function is associated with a pinned array holding the counter values. The pinned property of the array allows the machine code to refer directly to the counter addresses, without having to do any garbage collection extension.
 
 \subsection{Runtime information}
-
 
 A primitive operation was added in the language to extract the \emph{send and branch data} of the associated machine code of each function. It works as follows:
 \begin{itemize}
@@ -126,17 +156,6 @@ The data is answered as an array of array, with each entry being composed of:
 \end{itemize}
 
 
-\subsection{Memory Management}
-
-pinned objects
-
-SpurMemManager complexity in machine code of the first one, representation of counters
-Doc: spur paper
-
-\subsection{register allocation}
-
-Linear scan and reg alloc, plus branches
-Doc: TODO
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
