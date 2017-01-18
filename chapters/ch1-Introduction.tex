@@ -28,11 +28,11 @@ High performance VMs, such as Java HotSpot or current Javascript VMs achieve hig
 
 Such performance techniques allow object-oriented languages to greatly improve their peak performance. However, a warm-up time is required for the VM to speculate correctly about frequently used patterns. This warm-up time can be problematic for multiple different use-cases.
 
-Originally VMs were built in performance oriented low-level programming languages such as C. However, as the VMs were reaching higher and higher performance, the complexity of their code base increased and some VMs started to get written in higher-level languages as an attempt to ease develpment. Such VMs got written either in the language run by the VM itself (cite Klein, jikes, Maxine) or in domain specific languages. (CITE RPYTHON paper, Back to the future)
+Originally VMs were built in performance oriented low-level programming languages such as C. However, as the VMs were reaching higher and higher performance, the complexity of their code base increased and some VMs started to get written in higher-level languages as an attempt to ease develpment. Such VMs got written either in the language run by the VM itself~\cite{Unga05b,Wimm13a,Alp99a} or in domain specific languages compiled to machine code through C~\cite{Rigo06a,Inga97a}.
 
 \subsection{Pharo programming language}
 
-In this thesis the focus is on a specific high-level object-oriented programming language, the Smalltalk dialect named Pharo (CITE PHARO by example). In Pharo, everything is an object, including classes, bytecoded versions of methods or processes. It is dynamically-typed and every call is a virtual call. The VM relies on a bytecode interpreter and a baseline just-in-time compiler (JIT) to gain performance. Modern Smalltalk dialects directly inherit from Smalltalk-80 specified in (CITE Goldberg  Robson 1983) but have evolved during the past 35 years. For example, real closures and exceptions were added.
+In this thesis the focus is on a specific high-level object-oriented programming language, the Smalltalk dialect named Pharo~\cite{Blac09a}. In Pharo, everything is an object, including classes, bytecoded versions of methods or processes. It is dynamically-typed and every call is a virtual call. The VM relies on a bytecode interpreter and a baseline just-in-time compiler (JIT) to gain performance. Modern Smalltalk dialects directly inherit from Smalltalk-80~\cite{Gold83a} but have evolved during the past 35 years. For example, real closures and exceptions were added.
 
 As Pharo is evolving, the community is looking for better VM performance. Compared to many high performance VMs, the Pharo VM is lacking an optimising JIT with speculative optimisations. In addition, the optimising JIT is one of the most complex part of existing high performance VMs. As the Pharo community has just enough ressources to fund the maintenance and minor evolutions of the existing VM, the optimising JIT had to be designed under two main constraints:
 \begin{itemize}
@@ -50,7 +50,7 @@ The design looked interesting but was incomplete so it was unclear how multiple 
 
 \section{Problem}
 
-According to \emph{Constraint 1}, the optimising compiler compiler has to run in the same runtime as the running application. This design cause multiple metacircular issues, for example, if the optimising compiler attempts to optimise itself, the runtime may get stuck in an infinite loop. The Graal compiler (CITE) has a similar design as it runs on top of the Java hotspot VM as an alternative optimising JIT. In this case, as Java is multithreaded, it runs in the same runtime than the running application but in different threads. In Graal though, the development team chose to keep part of the optimising logic, such as the deoptimisation process and the stack analysis to determine what method to optimise in the hotspot VM and not in the Java runtime. 
+According to \emph{Constraint 1}, the optimising compiler compiler has to run in the same runtime as the running application. This design cause multiple metacircular issues, for example, if the optimising compiler attempts to optimise itself, the runtime may get stuck in an infinite loop. The Graal compiler~\cite{Dubo13c} has a similar design as it runs on top of the Java hotspot VM as an alternative optimising JIT. In this case, as Java is multithreaded, it runs in the same runtime than the running application but in different threads. In Graal though, the development team chose to keep part of the optimising logic, such as the deoptimisation process and the stack analysis to determine what method to optimise in the hotspot VM and not in the Java runtime. 
 
 Due to \emph{Constraint 2}, the optimising JIT was designed in the thesis mostly as a bytecode-to-bytecode optimiser. In this context, a clear interface between the in-language optimising JIT and the rest of the VM had to be designed. One of the goal was to build a small but expressive interface between the two elements. In the Graal compiler, which is one of the closest project, machine code is generated from the Java runtime hence the interface between the VM and the language had to be extended very differently.
 
@@ -94,10 +94,12 @@ A popular architecture for high performance is a tiered architecture. In this co
 
 \section{Outline}
 
-In the chapter \ref{chap:stateOfTheArt}, existing production and research virtual machines, relevant in the context of the thesis are presented. Chapter \ref{chap:existing} detail the existing Pharo runtime as Sista is built on top of it. Chapter \ref{chap:architecture} details the Sista architecture. Chapters \ref{chap:metacircular}, \ref{chap:persistance} and \ref{chap:interface} evaluates the architecture in the context of the three problems of the thesis.
-
-
-
+\begin{itemize}
+	\item Chapter \ref{chap:stateOfTheArt} presents existing production and research virtual machines relevant in the context of the thesis. 
+	\item Chapter \ref{chap:existing} detail the existing Pharo runtime as Sista is built on top of it.
+	\item Chapter \ref{chap:architecture} details the Sista architecture. 
+	\item Chapters \ref{chap:metacircular}, \ref{chap:persistance} and \ref{chap:interface} evaluates the architecture in the context of the three problems of the thesis.
+\end{itemize}
 
 
 
