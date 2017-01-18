@@ -34,24 +34,40 @@ In the Smalltalk normal development workflow, one persists the code one writes b
 
 \section{Executable code and bytecode representation}
 
-explain stack-based bytecode.
-explain compilation to if and loop
-+ representation of compiled methods 
+As everything is an object, executable code are objects too. From the language, reflective APIs are available to access the bytecode version of the compiled methods and closure (we call them compiled functions). A compiled function includes a function header, to describe specific things such as the required frame size, the number of temporary variables or the number of literals of the function, a list of literals, the bytecodes and a reference to the source code. 
+
+(FIGURE CM)
+
+The bytecode set is stack-based. This means that most operations are pushing and popping values of the stack. All the operations are untyped and work with any object. One of the main instruction is the virtual call instructions, popping the receiver and arguments from the stack and pushing back the result. The bytecode set also includes conditional and unconditional branches to encode condition and loops.
 
 \section{Virtual machine executable generation}
--- maybe the architecture with Slang and the simulator
-It's important to understand the compilation versus runtime model.
-Maybe take the example of the interpreter with duplication push temp ? Compiler can't guess, you need annotation or C extensions. Support originally for not so clever compiler.
 
-Doc: not much really. My simulator blog post ?
-Or the simulator is just a paragraph, it has no real impact on the thesis.
+In this section is detailled the current process to generate the existing production virtual machine. 
+
+Most of the execution engine (the memory manager, the interpreter and the baseline JIT) are written in Slang, a subset of Smalltalk. The Slang code can be translated to C, and then the C code can be compiled to machine code by standard C compilers.
+
+The slang code has two main advantages over plain C:
+\begin{itemize}
+	\item \emph{Specifying inlining and code duplication:} To keep the interpreter code efficient, one has to be very careful on what code is inlined in the main interpreter loop and what code is not. In addition, for performance, specific code may need to be duplicated. For example, the interpreter code to push a temporary variable on stack is duplicated 17 times, the 16 first versions are dedicated versions for temporary numbers 0 to 15, the most common cases, more efficient because of constant usage, and the 17th version is the generic version. Slang allows to specify for each function if it needs to be inlined or duplicated udring Slang to C compilation.
+	\item \emph{Simulation:} As Slang is a subset of Smalltalk, it can be executed as normal Smalltalk code. This is used to simulate the interpreter and garbage collector behavior. The JIT runtime is simulated using both Slang execution and external processor simulators. Simulation is very convenient to debug the VM, as all the Smalltalk debugging tools are available, the simulator can be saved and it is deterministic
+\end{itemize}
 
 \section{Stack frame reification}
-- context to stack mapping + explanations
-This is important as used to introspect and edit the stack from the language. Normal uses (exceptions, continuations, debugger) but also now the runtime compiler
-Doc: eliot post and my lecture (quit some to do)
+
+The call stack is reified on demand as a linked list of context object. Each context object correspond to a stack frame. For the Smalltalk programmer, a context object is a normal object where all its fields (caller, program counter, temporaries, etc.) can be edited as all objects. The VM uses a complex proxy architecture to remap correctly the programmer's modification to the stack. Most transformation, such as editing the temporary variables, are easy to implement as there is a direct mapping to the stack frame. Other transformations are more complex, for instance, the mutation of a context object caller. If that operation happens, the VM split the stack in two at the mutation and transforms it so that each part of the stack is on a different stack pages. Returns across stack pages are handled specifically to keep the stack size of each process reasonnable.
+
+mutation of pc.
+
+The reification of the stack frames in used in three main places in Smalltalk:
+\begin{enumerate}
+	\item \emph{Debugging: } The debugging tools manipulates the stack and simulate program execution using this feature.
+	\item \emph{Exceptions: } The exceptions are implemented entirely in Smalltalk, with no VM support, using this feature.
+	\item \emph{Continuations: } Continuations are implemented entirely in Smalltalk, with no VM support, using this feature.
+\end{enumerate}
 
 \section{Baseline JIT}
+
+The baseline JIT, called \emph{Cogit}, is used to compile bytecode
 - baseline JIT behavior + reg alloc + templates + abstractions over back-ends, literal management, Cogits, memory managers
 Doc: my blog posts. need to explain template and co
 

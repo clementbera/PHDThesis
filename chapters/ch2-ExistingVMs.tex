@@ -39,7 +39,8 @@ The Dart VM is an open-source VM for the Dart programming language. Dart feature
 \subparagraph{iOS snapshot.} For iOS, the Dart snapshot is slightly different as iOS does not entirely allow JIT compilers. All reachable functions from the iOS application are compiled ahead of time, using only the features of the Dart optimizing compiler that don't require dynamic deoptimization. A shared library is generated, including all the instructions, and a snapshot that includes all the classes, functions, literal pools, call site caches, etc.
 
 \section{Meta-circular VMs}
-TODO
+
+Multiple research VMs attempted to be designed and built entirely in the 
 
 One of the direction was full metacircular.
 
@@ -52,19 +53,16 @@ Maxine
 Not built on top of existing but from scratch, not really interesting to us.
 
 \section{The new era: Multi-languages VMs}
-TODO
 
-one important focus now is to hvae cross language VM to avoid cost of dev...
+One big focus nowadays in VM research is the design of a VM that could run all the existing programming languages at full performance, with minimal engineering time required to add support for a new programming language. Two main projects are going in this direction, the RPython toolchain (CITE) and the Truffle framework (CITE One VM to rule them all). In both case, support for a new language is introduced by building an interpreter, the JIT compilers being automatically generated from the interpreter.
 
-the interesting approach is that it's more or less meta-circular.
+\subsection{Truffle}
 
-main attempts are pypy and truffle.
-
-generic approach with interpreters.
-
-\subsection{Truffle-Graal}
+Truffle is a framework developped mainly at Oracle Labs. 
 
 describe the runtime model
+
+non meta tracing
 
 explain JIT generation from annotation on AST interpreter
 
