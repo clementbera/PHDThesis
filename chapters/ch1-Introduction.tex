@@ -61,7 +61,7 @@ The thesis focuses on these three problems:
 \begin{itemize}
 	\item \emph{Problem 1:} How to build an optimising JIT, including its deoptimisation process, in the same runtime as the running application ?
 	\item \emph{Problem 2:} How to design a minimal interface between the VM and the language in the context of a language-side bytecode-to-bytecode optimising JIT ?
-	\item \emph{Problem 2:} How to persist the runtime state across multiple VM start-up, including the running processes state and the optimised code state ?
+	\item \emph{Problem 3:} How to persist the runtime state across multiple VM start-up, including the running processes state and the optimised code state ?
 \end{itemize}
 
 \section{Contributions}
@@ -74,12 +74,32 @@ The main contributions of this thesis are, in the context of the Pharo programmi
 	\item An alternative implementation of closures, both allowing simplifications in existing code and enabling optimisation possibilities.
 \end{itemize}
 
-\section{Outline}
+\section{Overview}
 
-TODO
+The thesis present the \emph{Sista architecture} (\textbf{S}peculative \textbf{I}nlining \textbf{S}mall\textbf{T}alk \textbf{A}rchitecture). The architecture features an optimising JIT running in the same runtime than the optimised application. The communication between the rest of the VM and the optimising JIT is done through a minimal interface. Sista is able to persist the runtime state of the program across multiple start-up.
 
 \section{Terminology}
-In the languages supporting snapshots we refer to, non-tracing JITs are available, we call the compilation unit for the JIT compilers a \emph{function}, which corresponds in practice to a method or a closure.
+
+\subsection{Functions}
+
+In the languages supporting snapshots we refer to, non-tracing JITs are available, we call the compilation unit for the JIT compilers a \emph{function}, which corresponds in practice to a method or a closure. More specifically, we distinguish \emph{virtual functions}, or v-functions, which are understood by a virtual machine (in our case, bytecode version of functions) and \emph{native function}, or n-function, the machine code version of a function understood by a specific processor.
+
+\subsection{Tiered architecture}
+
+A popular architecture for high performance is a tiered architecture. In this context, the first few executions of v-functions are performed by an interpreter. Subsequent executions falls into the JIT infrastructure, composed of multiple tiers. Each tier require more time to compile the v-function than the previous tier, but the resulting n-function is more efficient. In most VMs, there are two JIT compiler tiers. The first tier is called the \emph{baseline JIT}. It translates quickly v-functions to n-functions with a limited number of optimisations. The baseline JIT typically generates n-functions with inline caches to collect type information. The last tier is caled the \emph{optimising JIT}. It translates v-functions to highly optimised n-functions with speculative optimisations.
+
+\subsection{Sista}
+
+\emph{Sista} is the named of the architecture detailled in the thesis. As the architecture has notable difference from the standard tiered architecture, the two runtime compilers are not really a baseline JIT and an optimising JIT. We call them by their project name in the thesis. The first runtime compiler is \emph{Scorch}, which compiles v-functions to v-functions using speculative optimisations. The second one is \emph{Cogit}, the v-function to n-function JIT compiler. Cogit can be used alone as the baseline JIT, or as a back-end for Scorch. In the later case, the pair of Scorch and Cogit form an optimising JIT.
+
+\section{Outline}
+
+In the chapter \ref{chap:stateOfTheArt}, existing production and research virtual machines, relevant in the context of the thesis are presented. Chapter \ref{chap:existing} detail the existing Pharo runtime as Sista is built on top of it. Chapter \ref{chap:architecture} details the Sista architecture. Chapters \ref{chap:metacircular}, \ref{chap:persistance} and \ref{chap:interface} evaluates the architecture in the context of the three problems of the thesis.
+
+
+
+
+
 
 \ifx\wholebook\relax\else
     \end{document}
