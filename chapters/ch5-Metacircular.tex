@@ -30,6 +30,8 @@ Cogit was extended to detect frequently used portion of code based on profiling 
 
 To avoid blocking the application thread for too long, the compilation time of Scorch is limited to a fixed amount of time, called \emph{TimeBeforePostponing} (currently 50 ms). The limitation is enforced in Smalltalk by a high-priority green thread, set to stop the compilation process after the amount of time. In practice, most optimisations can be done quickly enough. If the time limit is reached, the optimisation process is postponed to a background green thread to be performed once the application is in idle.
 
+An interesting property of the optimiser is that it can fail. If anything happens so that Scorch cannot generate optimised code within its time limit, Scorch can simply ignore the given code and the execution keeps going with non optimised code. Currently the optimisation is postponed in the background green thread if the optimisation takes too long, but even then, sometimes the background green thread compilation queue may be discarded because new code is load ed or installed. Lastly, as the optimiser grows in maturity the optimisation passes grow in complexity, and it can be that very narrow cases are not correctly handled in the optimiser raising exception. In this case, the optimiser is configured so that any exception escaping the framework leads to the code to be marked as non optimiseable, but the execution can resume just fine with non optimised code.
+
 \subsection{Dependencies.} 
 
 The first constraint to note when programming Scorch, which may be obvious to the Kernel programmer, is that Scorch cannot depends on any framework or library but the Kernel and Core librairies. Each framework or library in the system relies on the execution engine to perform its code. Scorch is part of the execution engine. Hence, if Scorch relies on an external librairy and that someone modifies the library, the execution engine may not be stable any more and the runtime completely crashes. In fact, all the Kernel code and Core librairies have similar constraints, they cannot rely on anything to keep the system modular. 
@@ -48,6 +50,8 @@ The flag approach has a significant advantage: it is quite simple both conceptua
 
 \paragraph{Future work and discussion.} Alternatively to the flag approach, the optimiser could decide to add any function requiring runtime optimisation to the existing background green thread, so that Scorch could be optimised when the application is in idle. We investigated in that direction, but when the VM triggers the call-back to start optimising code, Scorch needs to figure out based on the current stack what function to optimise. In many case, the frequently used function is inside a loop, and most loops in Smalltalk are run using high level constructs using closures, hence Scorch needs to optimise the function of another frame than the bottom frame. The code searching the stack for the function to optimise is also written in Smalltalk as part of Scorch, hence adding a function to the background green thread while avoiding infinite recursion is not that obvious. Further investigation in this direction is required in the future.
 
+Another alternative to the flag approach would be to optimise the runtime compiler statically, using it on itself either without performing optimisations requiring type speculation or with runtime type information statically computed from warm-up runs. 
+
 \subsection{Debugging and runtime modification}
 
 %Maybe rewrite so that formally does not work but in practice it does.
@@ -58,31 +62,48 @@ The only part of Scorch that cannot really be edited is the deoptimisation metad
 
 \section{In-language deoptimiser}
 
-\subsection{Constraints}
-can't disable it while running. 
+The trap instruction is present in the extended bytecode set and when reached through execution flow, Cogit triggers a call-back to the deoptimiser. In addition, multiple tools in the language, such as the debugging tools, have been changed to call the deoptimiser when the programmer attempts to introspect the stack.
 
-- any change imply existing code cannot be deopt and hard crashes.
+On the contrary to the optimiser, deoptimisation cannot be postponed to a background green thread, or the application green thread may be blocked until the application reaches idle state. In addition, deoptimisation cannot fail or the runtime crashes. If the optimiser failed to create an optimised function, then the execution could simply fall back to non optimised code. If the deoptimiser fails to recreate a non optimised version of the stack, then the system crashes or the application green thread has to be terminated.
 
-cannot deopt itself (we cannot disbale it)
+As the deoptimiser cannot fail, it is not possible to solve the infinite recursion problem in the same way than the optimiser. If the deoptimiser request deoptimisation, as for the optimiser requesting optimisation, the programs ends up in an infinite recursion where it keeps deoptimising / optimising itself. In the case of the optimiser, we could simply disable it while it is running, and the entire problem was solved. In the case of the deoptimiser, if we disable it and the deoptimiser request deoptimisation, the program cannot resume using non optimised code and crashes. 
 
-\subsection{First solution: recovery state}
+To solve this infinite recursion problem, we implemented two solutions. The first solution attempts to restore the system in a recovery mode when recursive deoptimisation happens. It was used for the first benchmark, but it did not work correctly with benchmarks creating multiple green threads, and making it thread-safe had too many constraints. Then a second solution, used now, was designed and consists in keeping all the deoptimiser code in a library completely independent from the rest of the system that cannot be optimised.
+
+\subsection{Recovery mode}
+
+In this first solution to the infinite recursion problem for deoptimisation, we attempted to keep a recovery state of the whole system. More precisely, Scorch kept a copy of the method dictionaries
+
  Attempt to recovery state with limited portion that cannot be optimised, issues with green threads and complexity, made it independent.
+
+cannot optimie until flag set / reset.
 
 - recovery state (not working with threads)
 
-\subsection{Final solution: independent library}
+too difficult to make thread safe because then up until the flag is set we could not optimise hence can't optimise code in process scheduler.
 
-- completely independent and forbid deopt
+\subsection{Independent library}
+
+- completely independent and forbid deopt / opt
+
+We could opt it statically.
+
 Strong constraints: no dependency at all (duplicate array and dict), debugging is hardly possible.
 
-
 Example of debugging -> can't log from deoptimiser. 
+
+\subsection{Debugging and runtime modification}
+
+Modifying the deoptimiser while it is running is also more complex than the optimiser. Optimised code is present in the runtime, and any modification of the deoptimiser is
+
+- any change imply existing code cannot be deopt and hard crashes.
 
 \section{Related work}
 
 \subsection{DSL compiled to machine code}
 
 Modification at runtime of the optimiser in our case (Smalltalk + same runtime), though crashes.
+Restrictive.
 
 \subsection{Metacircular VMs}
 
