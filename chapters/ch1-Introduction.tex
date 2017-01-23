@@ -80,17 +80,11 @@ The thesis present the \emph{Sista architecture} (\textbf{S}peculative \textbf{I
 
 \section{Terminology}
 
-\subsection{Functions}
+\paragraph{Functions.} In the languages supporting snapshots we refer to, non-tracing JITs are available, we call the compilation unit for the JIT compilers a \emph{function}, which corresponds in practice to a method or a closure. More specifically, we distinguish \emph{virtual functions}, or v-functions, which are understood by a virtual machine (in our case, bytecode version of functions) and \emph{native function}, or n-function, the machine code version of a function understood by a specific processor.
 
-In the languages supporting snapshots we refer to, non-tracing JITs are available, we call the compilation unit for the JIT compilers a \emph{function}, which corresponds in practice to a method or a closure. More specifically, we distinguish \emph{virtual functions}, or v-functions, which are understood by a virtual machine (in our case, bytecode version of functions) and \emph{native function}, or n-function, the machine code version of a function understood by a specific processor.
+\paragraph{Tiered architecture.} A popular architecture for high performance is a tiered architecture. In this context, the first few executions of v-functions are performed by an interpreter. Subsequent executions falls into the JIT infrastructure, composed of multiple tiers. Each tier require more time to compile the v-function than the previous tier, but the resulting n-function is more efficient. In most VMs, there are two JIT compiler tiers. The first tier is called the \emph{baseline JIT}. It translates quickly v-functions to n-functions with a limited number of optimisations. The baseline JIT typically generates n-functions with inline caches to collect type information. The last tier is caled the \emph{optimising JIT}. It translates v-functions to highly optimised n-functions with speculative optimisations.
 
-\subsection{Tiered architecture}
-
-A popular architecture for high performance is a tiered architecture. In this context, the first few executions of v-functions are performed by an interpreter. Subsequent executions falls into the JIT infrastructure, composed of multiple tiers. Each tier require more time to compile the v-function than the previous tier, but the resulting n-function is more efficient. In most VMs, there are two JIT compiler tiers. The first tier is called the \emph{baseline JIT}. It translates quickly v-functions to n-functions with a limited number of optimisations. The baseline JIT typically generates n-functions with inline caches to collect type information. The last tier is caled the \emph{optimising JIT}. It translates v-functions to highly optimised n-functions with speculative optimisations.
-
-\subsection{Sista}
-
-\emph{Sista} is the named of the architecture detailled in the thesis. As the architecture has notable difference from the standard tiered architecture, the two runtime compilers are not really a baseline JIT and an optimising JIT. We call them by their project name in the thesis. The first runtime compiler is \emph{Scorch}, which compiles v-functions to v-functions using speculative optimisations. The second one is \emph{Cogit}, the v-function to n-function JIT compiler. Cogit can be used alone as the baseline JIT, or as a back-end for Scorch. In the later case, the pair of Scorch and Cogit form an optimising JIT.
+\paragraph{Sista.} \emph{Sista} is the named of the architecture detailled in the thesis. As the architecture has notable difference from the standard tiered architecture, the two runtime compilers are not really a baseline JIT and an optimising JIT. We call them by their project name in the thesis. The first runtime compiler is \emph{Scorch}, which compiles v-functions to v-functions using speculative optimisations. The second one is \emph{Cogit}, the v-function to n-function JIT compiler. Cogit can be used alone as the baseline JIT, or as a back-end for Scorch. In the later case, the pair of Scorch and Cogit form an optimising JIT.
 
 \section{Outline}
 

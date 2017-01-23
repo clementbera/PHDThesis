@@ -28,15 +28,17 @@ An interesting point ot note is that several mainstream VMs were led by the same
 
 Among the C++ virtual machines, we will detail two specific VMs have uncommon features that are relevant in the context of the thesis. 
 
-\paragraph{Azul.}
+\subsection{Azul}
 The Azul VM \cite{Azul} is a closed-source VM and expensive VM for Java. As for all closed-source projects, no one external to the project can be certain of what the code is doing. However, word has been that the Azul VM is able to persist optimised machine code across multiple start-ups. If the application is started on another processor, then the saved machine code is simply discarded. 
 
-\paragraph{Dart.}
+\subsection{Dart}
 The Dart VM is an open-source VM for the Dart programming language. Dart features snapshots for fast application start-up. In Dart, the programmer can generate different kind of snapshots \cite{Anna13a}. Since that publication, the Dart team have added two new kind of snapshots, specialized for iOS and Android application deployment, which are quite similar to our snapshots.
 
-\subparagraph{Android snapshot.} A Dart snapshot for an Android application is a complete representation of the application code and the heap once the application code has been loaded but before the execution of the application. The Android snapshots are taken after a warm-up phase to be able to record call site caches in the snapshot. The call site cache is a regular heap object accessed from machine code, and its presence in the snapshot allows to persist type feedback and call site frequency.
+%This is moved to persistance chapter.
 
-\subparagraph{iOS snapshot.} For iOS, the Dart snapshot is slightly different as iOS does not entirely allow JIT compilers. All reachable functions from the iOS application are compiled ahead of time, using only the features of the Dart optimizing compiler that don't require dynamic deoptimization. A shared library is generated, including all the instructions, and a snapshot that includes all the classes, functions, literal pools, call site caches, etc.
+%\subparagraph{Android snapshot.} A Dart snapshot for an Android application is a complete representation of the application code and the heap once the application code has been loaded but before the execution of the application. The Android snapshots are taken after a warm-up phase to be able to record call site caches in the snapshot. The call site cache is a regular heap object accessed from machine code, and its presence in the snapshot allows to persist type feedback and call site frequency.
+
+%\subparagraph{iOS snapshot.} For iOS, the Dart snapshot is slightly different as iOS does not entirely allow JIT compilers. All reachable functions from the iOS application are compiled ahead of time, using only the features of the Dart optimizing compiler that don't require dynamic deoptimization. A shared library is generated, including all the instructions, and a snapshot that includes all the classes, functions, literal pools, call site caches, etc.
 
 \section{Meta-circular VMs}
 
@@ -44,9 +46,15 @@ Multiple research VMs attempted to be designed and built entirely in the
 
 One of the direction was full metacircular.
 
+\subsection{Klein}
+
 Klein and failure ~\cite{Unga05b}
 
+\subsection{Jikes RVM}
+
 Jikes RVM aka Jalapeno \cite{Alp99a}
+
+\subsection{Maxine}
 
 Maxine ~\cite{Wimm13a}
 
@@ -79,6 +87,8 @@ RPython tool chain \cite{Rigo06a}
 As the thesis' architecture is implemented in the context of Smalltalk, it could be relevant to discuss existing Smalltalk virtual machines. These VMs are interesting for multiple reasons, but unfortunately many of the Smalltalk virtual machines in production today are closed-source, making the discussion around them not that relevant as information is missing and unaccessible. In addition, as far as we know, there are no production Smalltalk VM today with an optimising JIT compiler, so the comparison with such VMs is even less relevant. 
 
 However, speculative optimisations in VMs started with the Self VM (CITE), with Self being a Smalltalk-like language, and was followed up with the strongtalk VM (CITE). Both VMs are open-source and available today but none of them are used in production. Self had never really broken through mainstream programming while strongtalk had never reached production state.
+
+Just mention Bee smalltalk with their publication (still not open source)
 
 \ifx\wholebook\relax\else
     \end{document}
