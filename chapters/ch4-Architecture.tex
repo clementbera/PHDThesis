@@ -34,6 +34,8 @@ Dynamic deoptimization is also split in two steps. Firstly, Sista asks the basel
 
 %in theory, optimised bc method could be interpreted. In practice it does not really make sense. But in some cases it does.
 
+%NEVER EVER USE THE WORD PROCESS please. Is a processus, a green thread a n thread ?
+
 \subsection {Optimisation process}
 
 The runtime optimization process has overall the same behavior than other virtual machines: in the unoptimized machine code, a portion of code frequently used is detected, recompiled on-the-fly using information relative to the previous runs. Then the virtual machine uses the optimized portion of code. The difference lies in the generation of an optimized bytecoded function in the middle. The full runtime optimization process is as follows:
