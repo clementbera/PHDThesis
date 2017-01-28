@@ -16,20 +16,15 @@
 \label{chap:intro}
 \minitoc
 
-% TODO
-% Scorch, is it the optimiser or the deoptimiser ?
-% Because Slang experience, we chose not to go in restricted Smalltalk direction for metacircular
-% Main Phd task was to build for Pharo an optimising JIT, on top of the existing runtime, not replacing
-
 \section{Context}
 
-One of the most popular family of programming languages in the 21st century is the object-oriented languages family. Many high-level object-oriented programming languages run on top of a virtual machine (VM)~\footnote{In the whole thesis, VM refers to a virtual machine for high-level languages, by opposition to Operating System VMs which are not discussed.} which provides certain advantages from running directly on the underlying hardware. 
+One of the most popular family of programming languages in the 21st century are object-oriented languages. Many high-level object-oriented programming languages run on top of a virtual machine (VM)~\footnote{In the whole thesis, VM refers to a virtual machine for high-level languages, by opposition to Operating System VMs which are not discussed.} which provides certain advantages from running directly on the underlying hardware. 
 
 \subsection{Virtual machines for high-level programming languages}
 
 Most high-level languages pursue a strict separation between language-side and VM-side. VMs for instance provide automatic memory management or use platform agnostic instructions such as bytecodes. These properties allow a programming language to develop independently from the underlying hardware.
 
-High performance VMs, such as Java HotSpot or current Javascript VMs achieve high performance through just-in-time compilation techniques: once the VM has detected that a portion of code is frequently used, it recompiles it on-the-fly with speculative optimizations based on previous runs of the code. If usage patterns change and the code is not executed as previously speculated anymore, the VM dynamically deoptimizes the execution stack and resumes execution with the unoptimized code.
+High performance VMs, such as Java HotSpot or current Javascript VMs achieve high performance through just-in-time compilation techniques: once the VM has detected that a portion of code is frequently used, also called hot spot, it recompiles it on-the-fly with speculative optimizations based on previous runs of the code. If usage patterns change and the code is not executed as previously speculated anymore, the VM dynamically deoptimizes the execution stack and resumes execution with the unoptimized code.
 
 Such performance techniques allow object-oriented languages to greatly improve their peak performance. However, a warm-up time is required for the VM to speculate correctly about frequently used patterns. This warm-up time can be problematic for multiple different use-cases.
 
@@ -39,34 +34,51 @@ Originally VMs were built in performance oriented low-level programming language
 
 In this thesis the focus is on a specific high-level object-oriented programming language, the Smalltalk dialect named Pharo~\cite{Blac09a}. In Pharo, everything is an object, including classes, bytecoded versions of methods or processes. It is dynamically-typed and every call is a virtual call. The VM relies on a bytecode interpreter and a baseline just-in-time compiler (JIT) to gain performance. Modern Smalltalk dialects directly inherit from Smalltalk-80~\cite{Gold83a} but have evolved during the past 35 years. For example, real closures and exceptions were added.
 
-As Pharo is evolving, the community is looking for better VM performance. Compared to many high performance VMs, the Pharo VM is lacking an optimising JIT with speculative optimisations. In addition, the optimising JIT is one of the most complex part of existing high performance VMs. As the Pharo community has just enough ressources to fund the maintenance and minor evolutions of the existing VM, the optimising JIT had to be designed under two main constraints:
-\begin{itemize}
-\item The maintenance of the resulting VM has to remain affordable.
-\item The resulting VM should be built on top of the existing runtime to reuse as much of existing code as possible.
-\end{itemize}
+As Pharo is evolving, its VM, the Cog VM(CITE), is improving. For example, a modern memory manager was added over the past two years, improving performance and allowing the VM to use larger amount of memory. The open-source community is now looking new VM evolutions, including better VM performance. Compared to many high performance VMs, the Pharo VM is behind because of the lack of an optimising JIT with speculative optimisations. The optimising JIT is usually one of the most complex part of existing high performance VMs. As the Pharo community has a limited amount of ressources to the maintain and evolve the existing, the idea was to design the optimising JIT in a way that the open-source contributors could get involved in the maintainance and evolution tasks.
 
-A first design emerged in the early 2000s according to those constraints. The main ideas were:
-\begin{itemize}
-	\item \emph{Constraint 1:} To build the optimising JIT in the Pharo runtime itself. The existing VM is written in a domain specific language (DSL) compiling to native code through C. As the DSL semantics are very close to C and that most people in the Smalltalk community are either not familiar with C or more productive with Smalltalk than C, this design was seen as a way to reduce the maintenance cost.
-	\item \emph{Constraint 2:} To build the optimising JIT as a bytecode to bytecode optimiser and reuse the baseline JIT as a back-end of the optimising JIT to produce efficent machine code. This design would avoid implementing and maintaining two native code back-ends while reusing and extending the existing language-VM interface with the bytecodes, overall lowering the development cost.
-\end{itemize}
+Many people in the community have high skills in object-oriented programming, especially Smalltalk development, while few people have skills in low-level programming such as assembly code or C. Hence, the community on average understands much more Smalltalk programs that low-level programs and they are much more likely to contribute if they understand the program. The logical choice was therefore to design the optimising JIT in Smalltalk to have as many people from the community helping in the maintenance and evolution tasks.
 
-The design looked interesting but was incomplete so it was unclear how multiple part of the system would work. The thesis started from this proposal and explore multiple aspects of the design that are different from existing VMs, especially their advantages and issues.
+The existing production VM is written in a subset of Smalltalk~\cite{Inga97a}, called Slang, compiling through C to machine code to generate the production VM. Hence, two directions could be taken, either writting the optimising JIT in Slang or trying another approach, similar to the metacircular VMs~\cite{Unga05b,Wimm13a,Alp99a}, where the optimising JIT is written in the full Smalltalk language. Slang tends to get the development experience closer to Smalltalk and further from low-level programming, allowing a small part of the community to contribute. However, an important part of the community does not contribute to the VM because its code-base is not available in the base system (it has been compiled to an executable ahead of time) or because they do not understand the low-level aspects of Slang. Fort this reason, it seems the most reasonable choice to implement the optimising JIT in a non restrictive Smalltalk.
+
+%Removed
+%However, Slang was designed primarily for a pure interpreter-based VM. Its first version included the minimum set of features required to have a simple interpreter and memory manager running. Then, to increase performance, the interpreter was improved and a baseline JIT was added. Both new components were more complex than the existing code. As they were added by customer demands requiring short-term delivery, multiple features got incrementally added in Slang, each time making sure the VM could still compile but without entirely rethinking the semantics or re-working the Slang-to-C compiler. As a result, Slang is now quite complex and the addition of new features is now difficult. In fact, the current VM maintainers believe that the VM complexity has reached the limit that Slang can handle without an important redesign of its features. Adding an optimising JIT, more complex than existing code, did not seem to be the right thing to do.
+
+%Removed
+%The community considered falling into a modern trend which consists of reusing existing VM for other programming languages to run Pharo to drastically decrease the ressources spent in VM maintenance. For example, the RPython toolchain(CITE) and the Truffle framework(CITE) allows teams to easily build high-performance VM with a limited investment of ressources. This was not the direction taken for four main reasons:
+%\begin{itemize}
+%	\item Doing so would weaken the VM knowledge in the Pharo community as there will be no VM maintainer in the it (all VM maintainers would be in the used framework community).
+%	\item Few people in the community would have the skills to understand and contribute to such a VM due to the language barrier, as the common skills in the community are Smalltalk skills, and none of those frameworks are written in Smalltalk.
+%	\item Part of the system would potentially not be understood by anyone understanding both Pharo and the VM, leading to uncommon crashes that no one can understand or solve.
+%	\item Pharo have exotic features that may not be supported by such framework. Even if such features are supported, they may be supported without the required performance or they may not be supported in the future as the Pharo community has no major influence on such framework communities.
+%\end{itemize}
+	
+To conclude, the Pharo community is looking for better VM performance and the next step to improve the performance in the existing VM is to add an optimising JIT. To get adopted by the community and to get contributors form it, the optimising JIT has to be designed and implemented in Smalltalk.
+
+\subsection{Existing design}
+
+A first optimising JIT design for the Pharo VM emerged in the 2000s. The main ideas were to build the optimising JIT in the Pharo runtime itself, as a bytecode to bytecode optimiser, and reusing the baseline JIT as a back-end to produce efficent machine code. This design avoids the maintainance of two different machine code back-end per machine language supported and allow Smalltalk developers to contribute as the bytecode to bytecode optimiser is written in Smalltalk.
+
+The design looked interesting but was incomplete so it was unclear how multiple parts of the system would work. The thesis started from this proposal and explore multiple aspects of the design that are different from existing VMs, especially their advantages and issues.
 
 \section{Problem}
 
-According to \emph{Constraint 1}, the optimising compiler compiler has to run in the same runtime as the running application. This design cause multiple metacircular issues, for example, if the optimising compiler attempts to optimise itself, the runtime may get stuck in an infinite loop. The Graal compiler~\cite{Dubo13c} has a similar design as it runs on top of the Java hotspot VM as an alternative optimising JIT. In this case, as Java is multithreaded, it runs in the same runtime than the running application but in different threads. In Graal though, the development team chose to keep part of the optimising logic, such as the deoptimisation process and the stack analysis to determine what method to optimise in the hotspot VM and not in the Java runtime. 
+During the thesis, the main research direction was the following:
+\emph{How to build an optimising JIT for Pharo, written in Pharo itself, running in the same runtime than the optimised application on top of the existing runtime environment ?} 
 
-Due to \emph{Constraint 2}, the optimising JIT was designed in the thesis mostly as a bytecode-to-bytecode optimiser. In this context, a clear interface between the in-language optimising JIT and the rest of the VM had to be designed. One of the goal was to build a small but expressive interface between the two elements. In the Graal compiler, which is one of the closest project, machine code is generated from the Java runtime hence the interface between the VM and the language had to be extended very differently.
+%Metacircular pb
+According to the problem, the optimising compiler has to run in the same runtime as the running application. This design cause multiple metacircular issues, for example, if the optimising compiler attempts to optimise itself, the runtime may get stuck in an infinite loop. The Graal compiler~\cite{Dubo13c} has a similar design as it runs on top of the Java hotspot VM as an alternative optimising JIT. In this case, as Java is multithreaded, it runs in the same runtime than the running application but in different threads. In Graal though, the development team chose to keep part of the optimising logic, such as the deoptimisation process and the stack analysis to determine what method to optimise in the hotspot VM and not in the Java runtime. 
 
-As the attempt to implement the proposal was started to work, we analysed the interaction between optimising JITs and Smalltalk-style \emph{snapshots}. In Smalltalk, a normal programmer regularly takes a snapshot, a memory dump of all the existing objects, to save the running system state. The Smalltalk VM normally starts-up by resuming execution from a snapshot, restoring all the object states and resuming all running processes. Each process has its own execution stack, which may refer to optimised code, which is not kept across multiple start-ups in most existing production VMs. With the bytecode to bytecode optimisation design, the persistance of running processes, including the persistance of optimised code refered by such processes, across multiple start-ups became possible.
+%Persistance
+As the attempt to implement the proposal was started to execute code, we analysed the interaction between optimising JITs and Smalltalk-style \emph{snapshots}. In Smalltalk, a normal programmer regularly takes a snapshot, a memory dump of all the existing objects, to save the running system state. The Smalltalk VM normally starts-up by resuming execution from a snapshot, restoring all the object states and resuming all running processes. Each process has its own execution stack, which may refer to optimised code, which is not kept across multiple start-ups in most existing production VMs. With the bytecode to bytecode optimisation design, the persistance of running processes, including the persistance of optimised code refered by such processes, across multiple start-ups became possible.
 
-The thesis focuses on these three problems:
+%VM-language interface
+Based on the existing design, the optimising JIT was implemented in the thesis mostly as a bytecode-to-bytecode optimiser. In this context, a clear interface between the in-language optimising JIT and the rest of the VM had to be designed. One of the goal was to build a small but expressive interface between the two elements. In the Graal compiler, which is as far as we know the project with the closest design, machine code is generated from the Java runtime hence the interface between the VM and the language had to be extended very differently.
 
+The thesis focuses on these three aspects in the context of the main problem:
 \begin{itemize}
-	\item \emph{Problem 1:} How to build an optimising JIT, including its deoptimisation process, in the same runtime as the running application ?
-	\item \emph{Problem 2:} How to design a minimal interface between the VM and the language in the context of a language-side bytecode-to-bytecode optimising JIT ?
-	\item \emph{Problem 3:} How to persist the runtime state across multiple VM start-up, including the running processes state and the optimised code state ?
+	\item \emph{Metacircular optimising JIT:} How to build an optimising JIT, including its deoptimisation process, in the same runtime as the running application ?
+	\item \emph{Runtime state persistance:} How to persist the runtime state across multiple VM start-up, including the running processes state and the optimised code ?
+	\item \emph{VM-language interface:} How to design a minimal interface between the VM and the language in the context of a language-side bytecode-to-bytecode optimising JIT ?
 \end{itemize}
 
 \section{Contributions}
@@ -81,7 +93,7 @@ The main contributions of this thesis are, in the context of the Pharo programmi
 
 \section{Overview}
 
-The thesis present the \emph{Sista architecture} (\textbf{S}peculative \textbf{I}nlining \textbf{S}mall\textbf{T}alk \textbf{A}rchitecture). The architecture features an optimising JIT running in the same runtime than the optimised application. The communication between the rest of the VM and the optimising JIT is done through a minimal interface. Sista is able to persist the runtime state of the program across multiple start-up.
+The thesis present the \emph{Sista architecture} (\textbf{S}peculative \textbf{I}nlining \textbf{S}mall\textbf{T}alk \textbf{A}rchitecture). The architecture features an optimising JIT written in Smalltalk and running on top with the existing Pharo VM. The optimising JIT is running in the same runtime than the optimised application. Sista is able to persist the runtime state of the program across multiple start-up. The communication between the rest of the VM and the optimising JIT is done through a minimal interface.
 
 \section{Terminology}
 
@@ -89,7 +101,7 @@ The thesis present the \emph{Sista architecture} (\textbf{S}peculative \textbf{I
 
 \paragraph{Tiered architecture.} A popular architecture for high performance is a tiered architecture. In this context, the first few executions of v-functions are performed by an interpreter. Subsequent executions falls into the JIT infrastructure, composed of multiple tiers. Each tier require more time to compile the v-function than the previous tier, but the resulting n-function is more efficient. In most VMs, there are two JIT compiler tiers. The first tier is called the \emph{baseline JIT}. It translates quickly v-functions to n-functions with a limited number of optimisations. The baseline JIT typically generates n-functions with inline caches to collect type information. The last tier is caled the \emph{optimising JIT}. It translates v-functions to highly optimised n-functions with speculative optimisations.
 
-\paragraph{Sista.} \emph{Sista} is the named of the architecture detailled in the thesis. As the architecture has notable difference from the standard tiered architecture, the two runtime compilers are not really a baseline JIT and an optimising JIT. We call them by their project name in the thesis. The first runtime compiler is \emph{Scorch}, which compiles v-functions to v-functions using speculative optimisations. The second one is \emph{Cogit}, the v-function to n-function JIT compiler. Cogit can be used alone as the baseline JIT, or as a back-end for Scorch. In the later case, the pair of Scorch and Cogit form an optimising JIT.
+\paragraph{Sista.} \emph{Sista} is the named of the architecture detailled in the thesis. As the architecture has notable difference from the standard tiered architecture, the two runtime compilers are not really a baseline JIT and an optimising JIT. We call them by their project name in the thesis. The first runtime compiler is \emph{Scorch}, which compiles v-functions to v-functions using speculative optimisations. The second one is \emph{Cogit}, the v-function to n-function JIT compiler. Cogit can be used alone as the baseline JIT, or as a back-end for Scorch. In the later case, the pair of Scorch and Cogit form an optimising JIT. Both runtime compiler can also deoptimise stack frames. Cogit can change a stack frame from machine code state (values on registers, etc.) to a single stack frame with the interpreter state. Scorch can deoptimise a stack frame using an optimised v-function to multiple stack frames using v-functions.
 
 \section{Outline}
 
