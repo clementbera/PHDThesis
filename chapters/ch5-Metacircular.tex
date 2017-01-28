@@ -12,42 +12,42 @@
 	\begin{document}
 \fi
 
-\chapter{Metacircular optimiser and deoptimiser}
+\chapter{Metacircular optimisnig JIT}
 \label{chap:metacircular}
 \minitoc
 
 %Intro
-By design, the runtime optimiser and deoptimiser are written in Smalltalk and are running in the same runtime than the optimised application. This design leads to multiple problems similar to problems existing in metacircular virtual machine. 
+By design, Scorch's optimiser and deoptimiser are written in Smalltalk and are running in the same runtime than the optimised application. This design leads to multiple problems similar to the ones existing in metacircular virtual machine. 
 
 %single-threaded -> for comparison with Graal and co later
-As Pharo is currently single-threaded, it is not possible to run Scorch in a concurrent native thread. To optimise code, Scorch requires either to interrupt the application green thread temporarily or to postpone the optimisation to a background-priority green thread. The deoptimiser cannot however postpone its tasks as it would block completely the running application, hence it has to interrupt the application green thread until the deoptimisation is done.
+As Pharo is currently single-threaded, it is not possible to run Scorch in a concurrent native thread. To optimise code, Scorch requires either to interrupt the application green thread temporarily or to postpone the optimisation to a background-priority green thread. The deoptimiser cannot however postpone its task as it would block completely the running application, hence it has to interrupt the application green thread until the deoptimisation is done.
 
 %introduction of the main issue
-We call the \emph{infinite recursion} problem the main issue. The infinite recursion happens in both the optimiser and the deoptimiser. When a frequent portion of code is detected in the optimiser code, it interrupts itself and starts to optimise one of its own v-function. While doing so, the same frequent portion of code is detected and the optimiser interrupts itself again to optimise the same v-function, until it interrupts itself again, completely freezing the application. When the deoptimiser requires to deoptimise a function to be able to keep deoptimising an optimised frame, it calls itself, which may require to deoptimise the same function, leading to the deoptimiser calling itself again and again, also completely freezing the application.
+We call the \emph{infinite recursion} problem the main issue encountered both with the optimiser and the deoptimiser. When a hot spot is detected in the optimiser code, it interrupts itself and starts to optimise one of its own function. While doing so, the same hot spot may be detected again, leading the optimiser to interrupt itself repeatedly. When the deoptimiser requires to deoptimise one of its own function to be able to keep deoptimising an optimised frame, it calls itself, which may require to deoptimise the same function, leading the deoptimiser to call itself again and again.
 
 %Different constraint so different solutions
-The optimiser and deoptimiser have different constraints. For example, it is possible to disable temporarily the optimiser, which in the worst case leads to some functions not to be optimised, but it is not possible to disable temporarily the deoptimiser as it is required to execute code. As they have different constraints, they need different solutions for the infinite recursion problem. In both cases, the management of the dependencies of the framework is critical to ensure that the infinite recursion issue is solved.
+The optimiser and deoptimiser have different constraints. For example, it is possible to disable temporarily the optimiser, which in the worst case leads to some functions not to be optimised, but it is not possible to disable temporarily the deoptimiser as it is required to execute code. As they have different constraints, they need different solutions for the infinite recursion problem.
 
 %Outline and solution
-This chapter explains the design used to avoid the infinite recursion issue in both the deoptimiser and the deoptimiser. For each of them, we specify what constraints we enforce on package dependencies and on the runtime to make sure the problem is entirely solved. The problem is solved in the optimiser by defining a critical portion of code in the optimiser where it disables itself temporarily, ensuring that it cannot be triggered on this part of its own code. The deoptimiser solves the problem by using code completely independent from the rest of the system that cannot be optimised, hence never requires to be deoptimised. The last section discuss similar design issues in other VMs and when relevant, compares our solution to other solutions.
+This chapter explains the design used to avoid the infinite recursion issue in both the deoptimiser and the deoptimiser. The problem is solved in the optimiser by defining a critical portion of code where the optimiser is disabled temporarily. The deoptimiser solves the problem by using code completely independent from the rest of the system that cannot be optimised, hence never requires to be deoptimised. The last section discuss similar design issues in other VMs and when relevant, compares our solution to other solutions.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Scorch optimiser}
 
 %Intro
-Cogit was extended to detect frequently used portion of code based on profiling counters. When such a portion of code is detected, Cogit triggers a call-back to request Scorch to optimise a v-function based on the current state. The overall design is then the following: the optimiser interrupts temporarily the application green thread, finds a v-function to optimise based on the current stack, optimises and installs the optimised version, then resumes the application. The optimised v-function installed will be executed at the next call of the function.
+Cogit was extended to detect hot spots based on profiling counters. When a hot spot is detected, Cogit triggers a call-back to request Scorch to optimise a v-function based on the current stack. The overall design is then the following: the optimiser interrupts temporarily the application green thread, finds a v-function to optimise based on the current stack, optimises it, installs the optimised version, and resumes the application. The optimised v-function installed will be executed at the next call of the function.
 
 \subsection{Optimiser critical and background modes}
 
 %TimeBeforePostPoning: problem so it's required
-This design is too naive because the optimiser may interrupt the application for a long time. Indeed, optimising a function can take a long time in slow machines or when a pathological function is optimised. To experiment with the optimiser, we worked mainly using one application, the development environment of Pharo. In the case of a user-interface application, it is \emph{very} annoying to see the application interrupted during half a second or more, it feels like the user interface is slow, lagging and unresponsive.
+The optimiser may however require a significant amount of time to optimise a function. Indeed, optimising a function can take a long time in slow machines or when a pathological function is optimised. This can lead to an interruption of the main application for an amount time long enough to be noticed by the application's user. To experiment with the optimiser, we worked mainly using the development environment of Pharo (which is written in Pharo). In the case of a user-interface application like the Pharo IDE, it is \emph{very} annoying to see the application interrupted during half a second or more when multiple functions long to optimise are optimised in a row, it feels like the user interface is slow, lagging and unresponsive even though the overall code takes less time to execute.
 
 %First solution: timeBeforePostponing, with constraint for long methods
-To avoid the problem, we limited the time window of the optimiser to a small amount of time, configurable from the language. For the development tools, we limited it to 40 ms. The limitation is enforced by a high-priority green thread, set to stop the optimiser after a given amount of time. As the current tools are refreshing at 50Hz, it means that the optimiser, at worst, force the system to drop two frames. In practice, most v-functions are optimised in less than 40ms. However, we now have a significant problem: v-functions too long to optimise are not optimised at all.
+To avoid the problem, we limited the time window of the optimiser to a small amount of time, configurable from the language. For the development tools, we limited it to 40 ms. The limitation is enforced by a high-priority green thread, set to stop the optimiser after the given amount of time. As the current tools are refreshing at 50Hz, it means that the optimiser, at worst, force the system to drop two frames. In practice, most v-functions are optimised in less than 40ms. However, we now have a significant problem: v-functions too long to optimise are not optimised at all.
 
 %idle and postpone
-Upon profiling, we noticed, as expected, that this user interface application spends a significant amount of time in idle\footnote{An application in idle means it has nothing to do, it is typically waiting for an event to do anything.}. We show for example in figure \ref{fig:ApplicationIdle} that the application is successfully executing code, then idle, then executing code again, etc. 
+Upon profiling, we noticed, as one would expect, that this user interface application spends a significant amount of time in idle\footnote{An application in idle means it has nothing to do, it is typically waiting for an event to do anything.}. We show for example in figure \ref{fig:ApplicationIdle} that the application is successfully executing code, then idle, then executing code again, etc. 
 
 \begin{figure}[h!]
     \begin{center}
@@ -58,7 +58,10 @@ Upon profiling, we noticed, as expected, that this user interface application sp
 \end{figure}
 
 %background thread
-Based on this result, we introduced a background green thread responsible for optimising the v-function too long to optimise in the small time window. Hence, when the application would normally become idle, it starts by optimising such v-functions until and becomes idle when no v-functions to optimise are remaining.
+Based on this result, we introduced a background green thread responsible for optimising the functions too long to optimise in the small time window. Hence, when the application would normally become idle, it starts by optimising such functions and becomes idle when no functions to optimise are remaining.
+
+%Critical vs background
+The optimiser can therefore be run in two mode. When a hot spot is detected, the optimiser is started in \emph{critical mode}. It has a limited amount of time to optimise a function based on the current stack. If the optimisation takes too long, the function to optimise is postpone to the background compilation queue. When the application becomes idle, if the background compilation queue is not empty, the optimiser is started in \emph{background mode}. In background mode, the optimiser is run in a low-priority green thread and is interrupted by any application green thread. When the optimiser has optimised all the functions in the compilation queue, it stops and the application becomes idle.
 
 \begin{figure}[h!]
     \begin{center}
@@ -69,50 +72,61 @@ Based on this result, we introduced a background green thread responsible for op
 \end{figure}
 
 %Fig explanation, critical vs background mode
-As shown on figure \ref{fig:ScorchModes}, when the application is running, it can be interrupted for a small time window at worst. When the application normally becomes idle, the background green thread starts optimising the v-functions long to optimise. When no more v-functions are queued for optimisations, the application becomes idle. In any case, after a while, all critical portion of code have been optimised and the application is usually not interrupted any more while the background green thread has usually no more v-functions to optimise.
+As shown on figure \ref{fig:ScorchModes}, when the application is running, it can be interrupted for a small time window at worst. When the application normally becomes idle, the background green thread starts optimising the functions long to optimise. When no more functions are queued for optimisations, the application becomes idle. In any case, after a while, all critical portions of code have been optimised and the application is usually not interrupted any more while the background green thread has usually no more v-functions to optimise.
 
-\paragraph{Conclusion.} The Scorch optimiser can be run in two modes. On critical mode, it interrupts the application green thread and has a limited time-window to optimise a function. On background mode, it optimises code only when the application is idle but as no time limit. 
+\paragraph{Conclusion.} The Scorch optimiser can be run in two modes. On critical mode, it interrupts the application green thread and has a limited time-window to optimise a function. On background mode, it optimises code only when the application is idle but as no time limit. This design allow all the application's code to be optimised in a single-threaded environment without the system loosing too much responsiveness.
 
-\subsection{Infinite recursion}
+\subsection{Infinite recursion issue}
 
 %repeat problem for optimiser
-As Scorch is written in Smalltalk, it can theoretically optimise its own code. In practice, if Scorch is triggered on itself, it may lead to an infinite recursion. Indeed, each time Scorch tries to optimise anything, before reaching the point where it can install the optimised function, it may interrupt itself to start optimising one of its own function. If a frequent portion of code is detected at each optimisation attempt, then Scorch never reaches the point where it can install optimised function because it keeps restarting new optimisation on its own code.
+As Scorch is written in Smalltalk, it can theoretically optimise its own code. In practice, if it happens, it may lead to an infinite recursion. Indeed, each time Scorch tries to optimise anything, before reaching the point where it can install the optimised function, it may interrupt itself (as it would interrupt any running application) to start optimising one of its own function. If a frequent portion of code is detected at each optimisation attempt, then Scorch never reaches the point where it can install optimised function because it keeps restarting new optimisation on its own code.
 
-%slow down - nothing happen in critical and slow but succeed in background mode
-In critical mode, Scorch has a limited time window. Hence, if the infinite recursion happens, the optimiser gets stuck until the time window ends, then the application resumes without any optimised function installed. In background mode, the optimisation is slower because the optimiser gets stuck in critical mode multiple times, but at some point the code gets optimised and installed.
+%slow down - critical
+In critical mode, Scorch has a limited time window. Hence, if the infinite recursion issue happens, the optimiser gets stuck until the time window ends, then the application resumes without any optimised function installed. Hence the application gets slower.
 
-\paragraph{First solution.} The first solution we thought of is to disable to optimiser when it is running. We believed it would solve the problem at the cost that the optimiser would not be able to optimise itself, and we were willing to to accept this consequence.
+%slow down - background
+In background mode, the optimiser is slower because the optimiser gets activated in critical mode multiple times when detecting hot spot in the optimiser itself, and in critical mode it gets stuck for the time window. After a while, the code still get optimised and installed. 
+
+The problem is therefore that the application executed gets really slow because of time wasted stuck in critical mode until it reaches peak performance. In addition, peak performance takes a long time to reach because the optimiser successfully installs code only in background mode or if it does not get stuck in critical mode until its own code is optimised. 
+
+\subsection{Current solution}
+
+The first solution we thought of is to disable to optimiser when it is running. We believed it would solve the problem at the cost that the optimiser would not be able to optimise itself, and we were willing to to accept this consequence.
 
 %Optimiser can be disabled
-The optimiser is considered disabled when each call-back normally starting the optimisation of code is modified not to do anything at all. In this case, the application keeps running, using non optimised code or code optimised when the optimiser was enabled.
+The optimiser is considered disabled when each call-back normally starting the optimisation of code is modified not to do anything at all. In this case, the application keeps running, but no further code is optimised until the optimiser gets enabled again.
 
 %call-back removal / addition implementation
 To implement our first solution, we changed the VM call-back activating the optimiser to uninstall itself upon activation. Then, we changed the optimiser so that when it resumes the application, after postponing the optimisation or installing optimised code, it installs back the call-back. This way, we thought the optimiser would never end up in a situation where it optimises itself, solving entirely the problem.
 
-%can optimise itself through back process
-Then, we run our benchmarks and see that the problem was solved but the optimiser could still optimise its own code. Our implementation effectively disabled the optimiser, but only while it was on critical mode. Hence, when frequent portions of code of the application were detected, they were optimised or postponed without any issue as the optimiser disabled itself during this phasis, and the application resumed just fine. However, when the optimiser was run in background mode, it was not disabled. Hence, in this case, the optimiser in background was sometimes interrupted by itself in critical mode to get optimised.
+%using opt libs
+This solution has a significant advantage: it is quite simple both conceptually and implementation-wise, while it completely avoids the infinite recursion problem. It has however a major drawback: Scorch cannot optimise its own code any more. Of course, Scorch uses core libraries that can be optimised. The main case are the core collections, if the application optimised is also using core collections, they may get optimised, then Scorch ends up using an optimised collection library. For this reason, it is possible that while optimising code Scorch triggers the deoptimiser, and it works perfectly fine.
 
-\paragraph{Discussion and future solutions}
+%can optimise itself through back process
+Then, we ran our benchmarks and saw that the problem was solved but the optimiser could still optimise its own code. Our implementation effectively disabled the optimiser, but only while it was on critical mode. Hence, when frequent portions of code of the application were detected, they were optimised or postponed without any issue as the optimiser disabled itself during this phasis, and the application resumed just fine. However, when the optimiser was run in background mode, it was not disabled. Hence, in this case, the optimiser in background was sometimes interrupted by itself in critical mode to get optimised.
 
 %1st sol work and good enough 
-The first solution is implemented and works fine. The application runs with significant speed-up over the normal VM. In general, in the production VM, simplicity is really important to keep the code relatively easily maintanable and for each added complexity in the VM we wonder if the complexity is worth the benefit. The first solution is satisfying enough and we may move to production with this solution.
+This first solution is implemented and works fine. The application runs with significant speed-up over the normal VM. In general, in the production VM, simplicity is really important to keep the code relatively easily maintanable and for each added complexity in the VM we wonder if the complexity is worth the benefit. This first solution is nice because it is simpler than the alternative ones, discussed in the next section, so the optimising JIT may move to production with this design.
+
+\subsection{Discussion and advanced solutions}
 
 %but cannot optimise itself in critical mode
-Now, there is still one minor design issue: the optimiser cannot optimise itself in critical mode. Even worse, as the profiling counters are encoded in 16 bits, if one of them exceeds 65535 on one of the optimiser method in critical mode, the counters are reset and the frequently portion of code is not detected at all.
+There is still one design issue remaining: the optimiser cannot optimise itself in critical mode. Even worse, as the profiling counters are encoded in 16 bits, if one of them exceeds 65535 on one of the optimiser method while it is disabled, the counters are reset but the hot spot is not detected at all.
 
 %the postpone pb while in critical mode
-Based on advises from other VM developer, we considered, instead of disabling the optimiser when it is running in critical mode, to postpone the optimisation to the background mode. In our design, it is quite difficult to do so. Indeed, when the VM call-back starts the optimiser, it provides a reification of the current stack. The optimiser then needs to scan the stack to select what function it should optimise. 
+Based on advises from other people, we considered, instead of disabling the optimiser when it is running in critical mode, to postpone the optimisation to the background mode. In our design, it is quite difficult to do so. Indeed, when the VM call-back starts the optimiser, it provides only a reification of the current stack, the optimiser then needs to scan the stack to select what function it should optimise. 
 
+%Saving current stack impossible
+As the current stack is modified upon execution, it is not possible to save it efficiently so that the optimiser can look at it in the background green thread.
 
-[ BEGIN TO CHECK: the following few paragraph on stack search may belong to another chapter.
+%Function selection, bottom is bad
+\paragraph{Function selection.} A naive approach would be to always keep the bottom stack frame's function for optimisation to avoid searching the stack for a function to optimise entirely. Unfortunately, in practice, it does not really work in Smalltalk and the optimiser usually does not pick the function of the bottom stack frame to perform optimisations. The reason is because an important part of the performance overhead comes from the extensive use of closures. Especially, most loops in the executed code, assuming they respect standard Smalltalk coding conventions, are using closures. To efficiently remove the closure overhead, the closure needs to be inlined up to its enclosing environment. Hence, the optimiser usually picks the function where closures are created. 
 
-%Function selection ->maybe move to another section ?
-In most cases, the optimiser does not pick the function of the bottom stack frame to perform optimisations. The reason is because an important part of the performance overhead in Smalltalk comes from the extensive use of closures. Especially, most loops in the executed code, assuming they respect standard Smalltalk coding conventions, are using closures. To efficiently remove the closure overhead, the closure needs to be inlined up to its enclosing environment. Hence, the optimiser usually picks the function where closures are created. 
-
-\paragraph{Loop example.} To illustrate the closure issue and why the optimiser usually picks another function than the bottom frame's function, we will use an example with a loop over an array. 
+%Function selection, bottom or home is bad
+Another naive approach would be to optimise the bottom stack frame's function if it is a method, and the enclosing stack frame's function if it is a closure, in an attempt to solve the problem. Yet, it still does not solve most of the common cases. 
 
 %array loop example. descr exampleArrayLoop
-In the code sample shown below, \ct{exampleArrayLoop} is a method installed in the class \ct{ApplicationClass}. Its method body consists of a loop over an array, the array being an instance variable. To loop over an array, Smalltalk provides high level construct such as \ct{do:}. In this case, \ct{do:} is very similar to \ct{foreach} in other languages and allows to iterate over the array while providing at each iteration of the loop the array's element in the variable \ct{element}. The \ct{do:} method takes a single argument, a closure, which is evaluated using \ct{value:} at each iteration of the loop.
+To illustrate the problem, let's look at a simple example with a loop over an array. In the code sample shown below, \ct{exampleArrayLoop} is a method installed in the class \ct{ApplicationClass}. Its method body consists of a loop over an array, the array being an instance variable. To loop over an array, Smalltalk provides high level construct such as \ct{do:}. In this case, \ct{do:} is very similar to \ct{foreach} in other languages and allows to iterate over the array while providing at each iteration of the loop the array's element in the variable \ct{element}. The \ct{do:} method takes a single argument, a closure, which is evaluated using \ct{value:} at each iteration of the loop.
 
 \begin{code}
 	ApplicationClass >> exampleArrayLoop
@@ -126,35 +140,32 @@ In the code sample shown below, \ct{exampleArrayLoop} is a method installed in t
 The method \ct{Array >> do:} is using a special selector, \ct{to:do:}, which is compiled by the bytecode compiler to a loop, in a similar way to \ct{for} constructs in other languages. In fact, this method is a loop from 1 to the size of the array. Index starts with the value 1 and is incremented by 1 at each iteration of the loop. At each iteration, the current value of index is tested against the size of the array, and when that value is reached the loop is exited.
 
 %profiling counter location
-As discussed before, profiling counters detect frequent portion of code on branches. Each finite loop has a branch to either keep iterating over the loop or exit the loop. In the example, it means that the method \ct{Array >> do:} has a profiling counter on the branch testing the value of the index against the size of the array. The rest of the code, in the two methods and in the closure, have no other profiling counters, though they may call functions having other profiling counters.
+As discussed in the previous chapter, profiling counters detect frequent portion of code on branches. Each finite loop has a branch to either keep iterating over the loop or exit the loop. In the example, it means that the method \ct{Array >> do:} has a profiling counter on the branch testing the value of the index against the size of the array. The rest of the code, in the two methods and in the closure, have no other profiling counters, though they may call functions having other profiling counters.
 
 %closure issue and why to pick next function
-A frequent portion of code is going to be detected on the profiling counter, hence in the method \ct{Array >> do:}. The main issue is that an important part of the execution time is spent both in creating and evaluating the closure, and from the \ct{Array>>do:} method, it is not possible to knwo what closure will be executed. Hence, the optimiser is likely to decide to optimise \ct{ApplicationClass >> exampleArrayLoop} so it will be able to inline \ct{Array >> do:}, and then the closure evaluation (\ct{value:}), completely removing the need for the closure hence removing its allocation.
+A frequent portion of code is going to be detected on the profiling counter, hence in the method \ct{Array >> do:}. The main issue is that an important part of the execution time is spent both in creating and evaluating the closure, and from the \ct{Array>>do:} method, it is not possible to know what closure will be executed unless its inlined into \ct{ApplicationClass >> exampleArrayLoop}. Hence, the optimiser is likely to decide to optimise \ct{ApplicationClass >> exampleArrayLoop} so it will be able to inline \ct{Array >> do:}, and then the closure evaluation (\ct{value:}), completely removing the need for the closure hence removing its allocation. \ct{Array >> do:} is a method, not a closure, and yet it is usually better to pick another function for optimisations.
 
 %closure last explanation
-Overall, because of the extensive use of closures, the optimiser usually never pick the bottom stack frame function for optimisation. It usually walk up a few frames to find the best function to optimise. 
+Overall, because of the extensive use of closures, the optimiser almost never pick the bottom stack frame function for optimisation. It usually walk up a few frames to find the best function to optimise. 
 
-END TO CHECK ]
+\paragraph{Isolating the critical portion of code}
+It is possible, however, once the optimiser has found what function to optimise, to add it to the background compilation queue. We therefore believe that instead of disabling the entire optimiser while it is running in critical mode, we could instead disable it only during the stack scanning phase in critical mode, which represent less than 1\% of the optimiser's execution time, and postpone the optimisation of the selected function to the background green thread. Hence, only hot spots detected during the stack search phasis would be ignored, while the rest of the optimiser would be optimised at the next idle pause.
 
+\paragraph{Hot deployment.} As the Sista architecture allows to persist optimised code, the optimiser's code could be preheated through warm-up runs, for example by giving it a list of well-chosen functions to optimise. This way, all hot spots inside the optimiser would be detected ahead of time and optimised before shipping the runtime to production. 
 
-%current point.
-As the current stack is modified upon execution, it is not possible to save it efficiently so that the optimiser can look at it in the background green thread. It is possible, however, once the optimiser has found what function to optimise, to keep a list of such functions and postpone their optimisation. We therefore believe that instead of disabling the optimiser while it is running in critical mode, we could instead disable it only during the stack scanning phase in critical mode, which represent less than 1\% of execution time, and postpone the optimisation to the background green thread. Hence only the code of this part of the optimiser could not be optimised in critical mode. The rest of the optimiser would be optimised at the first long enough idle pause.
+\paragraph{Static compilation.} Alternatively, the optimiser's code could be optimised statically by calling itself on its own code, using types inferred from a static type inferencer instead of types providing by the runtime application. This last alternative comes with all the advantages and problems of static ahead-of-time compilation.
 
-\paragraph{Preheating and static compilation.} As the Sista architecture allows to persist optimise code, the optimiser's code could be preheated through warm-up runs, for example by giving it a list of well-chosen functions to optimise. This way, all frequent portions of code would be detected ahead of time and optimised before shipping the runtime to production. If warm-ups are too unreliable, alternatively, the optimiser could be optimised statically by calling itself on its own code, using types infered from a static type inferencer instead of types providing by the runtime application. This last alternative comes with all the advantages and problems of static ahead-of-time compilation.
-
-
-\subsection{Dependencies and optimisations} 
+%\subsection{Dependencies and optimisations} 
 
 % from 1 old part
 %Rephrase -  solution does not forbig Scorch to use optimise libs
-The flag approach has a significant advantage: it is quite simple both conceptually and implementation-wise, while it completely avoids the infinite recursion problem. It has however a major drawback: Scorch cannot optimise its own code any more. Of course, Scorch uses core libraries that can be optimised. The main case are the core collections, if the application optimised is also using core collections, they may get optimised, then Scorch ends up using an optimised collection library. For this reason, it is possible that while optimising code Scorch triggers the deoptimiser, and it works perfectly fine.
 
 % maybe only one sentence ? -> be careful about dependencies
-The first constraint to note when programming Scorch, which may be obvious to the Kernel programmer, is that Scorch cannot depends on any framework or library but the Kernel and Core libraries. Each framework or library in the system relies on the execution engine to perform its code. Scorch is part of the execution engine. Hence, if Scorch relies on an external library and that someone modifies the library, the execution engine may not be stable any more and the runtime completely crashes. In fact, all the Kernel code and Core librairies have similar constraints, they cannot rely on anything to keep the system modular. 
--
-While writting Scorch, we needed a tool to compress the deoptimisation metadata generated aside from the optimised code. We wanted to use the standard Pharo serializer, Fuel (CITE), but we were not able to do it or further modification on Fuel would break the execution engine.
--
-In the end, we limited the dependencies of Scorch to the Pharo Kernel and the core collections (exactly: Set, OrderedCollection, Array, ByteArray and Dictionary in addition to the kernel). Any change on one of this dependency may require to change something in Scorch to keep the system running.
+%The first constraint to note when programming Scorch, which may be obvious to the Kernel programmer, is that Scorch cannot depends on any framework or library but the Kernel and Core libraries. Each framework or library in the system relies on the execution engine to perform its code. Scorch is part of the execution engine. Hence, if Scorch relies on an external library and that someone modifies the library, the execution engine may not be stable any more and the runtime completely crashes. In fact, all the Kernel code and Core librairies have similar constraints, they cannot rely on anything to keep the system modular. 
+
+%While writting Scorch, we needed a tool to compress the deoptimisation metadata generated aside from the optimised code. We wanted to use the standard Pharo serializer, Fuel (CITE), but we were not able to do it or further modification on Fuel would break the execution engine.
+
+%In the end, we limited the dependencies of Scorch to the Pharo Kernel and the core collections (exactly: Set, OrderedCollection, Array, ByteArray and Dictionary in addition to the kernel). Any change on one of this dependency may require to change something in Scorch to keep the system running.
 
 
 %\subsection{Debugging and runtime modification}
@@ -172,7 +183,7 @@ In the end, we limited the dependencies of Scorch to the Pharo Kernel and the co
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{In-language deoptimiser}
+\section{Scorch deoptimiser}
 
 The trap instruction is present in the extended bytecode set and when reached through execution flow, Cogit triggers a call-back to the deoptimiser. In addition, multiple tools in the language, such as the debugging tools, have been changed to call the deoptimiser when the programmer attempts to introspect the stack.
 
@@ -215,6 +226,9 @@ Modifying the deoptimiser while it is running is also more complex than the opti
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Related work}
+\subsection{Graal}
+
+Stack search and deoptimisation in the VM
 
 \subsection{DSL compiled to machine code}
 
@@ -223,29 +237,30 @@ Restrictive.
 
 \subsection{Metacircular VMs}
 
-In general this problem is solved, for example with magic or threads (Jalapeno).
-
-\subsection{Graal}
-
-Stack search and deoptimisation in the VM
-
-
 In chapter \ref{chap:stateOfTheArt}, we introduced multiple metacircular VMs. 
 
+In general this problem is solved, for example with magic or threads (Jalapeno).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Evaluation}
+
+it works.
+
+We see it optimises itself.
+
+Completely independent => evaluated through dependency tool.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Conclusion}
 
-In this chapter we discussed the main issues existing because the optimiser and the deoptimiser are implemented in Smalltalk and are running in the same runtime and the same native thread than the application they optimise and deoptimise respectively. The main issues are related to infinite recursion. If a frequently used portion of code is detected inside the optimiser code, the optimiser may call itself indefinitely by trying to optimise the portion of code, and while doing so, calling itself. The deoptimiser has the same issue when it needs to deoptimise its own code. In both cases, the program may get stuck.
+In this chapter we discussed the main issue existing because the optimiser and the deoptimiser are implemented in Smalltalk and are running in the same runtime and the same native thread than the application they optimise and deoptimise respectively. The main issue is related to infinite recursion. If a hot spot is detected inside the optimiser code, the optimiser may call itself indefinitely to try to optimise it. The deoptimiser has a similar issue when it needs to deoptimise its own code. In both cases, the program may get slow or gets completely stuck.
 
-The optimiser solves this issue by disabling itself when it runs by interrupting the application green thread. In most case, this means that the optimiser cannot optimise its own code. In practice, v-functions too long to optimise within a small time window are postponed in a background green thread, running when the application is in idle. When the optimiser is started through the background green thread, it can optimise itself.
+The optimiser solves this issue by disabling itself when it runs in critical mode (when it interrupts temporarily the application green thread to perform the optimisation). The optimiser cannot optimise itself directly while running in critical mode, it can only optimise the  application, which may include libraries used both by the application and the optimiser itself. For functions taking a long time to optimise, the optimiser cannot stop the application for too long or the application becomes unresponsive, hence it postpone the optimisation to a background compilation queue where functions are optimised when the application is in idle. When performing optimisations in the background, the optimiser can optimise itself entirely.
 
-The deoptimiser cannot solve the problem the same way.
-
- to optimise may  or if the deoptimiser calls itself to deoptimise its code, the program may get stuck. As an optimisation can be cancelled, the optimiser can simply be disabled while it is optimising something. 
-
-%repeat again.
+The deoptimiser cannot solve the problem the same way as it cannot be disabled at any time or Smalltalk code cannot be executed any more. The deoptimiser avoids the problem by being written using a small number of classes that cannot be optimised nor call any other libraries.
 
 \ifx\wholebook\relax\else
     \end{document}
