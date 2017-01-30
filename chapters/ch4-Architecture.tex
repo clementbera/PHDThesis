@@ -16,40 +16,48 @@
 \label{chap:architecture}
 \minitoc
 
-\section{General approach}
+The overall thesis focuses on the design and implementation of an optimising JIT compiler for Pharo, written in Pharo itself, running in the same runtime than the optimised application on top of the existing runtime environment. In this chapter, we detail the architecture designed and implemented to make it work.
 
-nutshell
+Cogit was extended to detect hot spot through profiling counters in non optimised n-functions. When a hot spot is detected, Cogit immediately calls Scorch in Pharo. Scorch then looks for the best v-function to optimise based on the current stack, optimises it and installs the optimised version. To perform optimisation, Scorch may ask Cogit to introspect specific n-functions to extract type information and basic block usage from previous runs. Once installed, the VM can execute the optimised v-function at the next call to the function. As the VM runtime is hybrid between an interpreter and Cogit, the optimised v-function may be interpreted or compiled to an optimised n-function by Cogit. As optimised v-functions have accessed to operations not normally possible by v-functions, both the interpreter and Cogit were extended to support the new operations.
 
-existing VM, works with interpreter baseline JIt. Add only hot spot detection. Once detected, in language opt and method installed. Then the VM keeps running and now can use new method installed. + extended bytecode set.
+Due to speculative optimisations, optimised v-functions may contain guards to ensure optimisation-time speculations are valid at runtime or dynamically deoptimise the code. If a guard fails, the optimised code needs to be deoptimised and the stack editing to resume execution with non optimised code. Cogit is only able to map a stack frame from n-function state (values in register, machine-specific calling convetions, etc.) to a single stack frame in v-function state as if the function was interpreted (all values are on stack). Hence, when an optimised n-function needs to be deoptimised, Cogit maps the stack frame to v-function state, provides it to Scorch, which maps the stack frame holding the optimised v-function to multiple stack frames with non-optimised v-functions. The execution can then resume using non optimised code.
 
-Our architecture, \emph{Sista} (Speculative Inlining SmallTalk Architecture) works as follows. Our optimizing compiler, after doing language-specific optimizations such as speculative inlining or array bounds check elimination, generates an optimized version of the function using a bytecode representation and does not directly generate machine code. This optimized version has access to an extended bytecode set to encode unchecked operations such as array access without bounds checks similar to the work of B\'era et al.\cite{Bera14a}. Optimized bytecoded functions are reifed as objects the same as normal bytecoded functions, hence they can be saved without any additional work as part of the snapshot. Then, the VM uses the baseline Just-in-Time compiler (JIT) as a back-end to generate machine code from the optimized bytecoded function. The optimized functions are marked, so the VM can decide to handle differently optimized bytecoded functions. 
+\section {Function's optimisation}
 
-Dynamic deoptimization is also split in two steps. Firstly, Sista asks the baseline JIT to reify the stack frame from machine state to bytecode interpreter state of the optimized bytecoded function, mapping correctly the register to stack entries and converting object representations from unboxed versions to boxed versions, as it would do for any unoptimized version of the function. Secondly, a separate deoptimizer maps the bytecode interpreter state of the optimized bytecoded function to multiple stack frame corresponding to the bytecode interpreter state of multiple unoptimized functions, rematerializing objects from constants and stack values.
+%overview
 
-\subsection{Overview}
+%first, repeat all steps.
+
+%second, explain problem with responsiveness and past from next chapter the explanation with critical and background mode.
+
+%Detail
+
+%Hot spot detection ?
+
+%VM call-back ? => explain what's in C and what is not in C
+
+%Stack search, explain almost never bottom stack frame ?
+
+%optimisation. Maybe a short paragraph
+
+%Either postpone or installion (include dependencies)
+
+%restart code, return, frame just after application frame
 
 
-
-%split architecture, what is where. 
-
-%in theory, optimised bc method could be interpreted. In practice it does not really make sense. But in some cases it does.
-
-%NEVER EVER USE THE WORD PROCESS please. Is a processus, a green thread a n thread ?
-
-\subsection {Optimisation process}
-
-The runtime optimization process has overall the same behavior than other virtual machines: in the unoptimized machine code, a portion of code frequently used is detected, recompiled on-the-fly using information relative to the previous runs. Then the virtual machine uses the optimized portion of code. The difference lies in the generation of an optimized bytecoded function in the middle. The full runtime optimization process is as follows:
 \begin{enumerate}
-\item \emph{Hot spot detection:} When the baseline JIT compiler  generates unoptimized version of functions in machine code, it  inserts counters on specific locations detailled later in the paper. Each time the execution flow reaches a counter, it increments it by one, and when the counter reaches a threshold, the portion of code is detected as frequently used, \ie as being a hot spot.
-\item \emph{Choosing what to optimize:} Once a hot spot is detected, the VM launches the runtime optimizer. The optimizer tries to find what function is the best to optimize. It walks a few frames in the stack from the active stack frame and based on simple heuristic (mostly, it tries to find a stack frame where as many closure activation as possible available on the current stack can be inlined), it determines a function to optimize.
-\item \emph{Decompilation:} The optimizer then decompiles the selected function to an IR (intermediate representation) to start the optimization process. During decompilation, the virtual machine extracts runtime information from the machine code version of the function if available. The decompiler annotates all the virtual calls and branches in the IR with type and branch information.
-\item \emph{Overall optimization:} The optimizer then performs several optimization passes.  We detail that part in \secref{Optimizer}.
-\item \emph{Generating the optimized function:} Once the function is optimized, the optimizer outputs an optimized bytecoded function, that is encoded thanks to an extended bytecode set. A specific object is kept in the literal frame of the optimized method to remember all the deoptimization metadata needed for dynamic deoptimization. This optimized bytecoded function looks like any unoptimized bytecoded function, so it can be saved as part of snapshots.
-\item \emph{Installation:} The optimized function is installed, either in the method dictionary of a class if this is a method, or in a method if it's a closure.
-\item \emph{Dependency management:} All the dependencies of the optimized functions are recorded. This is important as if the programmer installs new methods or changes the superclass hierarchy while the program is the running, the dependency manager knows which optimized functions needs to be discarded.
+	\item \emph{Hot spot detection:} When the baseline JIT compiler generates a non optimised n-function, it inserts profiling counters. Each time the execution flow reaches a counter, it is incremented and when the counter reaches a threshold, the function is detected as a hot spot.
+	\item \emph{VM call-back:} When a hot spot is detected, a specific Slang routine is called. The routine makes sure the stack frame with the tripping counter is reified or reify it, then it performs a virtual call with a selector specified in Smalltalk with the reified stack frame as receiver. This moves hot spot detection management from the VM to Smalltalk.
+	\item \emph{Stack search:} In Smalltalk Scorch introspects the reified stack and looks for a function to optimise. Based on multiple heuristics, one of the bottom stack frames' functions is selected for optimisations (It selects a function where as many closures as possible can be inlined).
+	\item \emph{Optimisation:} Scorch has then a limited amount of time to optimise the selected v-function. To speculate on types, Scorch request the VM to introspect specific n-function to extract the type information found in inline caches and profiling counter to determine basic block usage. The optimisations performed are standard and basic (mainly speculative inlining, array bounds check elimination, global value numbering, loop invariant code motion). Scorch finally generates an optimised v-function encoded in an extended bytecode set annotated with deoptimisation and dependency metadata.
+	\item \emph{Installation:} The optimized function is installed, either in the method dictionary of a class if this is a method, or in a method if it's a closure. The dependencies are installed in the dependency manager so that if new code is loaded, code that may be dependent is discarded.
+	\item \emph{Code restart:} The execution flow then returns to the tripping function to resume the execution of the code. The return is performed as a normal return, no special VM routine is called. If an optimised function is installed, it will be activated at next call.
 \end{enumerate}
 
-\subsection {Deoptimisation process}
+
+
+
+\section {Function's deoptimisation}
 
 The dynamic deoptimization process, again, is very similar to other virtual machines \cite{Fin03a, Holz92a}. The main difference is that it is split in two parts: firstly the baseline JIT maps  machine state to a state as if the bytecode interpreter would execute the function, second the deoptimizer maps the interpreter state to the deoptimized interpreter frames.
 
@@ -63,72 +71,17 @@ During dynamic deoptimization, we deal only with the recovery of the stack from 
 The deoptimizer edits the bottom of the stack to use the deoptimized stack frames instead of the optimized ones, and resumes execution in the unoptimized stack.
 \end{enumerate}
 
++ Debugger and code loading support: reuse discarding logic and deopt logic
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Paper: sista arch + bytecode set paper + read-only paper
+\section{Required language evolutions}
 
-small intro. 
-
-\section{Virtual machine interface extension}
-
-\subsection{Extending bytecode set.}
-
-New bytecode set needs to be discussed (not only extensions).
-
-To support unsafe operations, the bytecode set needed to be extended. B\'era and Miranda describes the extended bytecode set used \cite{Bera14a}. The extended bytecode set design relies on the assumption that only a small number of new bytecode instructions are needed for the baseline JIT to produce efficient machine code. Three main kind of instructions were added into the bytecode set:
-\begin{itemize}
-\item \textbf{Guards}: guards are used to ensure a specific object has a given type, else they trigger dynamic deoptimization.
-\item \textbf{Object unchecked accesses}: normally variable-sized objects such as arrays or byte arrays require type and bounds checks to allow a program to access their fields. Unchecked access directly reads the field of an object without any checks.
-\item \textbf{Unchecked arithmetics}: Arithmetic operations needs to check for the operand types to know what arithmetic operation to call (on integers, double, etc.). Unchecked operations are typed and do not need these check. In addition, unchecked operations do not do an overflow check and are converted efficiently to machine code conditional branches if followed by a conditional jump.
-\end{itemize}
-
-We are considering adding other unchecked operations in the future. For example, we believe instructions related to object creation or stores without the garbage collector write barrier could make sense.
-
-As the optimized methods are represented as bytecodes, one could consider executing them using the bytecode interpreter. This is indeed possible and we explain later in section \ref{interpreter} that in very uncommon cases it can happen in our runtime. However, improving the performance to speed-up the bytecode interpreter or to speed-up the machine code generated using the baseline JIT as a back-end are two different tasks that may conflict with one another. We designed the bytecode set so the machine code generated by the baseline JIT as a back-end is as efficient as possible, not really considering the speed of the interpretation of those methods as they are almost never interpreted in our runtime.
-
-\subsection{New primitive operation.}
-
-To extract information from the machine code version of a method, we added a new primitive operation \emph{sendAndBranchData}. This operation can be performed only on compiled methods. If the method has currently a machine code version, the primitive answers the types met at each inline cache and the values of the counters at each branch. This information can be then used by the runtime optimizer to type variables and to detect the usage of each basic block. The primitive answers the runtime information relative to the compiled method and all the closures defined in the compiled method.
-
-\subsection{New callbacks.}
-
-As in our implementation the runtime optimizer and deoptimizer are implemented in Smalltalk and not in the virtual machine itself, we needed to introduce callbacks activated by the virtual machine to activate the optimizer and the deoptimizer. 
-
-These callbacks use the reification of stack frames available for the debugger to inform the language which frame had its method detected as a hot spot and which frame has to be deoptimized.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\section{Virtual machine evolution}
-
-\subsection{Memory management}
-
-The first problem met was related to the complexity of the existing memory manager (called V3) in the virtual machine. The memory manager is responsible for the representation of object in memory, as well as object allocation and garbage collection. The main issue lied with memory representation of objects: V3 was designed for an interpreter-based VM running heaps of several Mbs at most and it did not allow the JIT to generate efficient machine code nor scaling to large heap of objects.
-
-\paragraph{Efficient JIT compilation.} Let's take a simple example. With V3, an object can access to its class in three different ways. Firstly, immediate objects\footnote{An immediate object is an object directly encoded in the object pointer, typically tagged integers.} access their classes through a special table, a list of 16 common classes have their instances access their class through another special table, while the rest of the objects have a pointer to their class in their header. In machine code, efficient class access becomes critical for efficient type tests (typically deoptimisation guards) and for inline caches, used in the baseline JIT to collect virtual calls receiver types. With V3, each class access in machine code requires to compile the three different paths. 
-
-\paragraph{Heap scaling.} The second main issue was related to heap scaling. Let's take another simple example. V3 memory manager requests 1 Gb of memory to the operating system at start-up to keep all the heap contiguous, instead of segmenting its heap in smaller portions. This is very problematic in multiple OS such as Windows, where the OS may refuse to provide such a large amount of memory. 
-
-(CITE Spur paper)
-
-Spur solutions.
-
-pinned objects
-
-Doc: spur paper
-
-\subsection{Register allocation}
-
-As
-
-Linear scan and reg alloc, plus branches
-Doc: TODO
+evolutions required for support
 
 \subsection{Profiling counters}
+
 
 To detect frequently used method, counters were introduced in code compiled by the baseline JIT, triggering a call-back when the counter reaches a specific threshold. Profiling counters add some overhead. As the baseline JIT is used both to compile non optimised and optimised code, compilation became conditional to introduce counters only in non optimised code. For this purpose, each bytecoded function is marked as being optimized or not thanks to a bit in the header. If the function has not yet been optimized, the baseline JIT generates counters in the machine code that are incremented each time they are reached by the flow of execution. Once a counter reaches a threshold, a call-back requests the runtime optimizer to generate optimized code.
 
@@ -143,7 +96,33 @@ ENd TODO
 
 To make the processor instruction-cache happy, counter values could not be next the machine code of each function. Indeed, doing so reuire the processor to flush the instruction-cache each time the counter is modified, slowing down massively code execution. To keep it efficient, at machine code compilation time a function is associated with a pinned array holding the counter values. The pinned property of the array allows the machine code to refer directly to the counter addresses, without having to do any garbage collection extension.
 
-\subsection{Runtime information}
+
+\subsection{Extended bytecode set}
+
+To support unsafe operations, the bytecode set needed to be extended. B\'era and Miranda describes the extended bytecode set used \cite{Bera14a}. The extended bytecode set design relies on the assumption that only a small number of new bytecode instructions are needed for the baseline JIT to produce efficient machine code. Three main kind of instructions were added into the bytecode set:
+\begin{itemize}
+\item \textbf{Guards}: guards are used to ensure a specific object has a given type, else they trigger dynamic deoptimization.
+\item \textbf{Object unchecked accesses}: normally variable-sized objects such as arrays or byte arrays require type and bounds checks to allow a program to access their fields. Unchecked access directly reads the field of an object without any checks.
+\item \textbf{Unchecked arithmetics}: Arithmetic operations needs to check for the operand types to know what arithmetic operation to call (on integers, double, etc.). Unchecked operations are typed and do not need these check. In addition, unchecked operations do not do an overflow check and are converted efficiently to machine code conditional branches if followed by a conditional jump.
+\end{itemize}
+
+We are considering adding other unchecked operations in the future. For example, we believe instructions related to object creation or stores without the garbage collector write barrier could make sense.
+
+As the optimized methods are represented as bytecodes, one could consider executing them using the bytecode interpreter. This is indeed possible and we explain later in section \ref{interpreter} that in very uncommon cases it can happen in our runtime. However, improving the performance to speed-up the bytecode interpreter or to speed-up the machine code generated using the baseline JIT as a back-end are two different tasks that may conflict with one another. We designed the bytecode set so the machine code generated by the baseline JIT as a back-end is as efficient as possible, not really considering the speed of the interpretation of those methods as they are almost never interpreted in our runtime.
+
+
+\subsection{Call-backs}
+
+As in our implementation the runtime optimizer and deoptimizer are implemented in Smalltalk and not in the virtual machine itself, we needed to introduce callbacks activated by the virtual machine to activate the optimizer and the deoptimizer. 
+
+These callbacks use the reification of stack frames available for the debugger to inform the language which frame had its method detected as a hot spot and which frame has to be deoptimized.
+
+
+\subsection{Machine code introspection}
+
+%merge 2 part, §1 and pargraph 2-3
+To extract information from the machine code version of a method, we added a new primitive operation \emph{sendAndBranchData}. This operation can be performed only on compiled methods. If the method has currently a machine code version, the primitive answers the types met at each inline cache and the values of the counters at each branch. This information can be then used by the runtime optimizer to type variables and to detect the usage of each basic block. The primitive answers the runtime information relative to the compiled method and all the closures defined in the compiled method.
+
 
 A primitive operation was added in the language to extract the \emph{send and branch data} of the associated machine code of each function. It works as follows:
 \begin{itemize}
@@ -157,14 +136,54 @@ The data is answered as an array of array, with each entry being composed of:
 \item either the types met and the function founds for virtual calls or the number of time each branch was taken for branches.
 \end{itemize}
 
+\subsection{Runtime optimiser and deoptimiser}
 
+Explain simple behavior.
+
+Maybe it makes sense to say Context are the same as objects.
+
+deoptimizer 
+Doc: my blog post + sista arch
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Language evolution}
+\section{Optional language evolutions}
+
+evolutions not required, but would be nice to get performance.
+
+\subsection{New memory manager}
+
+%I NEED TO CITE THE SPUR PAPER HERE.
+
+The first problem met was related to the complexity of the existing memory manager (called V3) in the virtual machine. The memory manager is responsible for the representation of object in memory, as well as object allocation and garbage collection. The main issue lied with memory representation of objects: V3 was designed for an interpreter-based VM running heaps of several Mbs at most and it did not allow the JIT to generate efficient machine code nor scaling to large heap of objects.
+
+\paragraph{Efficient JIT compilation.} Let's take a simple example. With V3, an object can access to its class in three different ways. Firstly, immediate objects\footnote{An immediate object is an object directly encoded in the object pointer, typically tagged integers.} access their classes through a special table, a list of 16 common classes have their instances access their class through another special table, while the rest of the objects have a pointer to their class in their header. In machine code, efficient class access becomes critical for efficient type tests (typically deoptimisation guards) and for inline caches, used in the baseline JIT to collect virtual calls receiver types. With V3, each class access in machine code requires to compile the three different paths. 
+
+\paragraph{Heap scaling.} The second main issue was related to heap scaling. Let's take another simple example. V3 memory manager requests 1 Gb of memory to the operating system at start-up to keep all the heap contiguous, instead of segmenting its heap in smaller portions. This is very problematic in multiple OS such as Windows, where the OS may refuse to provide such a large amount of memory. 
+
+(CITE Spur paper)
+\cite{Mir15a}
+
+Spur solutions.
+
+pinned objects
+
+Doc: spur paper
+
+\subsection{New bytecode set}
+New bytecode set needs to be discussed (not only extensions).
+
+\subsection{Register allocation}
+
+Linear scan and reg alloc, plus branches
+Doc: TODO
 
 \subsection{Read-only objects}
+
+%I NEED TO CITE THE WRITEBARRIER PAPER HERE.
+
+\cite{Bera16b}
 
 One of the main problem encountered while trying to improve the performance of the Pharo runtime was literal mutability. In most programming languages, if the program executes a simple double addition between two double constants the compiler can compute at compile-time the result. In Pharo, as literals are mutable, one of the double constant may be accessed through reflective APIs and mutated into another boxed double, invalidating the compile-time result. 
 
@@ -174,19 +193,16 @@ Literals can now all be read-only objects, and any attempt to mutate a read-only
 
 \subsection{Closure implementation}
 
+
 The second major issue encountered was related to the closure implementation. 
 
 FullBlock
 Doc: ? well... the FullBlock talk
 
-\subsection{Runtime optimisation and deoptimisation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Explain simple behavior.
-
-Maybe it makes sense to say Context are the same as objects.
-
-deoptimizer 
-Doc: my blog post + sista arch
+\section{Conclusion}
 
 
 \ifx\wholebook\relax\else
