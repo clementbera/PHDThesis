@@ -25,6 +25,11 @@ machine interface versus bytecode interface, truffle comparison.
 
 Discussion on performance limitation. For example integer overflow or not, at: with all checks.
 
+I need to discuss Web assebly. It's safe, supported , secure, they could do the same thing.
+
+First approach was small extension on bytecode set.
+
+Future work oculd be with something like web assembly
 
 \section{Runtime information access}
 
@@ -39,6 +44,10 @@ As in our implementation the runtime optimizer and deoptimizer are implemented i
 These callbacks use the reification of stack frame available for the debugger to inform the language which frame had its method detected as a hot spot and which frame has to be deoptimized.
 
 \section{Bytecode set extension}
+
+!!!
+This is an EXACT repetition from other chapters be careful
+!!!
 
 (our work not blind)
 To support unsafe operations, the bytecode set needed to be extended. In our previous work, we describe the extended bytecode set used \cite{Bera14a}. The extended bytecode set design relies on the assumption that only a small number of new bytecode instructions are needed for the baseline JIT to produce efficient machine code. Three main kind of instructions were added into the bytecode set:

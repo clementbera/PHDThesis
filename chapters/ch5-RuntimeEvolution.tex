@@ -1,0 +1,168 @@
+\ifx\wholebook\relax\else
+
+% --------------------------------------------
+% Lulu:
+
+    \documentclass[a4paper,12pt,twoside]{../includes/ThesisStyle}
+
+	\input{../includes/macros}
+	\input{../includes/formatAndDefs}
+
+	\graphicspath{{.}{../figures/}}
+	\begin{document}
+\fi
+
+\chapter{Runtime evolutions}
+\label{chap:runtimeEvolution}
+\minitoc
+
+%Generic intro
+To support the architecture described in the previous chapter, the Pharo runtime had to evolve. We distinguish two kind of evolutions. Some evolutions were required to support the architecture, the Sista runtime could not work without those features. Other evolutions were not mandatory, the Sista architecture could have worked without these features, but each of them are really important for the Scorch optimiser to be able to generate optimised code.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Required language evolutions}
+
+Five major evoluations were required to have the Sista architecture up and running:
+\begin{enumerate}
+	\item Cogit were extended to detect hot spot through profiling counters.
+	\item The interpreter and Cogit were extended to be able to execute and compile the additional instructions of the extended bytecode set.
+	\item Two VM call-backs to announce to Scorch hot spot detection and guard failures were added.
+	\item A new primitive was introduce for Cogit to instrospect the n-functions and provide type and basic block usage.
+	\item The Scorch framework, including the optimiser and the deoptimiser, were introduced.
+\end{enumerate}
+
+\subsection{Profiling counters}
+
+As described in the previous chapter, Cogit was extended to support conditionnal compilation. Based on a bit in a v-function's header, Cogit generates a n-function with or without profiling counters. Profiling counters induce overhead, which can be significant enough to be seen in some benchmarks (this will be discussed in (benchs are in section persistance, or maybe external)). 
+
+Based on \cite{Arn02}, the profiling counter strategy consisted in the addition of counters to conditional branches, to provide basic block usage information instead of just detecting hot spots. Every finite loop requires a branch to stop the loop iteration and most recursive code requires a branch to stop the recursion, so the main cases for which we wanted to detect hot spots for are covered. Each time the execution flow reaches a conditional branch in a n-function, it increases the profiling counter by one, compares the counter value to a threshold and jumps to the tripping counter routine if the threshold is reached. If the threshold is not reached, the conditional branch is performed, but the branch is not taken, a second counter is incremented by one to provide later basic block usage information.
+
+The main issue we had to deal with when implementing profiling counters is the location of the counters and the access to the counters. Indeed, our first naive implementation was to put the counter values directly inlined in the native code. That was a terrible idea as every write near executable code flushes part of the processor instruction cache, leading to horrible performance. In the end, we changed the logic to allocate a pinned array\footnote{A pinned object is an object that can never be moved in memory. For example, the garbage collector cannot move it.} for each n-function requiring counters. The pinned array is therefore on heap, far from executable code, and contains all the counter values. As the array is pinned, the native code can access the array and each of its fields (each counter) through a constant address. This is very nice as the native code can be efficient by using constant addresses and the n-function does not require any metadata~\footnote{References to non pinned objects from n-function normally require metadata to update the reference when the object is moved in memory, typically by the garbage collector.}.
+
+\subsection{Extended bytecode set}
+
+The Sista architecture required an extended bytecode set to support all the new operations permitted only in optimised v-functions. The new operations were described in one of our IWST paper\cite{Bera14a}. The extended bytecode set design relies on the assumption that only a small number of new instructions are needed for Cogit to produce efficient machine code. Four main kind of instructions were added into the bytecode set:
+\begin{itemize}
+\item \textbf{Guards}: guards are used to ensure a specific object has a given type, else they trigger dynamic deoptimization.
+\item \textbf{Object unchecked accesses}: normally variable-sized objects such as arrays or byte arrays require type and bounds checks to allow a program to access their fields. Unchecked access directly reads the field of an object without any checks. Instructions to access the size of a variable-sized object without type-check or format-check (The object format defines if the object holds raw data such as bytes or pointers) are included.
+\item \textbf{Unchecked arithmetics}: Arithmetic operations needs to check for the operand types to know what arithmetic operation to call (on integers, double, etc.). Unchecked operations are typed and do not need these check. In addition, unchecked operations do not do an overflow check and are converted efficiently to machine code conditional branches if followed by a conditional jump.
+\item \textbf{Unchecked object allocation and stores}: Normal object allocations do many different things in addition to memory allocation, such as the initialization of all fields to \ct{nil} which is not needed if all fields are set immediately after to other values. Normal stores into objects go through a write barrier to make sure that the store does not break any garbage collector invariant. Such a write barrier can be ignored in specific cases, for example when doing a store in an object that has just been allocated, because it is guaranteed to be in the young object space.
+\end{itemize}
+
+As the optimized methods are represented as bytecodes, they can potentially be executed by the VM interpreter. However, as discussed in the previous chapter, we made sure that it was very uncommon. Improving the performance to speed-up the bytecode interpreter or to speed-up the machine code generated using Cogit are two different tasks that may conflict with one another. We designed the extended bytecode set so the machine code generated by Cogit is as efficient as possible, not really considering the speed of the interpretation of such v-functions.
+
+\subsection{Call-backs}
+
+%KEEP WRITING FROM HERE
+
+%As in our implementation the runtime optimizer and deoptimizer are implemented in Smalltalk and not in the virtual machine itself, we needed to introduce callbacks activated by the virtual machine to activate the optimizer and the deoptimizer. 
+
+%These callbacks use the reification of stack frames available for the debugger to inform the language which frame had its method detected as a hot spot and which frame has to be deoptimized.
+
+%END WRITING HERE
+
+\subsection{Machine code introspection}
+
+%what is a primitive + inro
+To extract runtime information from a n-function, we added a new primitive method \emph{sendAndBranchData}. A primitive method in Smalltalk can be executed through a virtual call, like any other method, but upon activation a low-level function (in this case, a Slang function) is executed. The Slang routine can fail if the receiver and arguments of the primitive method does not meet specific constraints. 
+
+%what does the primitive 
+In this case, sendAndBranchData is activated with no arguments and fails if the receiver is not an object representing a v-function. If the v-function was compiled by Cogit and therefore has an associated n-function, the primitive answers the types met at each inline cache and the values of the counters at each branch. This information can be then used by Scorch to speculate on variable type and basic block usage. 
+
+%reading the cache/counter through 
+The cache and counter values are read by reusing Cogit's API for relinking. Indeed, each virtual call in non optimised n-functions are implemented with inline caches (CITE), relinked at runtime each type a new receiver type is met for the call. Each profiling counter native code is followed by a call to the hot spot detection Slang routine, this call is annotated as a relative call is used to call the routine and Cogit needs to relink it when it moves n-functions in memory (typically when compacting the zone where n-functions are). Each native instruction annotation contains a mapping from the native instruction pointer to the virtual instruction pointer, which is used for other purpose such as stack reification or debugging.
+
+%Result of primitive
+The new primitive iterates over the n-function, collecting for each virtual call and each conditionnal branch the virtual instruction pointer as well as respectively type and profiling information. Because the data is collected from Slang, it's not convenient to build complex data structure using multiple different kind of objects (Each object's class internal representation would need to be specifically known by both the VM and the language). To keep things simple, the primitive answers an array of array, each inner array containing the virtual program counter of the instruction, and a list of types and v-functions targetted by the inline cache or the number of times each branch has been taken.
+
+\subsection{Runtime optimiser and deoptimiser}
+
+TODO
+
+%Explain simple behavior.
+
+%Maybe it makes sense to say Context are the same as objects.
+
+%Doc: my blog post + sista arch
+
+END TODO
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Optional language evolutions}
+
+
+Five major evolutions were introduced in the language in addition to the required evolutions to allow Scorch to produce more efficient optimised v-functions:
+\begin{enumerate}
+	\item A new memory manager for efficient n-function generation.
+	\item A new bytecode set to leverage encoding limitations.
+	\item A register allocation algorithm in Cogit.
+	\item A write barrier feature to be able to mark object as read-only.
+	\item A new closure implementation to be able to optimiser closure more efficiently.
+\end{enumerate}
+
+\subsection{New memory manager}
+
+%pb with existing representation
+The first version of the Sista architecture was built on the existing VM with a minimum number of modifications. One of the main issue met was related to memory manager, especially the memory representation of objects. The existing memory manager was designed and implemented before the implementation of Cogit, for an interpreter-based VM. The representation of object did not allow Cogit to produce efficient n-function.
+
+%existing class access
+One problem for example was the encoding of the class field in an object. It could be encoded in three different ways:
+\begin{itemize}
+	\item \emph{Immediate classes:} A very limited subset of classes, included \ct{SmallInteger}, have their instances encoded in the pointer to the object itself. As all objects are aligned in memory for efficient access to their fields, the last few bits (the exact number depends on the alignment) of a pointer to an object are never set. By using different numbers on those last few bits, the memory manager can encode a class identifier. \ct{SmallInteger} for example are encoded by setting the last bit of the pointer.
+	\item \emph{Compact classes:} A limited set of classes, up to 15 classes, had their instances encoding the class as an index in a 4-bits field in the first word of the object's header. The memory manager had access to an array mapping the indexes to the actual classes.
+	\item \emph{Other classes:} All the other instances encode their class as a pointer to the class object, encoded in an extra pointer-sized field in the header of the object.
+\end{itemize}
+
+%existing class access pb in n-functions
+Cogit frequently to compiles type-checks, mostly in the context of inline caching in non optimised n-functions and in the context of deoptimisation guards in optimised n-functions. For each type-check, the native code generated needs three paths to find out which one of the three encodings is used for the instance which is type-checked, to finally compare it against the expected type. In addition, as most instances encode their class as a pointer to a class object while class objects can be moved by the garbage collector in memory, cogit needs to annotate the expected type to correctly update the pointer value during garbage collection. Overall both the generated n-function and the garbage collector get slowed by the memory representation.
+
+%Spur and problem solving
+To solve this problem, a new memory manager was implemented and deployed in production~\cite{Mir15a}. The new representation of objects in memory allows the generation of very efficient n-functions. For example, there is now only two ways for an instance to access its class, the class is either immediate or compact. Compact classes indexes are stored in the instances in a 22-bit fields, allowing over four millions different classes. As all references to classes are now through an indirection index, type-checks do not require Cogit to annotate them and the garbage collector can ignore them.
+
+%other pbs soled
+In addition to allowing the generation of efficient n-functions, other problems non directly related to the thesis were present in the existing memory manager (poor support for large heaps, slow scavenges, etc.) which were solved with the new memory manager.
+
+% pinned objects ??? I don't know if it's worth going into details there.
+
+\subsection{New bytecode set}
+
+TODO 
+
+%\cite{Bera14a}
+%New bytecode set needs to be discussed (not only extensions).
+
+
+
+\subsection{Register allocation}
+
+%Linear scan and reg alloc, plus branches
+
+END TODO
+
+\subsection{Read-only objects}
+
+One of the main problem encountered while trying to improve the performance of the optimised v-functions generated by Scorch was literal mutability. In most programming languages, if the program executes a simple double addition between two double constants the compiler can compute at compile-time the result. In Pharo, as literals are mutable, one of the double constant may be accessed through reflective APIs and mutated into another boxed double, invalidating the compile-time result. 
+
+To solve the problem, we introduced a feature, called read-only objects~\cite{Bera16b}. With this feature, a program can mark any object as read-only. Such read-only objects cannot be modified unless the program explicitly revert them to a writable state. Any attempt to modify a read-only object calls a specific v-function which can be modified from Smalltalk to have the behavior desired by the programmer. The modification failure routine can, for example, revert the object to a writable state, perform the modification and notify a list of subscribers that the modification happened. This feature was introduced with limited overhead to the existing runtime~\cite{Bera16b}. 
+
+Literals can now all be read-only objects by default. Any attempt to modify a read-only literal is caught by the runtime and can notify Scorch just after performing the modification. If the literal was used for compile-time computation, corresponding optimised v-functions are discarded. Thanks to this technique, traditional compiler optimisations can be applied to Smalltalk.
+
+\subsection{Closure implementation}
+
+TODO
+
+%The second major issue encountered was related to the closure implementation. 
+
+%FullBlock
+%Doc: ? well... the FullBlock talk
+
+END TODO
+
+
+\ifx\wholebook\relax\else
+    \end{document}
+\fi

@@ -57,6 +57,8 @@ The slang code has two main advantages over plain C:
 
 \section{Stack frame reification}
 
+%Flag: FRAMEREIFICATION.
+
 The call stack is reified on demand as a linked list of context object. Each context object correspond to a stack frame. For the Smalltalk programmer, a context object is a normal object where all its fields (caller, program counter, temporaries, etc.) can be edited as all objects. The VM uses a complex proxy architecture to remap correctly the programmer's modification to the stack. Most transformation, such as editing the temporary variables, are easy to implement as there is a direct mapping to the stack frame. Other transformations are more complex, for instance, the mutation of a context object caller. If that operation happens, the VM split the stack in two at the mutation and transforms it so that each part of the stack is on a different stack pages. Returns across stack pages are handled specifically to keep the stack size of each process reasonnable.
 
 mutation of pc.

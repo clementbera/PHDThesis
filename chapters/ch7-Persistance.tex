@@ -16,16 +16,14 @@
 \label{chap:persistance}
 \minitoc
 
+%Intro with through snapshot.
 
-\section{Persistance through snapshots}
-
-\subsection{Optimisations}
 Note: title should be the same (no ing and not ing.)
 
 -- persisting opt see paper related / process, we don't know anybody doing that
 --> arch paper for persisting opt. Comp to Truffle to do. (Thread, same runtime, interface different)
 
-\subsection{Preheating through snapshots in Dart}
+\section{Preheating through snapshots in Dart}
 
 TODO
 We need to compare or have different text that chapter With description of Dart VM
@@ -40,7 +38,7 @@ In this case, the code is loaded pre-optimized with inline caches prefilled valu
 
 This second case is difficult to compare to our architecture: iOS forbids machine code generation, which is currently required by our architecture. A good application of our architecture to iOS is future work.
 
-\subsection{Fast warm-up}
+\section{Fast warm-up}
 
 An alternative to snapshots is to improve the JIT compiler so the peak performance can be reached as early as possible. The improvements would consists of decreasing the JIT compilation time by improving the efficiency of the JIT code, or have better heuristic so the JIT can generate optimized code with the correct speculations with little runtime information.
 
@@ -72,22 +70,10 @@ The last alternative is to pre-optimize the code ahead of time. This can be done
 However, if the program uses few dynamic features (for example most of the calls are not virtual) and is running on top of a high-performance language kernel like the Objective-C kernel, the result can be satisfying.
 
 
-\subsection{Processes}
+\section{Processes}
 
 no related work ?
 Nobody does that.
-
-\section{Evaluation}
-
-Doc: from sista arch paper + do better benchmarks
-
-we need to discuss the maturity of the project and why start-up time is not that good any way. we dont want to spend time here as persistent.
-
-We have both performance result and start-up time result.
-
-\subsection{Performance evaluation}
-
-\subsection{Start-up time evaluation}
 
 \ifx\wholebook\relax\else
     \end{document}
