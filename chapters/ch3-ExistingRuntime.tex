@@ -16,23 +16,44 @@
 \label{chap:existing}
 \minitoc
 
-This chapter describes Pharo and part of its implementation. Pharo is the high-level object-oriented programming language used to implement the thesis' architecture. As the architecture is built by reusing most of the existing implementation, this chapter details multiple features and implementation details that are not necessarily common in other programming langues to help the reader understanding the design decisions explained in further chapters. The chapter is not meant to explain the whole existing implementation, but only the relevant points for the thesis.
+%global intro
+This chapter describes the Smalltalk dialect Pharo and part of its implementation. The Sista architecture was originally designed to improve the performance of the Pharo VM by adding speculative optimisations. Some existing features and implementation details already present in Pharo impacted several design decisions. They are detailled in this chapter to help the reader understanding the design decisions explained in further chapters. The chapter is not meant to explain the whole existing implementation, but only the most relevant points for the thesis. 
 
-\section{Snapshots}
+Pharo is an object-oriented language. Everything is an object, including classes or bytecoded versions of methods. It is dynamically-typed and every call is a virtual call. The virtual machine relies on a bytecode interpreter and a JIT to gain performance, similarly to Java virtual machines \cite{JavaVM8}. Modern Smalltalks directly inherit from Smalltalk-80~\cite{Gold83a} but have evolved during the past 35 years. For example, real closures and exceptions were added.
 
-Snapshots are available in multiple object-oriented languages such as Smalltalk (CITE Goldberg (and) Robson 1983) and later Dart (CITE Annamalai 2013). Snapshots allow the program to save the heap~\footnote{The memory zone including the memory of all the objects in the system.} in a given state, and the virtual machine can resume execution from this snapshot later. 
+The chapter successively describes the Pharo programming language, the interface with its VM and some aspects of the VM implementation.
 
-During code execution, compiled code is available in different versions. On the one hand, a bytecoded version, which is on the heap if the bytecoded version of functions is reified as an object (as in Dart and Smalltalk). On the other hand one or several machine code versions are available in the machine code zone. Machine code versions are usually not part of the heap directly but of a separated part of memory which is marked as executable. 
+\section{Pharo programming language}
 
-Snapshots cannot save easily machine code versions of functions for two main reasons:
-\begin{itemize}
-	\item a snapshot needs to be platform-independent.
-	\item machine code versions of functions are not usually represented in memory as regular objects.
-\end{itemize}
+This section details three main aspects of the programming language: native thread management, stack frame reification and snapshots.
 
-In the Smalltalk normal development workflow, one persists the code one writes by taking snapshot of the current runtime, the snapshot including compiled code objects. A Smalltalk VM always uses a snapshot to start-up. Although one can argue that this workflow is not a good idea, the architecture was designed for Smalltalk developers and hence this usage of snapshot does not require any change in the programmer's workflow.
+\paragraph{Native threads management}
 
-\section{Executable code and bytecode representation}
+Pharo features a global interpreter lock, similarly to python. Only calls to external libraries through the foreign function interface and specific virtual machine extensions have access to the other native threads. All the different virtual machine tasks, such as bytecode interpretation, machine code execution, just-in-time compilation or garbage collection are not done concurrently. This has a impact on design decisions because several other VMs implement the optimising JIT in concurrent native threads to the application (CITE). As Scorch is written in Pharo, the optimisation of v-functions and the application optimised are running in the same native thread.
+
+\paragraph{Stack frame reification.}
+
+The current VM evolved from the VM specified in the blue book~\cite{Gold83a}. The original specification relied on a spaghetti stack: the execution stack was represented as a linked list of v-function activations. Each v-function activation was represented as an object that could be read or written by the program. Over the years, Deutsch and Schiffman~\cite{Deut84a} changed the representation of the stack in the VM to use an execution stack similar to the one used in other programming languages, where stack frames are next to each other on a single stack. However, the VM still provides the ability to the programmer to read and write reified stack frames as if they where objects. To do so, each stack frame is reified as an object on demand. 
+
+The reification of a stack frame abstracts away from the low-level details, a reified stack frame accessed from the language always looks like it is a v-function activation. A reified frame is exactly the same if the VM is started with the interpreter only or with the hybrid interpreter plus baseline JIT runtime. Conceptually, for the Smalltalk developer, Smalltalk code is interpreted and the reified frame always look like so. In fact, it is possible that some developers manipulate the stack without even knowing that there are n-frame or v-frame in practice in the VM.
+
+The reification of the stack frames is used in three main places: the debugger, exceptions and continuations. For the two latter, they are implemented in Smalltalk on top of the stack frame reification, without any special VM support. In the Sista architecture, as Scorch is written in Pharo, it can use this feature to instrospect or modify the stack.
+
+\paragraph{Snapshots.}
+
+A snapshot~\footnote{Smalltalk developers use the term \emph{image} instead of snapshot.} is a sequence of bytes that represents a serialized form of all the objects present at a precise moment in the runtime. As everything is an object in Smalltalk, including green threads, the virtual machine can, at start-up, load all the objects from a snapshot and resume the execution based on the active green thread precised by the snapshot. In fact, this is the normal way of launching a Smalltalk runtime. 
+
+One interesting problem in snapshots is how to save the execution stack, \ie the green threads. It possible in the existing VM to convert reify each stack frame into an object. To perform a snapshot, each stack frame is reified and only objects are saved in the snapshot. When the snapshot is restarted, the VM recreates a stack frame for each reified frame lazily. As discussed in the previous paragraph, all reified frames are in virtual state. In any case, snapshots cannot save n-frames because they are platform-independent. In the Pharo VM for example, a snapshot can be taken on a laptop using a x86 processor and restarted on a raspberry pie using a ARMv6 processor.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%restart here.
+
+\section{Language-VM interface}
+
+small intro
+
+\subsection{Executable code and bytecode representation}
 
 As everything is an object, executable code are objects too. From the language, reflective APIs are available to access the bytecode version of the compiled methods and closure (we call them compiled functions). A compiled function includes a function header, to describe specific things such as the required frame size, the number of temporary variables or the number of literals of the function, a list of literals, the bytecodes and a reference to the source code. 
 
@@ -40,7 +61,21 @@ As everything is an object, executable code are objects too. From the language, 
 
 The bytecode set is stack-based. This means that most operations are pushing and popping values of the stack. All the operations are untyped and work with any object. One of the main instruction is the virtual call instructions, popping the receiver and arguments from the stack and pushing back the result. The bytecode set also includes conditional and unconditional branches to encode condition and loops.
 
-\section{Virtual machine executable generation}
+\subsection{Registered objects}
+
+discuss call-backs.
+
+\subsection{Primitive methods}
+
+I have written somewhere where sendAndBranchData is described what is a primitive.
+
++ become because discuss, explain both main use for instance migration and proxy
+
+\section{Virtual machine}
+
+overview
+
+\subsection{Virtual machine executable generation}
 
 
 \cite{Inga97a}
@@ -55,31 +90,29 @@ The slang code has two main advantages over plain C:
 	\item \emph{Simulation:} As Slang is a subset of Smalltalk, it can be executed as normal Smalltalk code. This is used to simulate the interpreter and garbage collector behavior. The JIT runtime is simulated using both Slang execution and external processor simulators. Simulation is very convenient to debug the VM, as all the Smalltalk debugging tools are available, the simulator can be saved and it is deterministic
 \end{itemize}
 
-\section{Stack frame reification}
-
-%Flag: FRAMEREIFICATION.
-
-The call stack is reified on demand as a linked list of context object. Each context object correspond to a stack frame. For the Smalltalk programmer, a context object is a normal object where all its fields (caller, program counter, temporaries, etc.) can be edited as all objects. The VM uses a complex proxy architecture to remap correctly the programmer's modification to the stack. Most transformation, such as editing the temporary variables, are easy to implement as there is a direct mapping to the stack frame. Other transformations are more complex, for instance, the mutation of a context object caller. If that operation happens, the VM split the stack in two at the mutation and transforms it so that each part of the stack is on a different stack pages. Returns across stack pages are handled specifically to keep the stack size of each process reasonnable.
-
-mutation of pc.
-
-The reification of the stack frames in used in three main places in Smalltalk:
-\begin{enumerate}
-	\item \emph{Debugging: } The debugging tools manipulates the stack and simulate program execution using this feature.
-	\item \emph{Exceptions: } The exceptions are implemented entirely in Smalltalk, with no VM support, using this feature.
-	\item \emph{Continuations: } Continuations are implemented entirely in Smalltalk, with no VM support, using this feature.
-\end{enumerate}
-
-\section{Baseline JIT}
+\subsection{Baseline JIT}
 
 The baseline JIT, called \emph{Cogit}, is used to compile bytecode
 - baseline JIT behavior + simple reg alloc + templates + abstractions over and back-ends, memory managers
 Doc: my blog posts. need to explain template and co
 
-\section{Existing Memory Manager}
-- the crap in V3 mem manager. Why it needed to change.
-take the example of inline cache and class tags and memory representation.
-Doc: my blog post. need to explain
+\subsection{Stack frame reification}
+
+%Flag: FRAMEREIFICATION.
+
+The VM is responsible for intercepting all accesses to a n-frame and map correctly the value to the v-frame value, and in some case, such as virtual instruction pointer modification, the VM converts the n-frame to a v-frame.
+
+
+The reified object acts as a proxy to the stack frame for reads and simple write operations. Advanced operations, such as setting the caller of a stack frame, are done by abusing returns across stack pages. In rare cases, the context objects can be a full object and not just proxies to a stack frame, for example 
+%when the programmer creates the object from the language using the \ct{thisContext} special variable or 
+when the VM has no more stack pages available, it creates full context objects for all the stack frames used on the least recently used stack pages. Returning to such context objects can be done only with a return across stack pages, and the VM recreates a stack frame for the context object to be able to resume execution.
+
+The call stack is reified on demand as a linked list of context object. Each context object correspond to a stack frame. For the Smalltalk programmer, a context object is a normal object where all its fields (caller, program counter, temporaries, etc.) can be edited as all objects. The VM uses a complex proxy architecture to remap correctly the programmer's modification to the stack. Most transformation, such as editing the temporary variables, are easy to implement as there is a direct mapping to the stack frame. Other transformations are more complex, for instance, the mutation of a context object caller. If that operation happens, the VM split the stack in two at the mutation and transforms it so that each part of the stack is on a different stack pages. Returns across stack pages are handled specifically to keep the stack size of each process reasonnable.
+
+mutation of pc.
+
+can crash (responsibility of the user)
+
 
 
 Discuss become in addition

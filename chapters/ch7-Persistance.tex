@@ -28,6 +28,10 @@ Note: title should be the same (no ing and not ing.)
 TODO
 We need to compare or have different text that chapter With description of Dart VM
 
+
+In Dart, the word snapshot refers to the serialized form of one or more Dart objects \cite{Anna13a}. Dart snapshots can save the whole heap, as part of their \emph{full snapshots}, but as far as we know it is not possible in this language to save processes. Hence, the virtual machine always restarts at the \ct{main} function once the snapshot is loaded.
+
+
 The Dart programming languages features snapshots for fast application start-up. In Dart, the programmer can generate different kind of snapshots \cite{Anna13a}. Since that publication, the Dart team have added two new kind of snapshots, specialized for iOS and Android application deployment, which are the most similar to our snapshots.
 
 \paragraph{Android.} A Dart snapshot for an Android application is a complete representation of the application code and the heap once the application code has been loaded but before the execution of the application. The Android snapshots are taken after a warm-up phase to be able to record call site caches in the snapshot. The call site cache is a regular heap object accessed from machine code, and its presence in the snapshot allows to persist type feedback and call site frequency.
