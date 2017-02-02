@@ -65,11 +65,8 @@ As the optimized methods are represented as bytecodes, they can potentially be e
 
 \subsection{Machine code introspection}
 
-%what is a primitive + inro
-To extract runtime information from a n-function, we added a new primitive method \emph{sendAndBranchData}. A primitive method in Smalltalk can be executed through a virtual call, like any other method, but upon activation a low-level function (in this case, a Slang function) is executed. The Slang routine can fail if the receiver and arguments of the primitive method does not meet specific constraints. 
-
-%what does the primitive 
-In this case, sendAndBranchData is activated with no arguments and fails if the receiver is not an object representing a v-function. If the v-function was compiled by Cogit and therefore has an associated n-function, the primitive answers the types met at each inline cache and the values of the counters at each branch. This information can be then used by Scorch to speculate on variable type and basic block usage. 
+%what does the primitive + intro
+To extract runtime information from a n-function, we added a new primitive method called \emph{sendAndBranchData}. SendAndBranchData is activated with no arguments and fails if the receiver is not a v-function. If the v-function was compiled by Cogit and therefore has an associated n-function, the primitive answers the types met at each inline cache and the values of the counters at each branch. This information can be then used by Scorch to speculate on variable type and basic block usage. 
 
 %reading the cache/counter through 
 The cache and counter values are read by reusing Cogit's API for relinking. Indeed, each virtual call in non optimised n-functions are implemented with inline caches (CITE), relinked at runtime each type a new receiver type is met for the call. Each profiling counter native code is followed by a call to the hot spot detection Slang routine, this call is annotated as a relative call is used to call the routine and Cogit needs to relink it when it moves n-functions in memory (typically when compacting the zone where n-functions are). Each native instruction annotation contains a mapping from the native instruction pointer to the virtual instruction pointer, which is used for other purpose such as stack reification or debugging.

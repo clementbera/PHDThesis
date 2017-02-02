@@ -19,7 +19,7 @@
 %global intro
 This chapter describes the Smalltalk dialect Pharo and part of its implementation. The Sista architecture was originally designed to improve the performance of the Pharo VM by adding speculative optimisations. Some existing features and implementation details already present in Pharo impacted several design decisions. They are detailled in this chapter to help the reader understanding the design decisions explained in further chapters. The chapter is not meant to explain the whole existing implementation, but only the most relevant points for the thesis. 
 
-Pharo is an object-oriented language. Everything is an object, including classes or bytecoded versions of methods. It is dynamically-typed and every call is a virtual call. The virtual machine relies on a bytecode interpreter and a JIT to gain performance, similarly to Java virtual machines \cite{JavaVM8}. Modern Smalltalks directly inherit from Smalltalk-80~\cite{Gold83a} but have evolved during the past 35 years. For example, real closures and exceptions were added.
+Pharo is an object-oriented language. Everything is an object, including classes or bytecoded versions of methods. It is dynamically-typed and every call is a virtual call. The virtual machine relies on a bytecode interpreter and a baseline JIT to gain performance. Modern Smalltalks directly inherit from Smalltalk-80~\cite{Gold83a} but have evolved during the past 35 years. For example, real closures and exceptions were added.
 
 The chapter successively describes the Pharo programming language, the interface with its VM and some aspects of the VM implementation.
 
@@ -27,9 +27,11 @@ The chapter successively describes the Pharo programming language, the interface
 
 This section details three main aspects of the programming language: native thread management, stack frame reification and snapshots.
 
-\paragraph{Native threads management}
+\paragraph{Native threads management.}
 
 Pharo features a global interpreter lock, similarly to python. Only calls to external libraries through the foreign function interface and specific virtual machine extensions have access to the other native threads. All the different virtual machine tasks, such as bytecode interpretation, machine code execution, just-in-time compilation or garbage collection are not done concurrently. This has a impact on design decisions because several other VMs implement the optimising JIT in concurrent native threads to the application (CITE). As Scorch is written in Pharo, the optimisation of v-functions and the application optimised are running in the same native thread.
+
+%TODO, closures and NLR?
 
 \paragraph{Stack frame reification.}
 
@@ -45,15 +47,19 @@ A snapshot~\footnote{Smalltalk developers use the term \emph{image} instead of s
 
 One interesting problem in snapshots is how to save the execution stack, \ie the green threads. It possible in the existing VM to convert reify each stack frame into an object. To perform a snapshot, each stack frame is reified and only objects are saved in the snapshot. When the snapshot is restarted, the VM recreates a stack frame for each reified frame lazily. As discussed in the previous paragraph, all reified frames are in virtual state. In any case, snapshots cannot save n-frames because they are platform-independent. In the Pharo VM for example, a snapshot can be taken on a laptop using a x86 processor and restarted on a raspberry pie using a ARMv6 processor.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%restart here.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Language-VM interface}
 
-small intro
+Pharo interfaces with its VM in two different ways:
+\begin{enumerate}
+	\item Pharo can instantiate v-functions and install them so the VM can execute them.
+	\item A small list of objects is registered in the VM so the VM can access them directly.
+\end{enumerate}
 
-\subsection{Executable code and bytecode representation}
+TODO start
+
+\paragraph{Virtual function representation.}
 
 As everything is an object, executable code are objects too. From the language, reflective APIs are available to access the bytecode version of the compiled methods and closure (we call them compiled functions). A compiled function includes a function header, to describe specific things such as the required frame size, the number of temporary variables or the number of literals of the function, a list of literals, the bytecodes and a reference to the source code. 
 
@@ -61,17 +67,63 @@ As everything is an object, executable code are objects too. From the language, 
 
 The bytecode set is stack-based. This means that most operations are pushing and popping values of the stack. All the operations are untyped and work with any object. One of the main instruction is the virtual call instructions, popping the receiver and arguments from the stack and pushing back the result. The bytecode set also includes conditional and unconditional branches to encode condition and loops.
 
-\subsection{Registered objects}
+\subparagraph{Virtual function installation.}
 
-discuss call-backs.
+as normal obj
 
-\subsection{Primitive methods}
+method dict struct known by VM
 
-I have written somewhere where sendAndBranchData is described what is a primitive.
+ask to flush caches based on selector. All caches always selector, simple and convenient as dynamically typed and through stack manipulation or other strange technique we can end up executing a method even if not install in class hierarchy.
 
-+ become because discuss, explain both main use for instance migration and proxy
++ complete list of bytecode instructions, maybe in appendix or a table ? Some of them are duplicated for interpreter performance and compaction (exemple, storePop and push nil), but does not really matter.
+
+pushReceiver
+pushLit
+pushThisContext
+pop
+dup
+returnTop
+blockReturnTop
+
+%*2
+pushTemp
+pushInstVar
+pushLitVar
+pushRemoteTemp
+
+send 
+superSend
+jumpOnTrue
+jumpOnFalse
+jumpForward
+jumpBackward
+
+createTempVect
+createClosure
+popIntoArray
+
+TODO end
+
+\subparagraph{Primitive methods.}
+
+Virtual methods can be annotated with a primitive number at creation time. A primitive method can be executed through a virtual call, like any other method, but upon activation a low-level function (either a Slang function or the native code generated from an assembly code template, depending on the current state of the runtime) is executed. The low-level code can fail if the receiver and arguments of the primitive method does not meet specific constraints. 
+
+Although primitive methods can be used for performance, most of them provides essential features that could not be implemented otherwise. For example, the addition between two integers is implemented as a primitive, forwarding the operation to the processor's implementation of the addition.
+
+Smalltalk features its set of exotic primitives, non present in most other programming languages. The best example is \ct{become:}, a primitive which swaps the references of two objects. If \ct{a become: b}, then all references to \ct{a} now refer to \ct{b}, and all the references to \ct{b} now refer to \ct{a}. This primitive is implemented efficiently based on Smalltalk specific strategies~\cite{Mir15a}.
+
+The Sista architecture required the addition of a primitive method, detailled later in the thesis, and was using at some point exotic primitives such as \ct{become:}, until a better solution was found.
+
+\paragraph{Registered objects.} An array of registered objects can be accessed in the Pharo runtime. This array contains multiple objects that need to be accessed by the VM, for example the objects \ct{nil, true} and \ct{false}. Any new object can be registered in the array, which can be requested to grow. 
+
+Among registered objects are specific selectors. For example, the \ct{\#doesNotUnderstand:} selector is registered. When a look-up performed by the VM does not find any method to activate (the selector is not implemented for the given receiver), the VM instead performs a virtual call, using the same receiver, the registered \ct{\#doesNotUnderstand:} selector and reifies the virtual call as an object (which class is also registered) containing the original selector, the arguments and the look-up class in case of a super send. This strategy of registering a selector and using it in specific case to activate Smalltalk code is used in the Sista architecture to activate Scorch from the VM.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Virtual machine}
+
+TODO start
+The virtual machine relies on a bytecode interpreter and a baseline JIT to gain performance.
 
 overview
 
@@ -112,11 +164,6 @@ The call stack is reified on demand as a linked list of context object. Each con
 mutation of pc.
 
 can crash (responsibility of the user)
-
-
-
-Discuss become in addition
-+ become because used both in Mem manager paper and deopt solution 1.
 
 \ifx\wholebook\relax\else
     \end{document}
