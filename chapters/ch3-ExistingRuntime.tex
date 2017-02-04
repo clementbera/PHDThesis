@@ -59,11 +59,15 @@ Pharo interfaces with its VM in two different ways:
 
 \paragraph{Virtual function representation.}
 
-As everything is an object in Pharo, virtual functions are objects. A v-function is composed of a function's header, a list of literals, a list of bytecodes and a reference to its source code. The function's header contains information required for the function's execution such as the number of temporary variables or the size of the frame required.
+As everything is an object in Pharo, virtual functions are objects. A v-function is composed of a function's header, a list of literals, a list of bytecodes and a reference to its source code as shown on figure \ref{fig:CompiledCode}. The function's header contains information required for the function's execution such as the number of temporary variables or the size of the frame required.
 
-TODO
-Maybe detail function header too.
-(FIGURE CM + example)
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.4\linewidth]{CompiledCode}
+        \caption{Virtual function representation}
+        \label{fig:CompiledCode}
+    \end{center}
+\end{figure}
 
 The bytecode set is stack-based. This means that most operations are pushing and popping values of the stack. All the operations are untyped and work with any object. One of the main instruction is the virtual call instruction, popping the receiver and arguments from the stack and pushing back the result. The bytecode set also includes conditional and unconditional branches to encode condition and loops, as well as specific bytecodes to create efficiently closures.
 
@@ -100,8 +104,6 @@ The bytecode set is stack-based. This means that most operations are pushing and
 %createClosure
 %popIntoArray
 
-END TODO
-
 \subparagraph{Virtual function installation.}
 
 Classes and method dictionaries are normal objects in Pharo. Hence, the installation of a method uses normal dictionary APIs, inserted the selector and the method. Method dictionaries, upon modification, request the VM to flush look-up caches for the installed selector. As Pharo is dynamically typed and through uncommon behavior such as aggressive stack modification (modification of the receiver of the current frame) or primitives any method can be called by any object, flushing all the methods matching the selector is easier to implement and safer. Closure' functions are installed inside the method they are created in when the method is created, as a literal. Changing the literal (hence the closure's function) is normally not done in the current runtime.
@@ -136,16 +138,18 @@ The slang code has two main advantages over plain C:
 	\item \emph{Simulation:} As Slang is a subset of Smalltalk, it can be executed as normal Smalltalk code. This is used to simulate the interpreter and garbage collector behavior. The JIT runtime is simulated using both Slang execution and external processor simulators. Simulation is very convenient to debug the VM as all the Smalltalk debugging tools are available. In addition, the simulator state can be saved and duplicated, which is very convenient to debug non deterministic garbage collection bugs.
 \end{itemize}
 
+The executable is generated in two steps. The first steps is to generate using the Slang-to-C compiler the two C files representing the whole execution engine written in Slang. Then, a C compiler is called and compiles the execution engine and additional C files (mostly the OS-specific code is written in C) to the executable VM.
+
 \subsection{Baseline JIT}
 
 Cogit is currently used as the baseline JIT. It takes a v-function as input, generates a n-function and installs it. Cogit performs three main kind of optimisations:
 \begin{enumerate}
 	\item \emph{Stack-to-register mapping:} As the v-functions are encoded using a stack-based bytecode set, values are constantly pushed and popped off the stack. To avoid this behavior, Cogit simulates the stack state during compilation. When reaching an instruction using values on stack, Cogit uses a dynamic template scheme to generate the native instructions. The simulated stack provides information such as which values are constants or already in registers. Based on this information, Cogit picks one of the available template for the instruction, use a linear scan algorithm to allocate registers that do not need to be fixed into a specific concrete register, and generate the native instructions.
-	\item \emph{Inline caches:} Each virtual call is compiled to an unlinked inline cache. During execution, the inline cache is relinked to a monomorphic, polymorphic or megamorphic inline cache when new receiver types are met. The inline caches improve performance but also allows, through n-function introspection, to determine which type is met for each virtual call site.
+	\item \emph{Inline caches:} Each virtual call is compiled to an unlinked inline cache. During execution, the inline cache is relinked to a monomorphic, polymorphic or megamorphic inline cache~\cite{Deut84a,Holz91a} when new receiver types are met. The inline caches improve performance but also allows, through n-function introspection, to determine which type is met for each virtual call site.
 	\item \emph{Calling convention:} Cogit defines specific calling conventions for calls in-between n-functions. Typically, the receiver of the virtual call is always passed by register, and the arguments may or may not be passed by registers depending on how many there are. This is especially efficient to speed-up the inline cache logic and for primitive methods that have an assembly template available as they can directly use the values in registers.
 \end{enumerate}
 
-Cogit provides abstractions over the different memory managers supported by the VM (including 32bits and 64bits abstractions) and the different assembly back-ends. Most of the optimisations performed are platform-independent, through specific parts, such as inline cache relinking, needs to be implemented differently in each back-end. Cogit currently supports four different back-ends in production: x86, x64, ARMv6 and MIPSEL.
+Cogit provides abstractions over the different memory managers supported by the VM (including 32-bits and 64-bits abstractions) and the different assembly back-ends. Most of the optimisations performed are platform-independent, through specific parts, such as inline cache relinking, needs to be implemented differently in each back-end. Cogit currently supports four different back-ends in production: x86, x64, ARMv6 and MIPSEL.
 
 \subsection{Stack frame reification}
 

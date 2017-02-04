@@ -31,7 +31,7 @@ Due to speculative optimisations, optimised v-functions may contain guards to en
 
 \begin{figure}[h!]
     \begin{center}
-        \includegraphics[width=0.9\linewidth]{OptArchitecture}
+        \includegraphics[width=0.8\linewidth]{OptArchitecture}
         \caption{Scorch critical and background modes}
         \label{fig:ScorchModes}
     \end{center}
@@ -119,15 +119,23 @@ When Scorch is activated, it has access to a reification of the stack. A naive a
 Another approach, a bit less naive, would be to optimise the tripping function if it is a method, and the enclosing environment's function if it is a closure, in an attempt to remove closure overhead. Yet, this heuristic does not solve either the most common case. To illustrate the problem, let's look at a simple example with a loop over an array.
 
 %array loop example. descr exampleArrayLoop
-In the code sample shown below, \ct{exampleArrayLoop} is a method installed in the class \ct{ApplicationClass}. Its method body consists of a loop over an array, the array being an instance variable. To loop over an array, Smalltalk provides high level construct such as \ct{do:}. In this case, \ct{do:} is very similar to \ct{foreach} in other languages and allows to iterate over the array while providing at each iteration of the loop the array's element in the variable \ct{element}. The \ct{do:} method takes a single argument, a closure, which is evaluated using \ct{value:} at each iteration of the loop.
+In the code sample shown below, \ct{exampleArrayLoop} is a method installed in the class \ct{ApplicationClass}. Its method body consists of a loop over an array, the array being an instance variable. To loop over an array, Smalltalk provides high level construct such as \ct{do:}. In this case, \ct{do:} is very similar to \ct{foreach} in other languages and allows to iterate over the array while providing at each iteration of the loop the array's element in the variable \ct{element}. The \ct{do:} method takes a single argument, a closure, which is evaluated using \ct{value:} at each iteration of the loop. During the closure evaluation, the bottom three frames are the closure activation, the frame for \ct{Array >> do:} and the frame for \ct{ApplicaitonClass >> exampleArrayLoop} as shown on figure \ref{fig:ExampleLoopStack}.
 
 \begin{code}
 	ApplicationClass >> exampleArrayLoop
 	    array do: [ :element | FileStream stdout nextPutAll: element printString ].
 		
-	Array >> do: aBlock
-	    1 to: self size do: [:index | aBlock value: (self at: index)].
+	Array >> do: aClosure
+	    1 to: self size do: [:index | aClosure value: (self at: index)].
 \end{code}
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.4\linewidth]{ExampleLoopStack}
+        \caption{Example stack during closure execution}
+        \label{fig:ExampleLoopStack}
+    \end{center}
+\end{figure}
 
 %descr do:
 The method \ct{Array >> do:} is using a special selector, \ct{to:do:}, which is compiled by the bytecode compiler to a loop, in a similar way to \ct{for} constructs in other languages. In fact, this method is a loop from 1 to the size of the array. Index starts with the value 1 and is incremented by 1 at each iteration of the loop. At each iteration, the current value of index is tested against the size of the array, and when that value is reached the loop is exited.
@@ -149,7 +157,7 @@ Once Scorch has selected the v-function to optimise, it generates an optimised v
 
 Scorch's optimiser is implemented with traditional compiler optimisation techniques. It decompiles the v-function to optimise into a single static assignment intermediate representation, represented in the form of a control flow graph. Specific instructions that may require deoptimisation of the optimised stack frame have deoptimisation metadata attached which is updated across the optimisation process to still refer to the right values. The same intermediate representation is used during the whole optimisation process.
 
-Scorch's optimiser then performs Smalltalk specific optimisations, very similar to the ones present in optimising JITs for other object languages. It starts with function inlining. For each inlined v-function, the v-function is decompiled to the same intermediate representation and merge into the same control flow graph. Once the inlining phasis is done, it performs standard optimisations such as array-bounds check elimination with the ABCD algorithm (CITE), global value numbering, loop invariant code motion.
+Scorch's optimiser then performs Smalltalk specific optimisations, very similar to the ones present in optimising JITs for other object languages. It starts with function inlining. For each inlined v-function, the v-function is decompiled to the same intermediate representation and merge into the same control flow graph. Once the inlining phasis is done, it performs standard optimisations such as array-bounds check elimination with the ABCD algorithm~\cite{Bodi00a}, global value numbering and loop invariant code motion.
 
 All the optimisations are guided by previous runs of the functions: Scorch can ask Cogit for each v-function (the optimised one and the inlined ones), if it was compiled to a n-function by Cogit, to introspect the machine code and provide type information for each virtual call based on the data present in the corresponding inline cache and provide basic block usage based on the profiling counter values.
 
@@ -166,7 +174,7 @@ Once installed, conceptually, the VM runs the optimised v-function as normal v-f
 
 We then added a cheap heuristic to encourage the execution of optimised v-functions as n-functions. Optimised v-functions have a bit set in their header to tell Cogit not to compile profiling counters when generating their corresponding n-function. If this bit is set, we added the heuristic that the interpreter asks Cogit to compile it at the first run and immediately uses the n-function. 
 
-In any case, the VM still needs to support the interpretation of optimised v-functions. Indeed, in very rare cases, Cogit cannot temporarily generate a n-function for the given v-function. For example, as the native code zone for n-functions has a fixed size of a few megabytes, it can happen that Cogit tries to compile a v-function while relinking a polymorphic inline cache (CITE) of another n-function. If there is not enough room in the machine code zone, a compaction of the machine code zone has to happen while generating the n-function. It is not easy to compact the machine code zone at this point as it can happen that the polymorphic inline cache or the n-function referring it is discarded. To keep things simple, in this situation, we postpone the the machine code zone compaction to the next interrupt point and interpret the v-function once.
+In any case, the VM still needs to support the interpretation of optimised v-functions. Indeed, in very rare cases, Cogit cannot temporarily generate a n-function for the given v-function. For example, as the native code zone for n-functions has a fixed size of a few megabytes, it can happen that Cogit tries to compile a v-function while relinking a polymorphic inline cache~\cite{Holz91a} of another n-function. If there is not enough room in the machine code zone, a compaction of the machine code zone has to happen while generating the n-function. It is not easy to compact the machine code zone at this point as it can happen that the polymorphic inline cache or the n-function referring it is discarded. To keep things simple, in this situation, we postpone the the machine code zone compaction to the next interrupt point and interpret the v-function once.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
