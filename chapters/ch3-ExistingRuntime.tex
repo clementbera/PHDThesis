@@ -100,6 +100,8 @@ The bytecode set is stack-based. This means that most operations are pushing and
 %createClosure
 %popIntoArray
 
+END TODO
+
 \subparagraph{Virtual function installation.}
 
 Classes and method dictionaries are normal objects in Pharo. Hence, the installation of a method uses normal dictionary APIs, inserted the selector and the method. Method dictionaries, upon modification, request the VM to flush look-up caches for the installed selector. As Pharo is dynamically typed and through uncommon behavior such as aggressive stack modification (modification of the receiver of the current frame) or primitives any method can be called by any object, flushing all the methods matching the selector is easier to implement and safer. Closure' functions are installed inside the method they are created in when the method is created, as a literal. Changing the literal (hence the closure's function) is normally not done in the current runtime.
