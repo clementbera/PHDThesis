@@ -20,8 +20,7 @@
 
 Object-oriented languages have been one of the most popular programming languages for the past decades. Many high-level object-oriented programming languages run on top of a virtual machine (VM)~\footnote{In the whole thesis, VM refers to a virtual machine for high-level languages, by opposition to Operating System VMs which are not discussed at all.} which provides certain advantages from running directly on the underlying hardware. 
 
-\subsection{Virtual machines for high-level programming languages}
-
+\paragraph{Virtual machines for high-level programming languages.}
 Most high-level languages pursue a strict separation between language-side and VM-side. VMs for instance provide automatic memory management or use platform independent instructions such as bytecodes. These properties allow a programming language to develop independently from the underlying hardware.
 
 High performance VMs, such as Java HotSpot or current Javascript VMs achieve high performance through just-in-time compilation techniques: once the VM has detected that a portion of code is frequently used (called \emph{hot spot}), it recompiles it on-the-fly with speculative optimizations based on previous runs of the code. If usage patterns change and the code is not executed as previously speculated anymore, the VM dynamically deoptimizes the execution stack and resumes execution with the unoptimized code.
@@ -30,7 +29,7 @@ Such performance techniques allow object-oriented languages to greatly improve t
 
 Originally VMs were built in performance oriented low-level programming languages such as C. However, as the VMs were reaching higher and higher performance, the complexity of their code base increased and some VMs started to get written in higher-level languages as an attempt to control complexity. Such VMs got written either in the language run by the VM itself~\cite{Unga05b,Wimm13a,Alp99a} or in domain specific languages compiled to machine code through C~\cite{Rigo06a,Inga97a}.
 
-\subsection{Pharo programming language and community}
+\paragraph{Pharo programming language and community.}
 
 In this thesis the focus is on a specific high-level object-oriented programming language, the Smalltalk dialect named Pharo~\cite{Blac09a}, a fork of another Smalltalk dialect named Squeak(CITE) made by the original Smalltalk-80 implementors. In Pharo, everything is an object, including classes, bytecoded versions of methods or processes. It is dynamically-typed and every call is a virtual call. The VM relies on a bytecode interpreter and a baseline just-in-time compiler (JIT) to gain performance. Modern Smalltalk dialects directly inherit from Smalltalk-80~\cite{Gold83a} but have evolved during the past 35 years. For example, real closures and exceptions were added.
 
@@ -54,7 +53,7 @@ The existing production VM is written in a subset of Smalltalk~\cite{Inga97a}, c
 	
 To conclude, the Pharo community is looking for better VM performance and the next step to improve the performance of the existing VM is to add an optimising JIT. To attract open-source contributors from the community, the optimising JIT has to be written in Smalltalk.
 
-\subsection{Existing design}
+\paragraph{Existing design.}
 
 A first optimising JIT design emerged in the early 2000s for another Smalltalk VM, a precursor of the current Pharo VM. The design is the convergence of multiple ideas to ease the development of the optimising JIT, to ensure that the maintainance and evolution cost of the resulting implementation is going to be reasonnable and to attract contributors from the community.
 

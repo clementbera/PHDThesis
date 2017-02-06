@@ -128,15 +128,21 @@ When Scorch is activated, it has access to a reification of the stack. A naive a
 Another approach, a bit less naive, would be to optimise the tripping function if it is a method, and the enclosing environment's function if it is a closure, in an attempt to remove closure overhead. Yet, this heuristic does not solve either the most common case. To illustrate the problem, let's look at a simple example with a loop over an array.
 
 %array loop example. descr exampleArrayLoop
-In the code sample shown below, \ct{exampleArrayLoop} is a method installed in the class \ct{ApplicationClass}. Its method body consists of a loop over an array, the array being an instance variable. To loop over an array, Smalltalk provides high level construct such as \ct{do:}. In this case, \ct{do:} is very similar to \ct{foreach} in other languages and allows to iterate over the array while providing at each iteration of the loop the array's element in the variable \ct{element}. The \ct{do:} method takes a single argument, a closure, which is evaluated using \ct{value:} at each iteration of the loop. During the closure evaluation, the bottom three frames are the closure activation, the frame for \ct{Array >> do:} and the frame for \ct{ApplicaitonClass >> exampleArrayLoop} as shown on figure \ref{fig:ExampleLoopStack}.
+In the code sample in figure \ref{fig:ExampleCode}, \ct{exampleArrayLoop} is a method installed in the class \ct{ApplicationClass}. Its method body consists of a loop over an array, the array being an instance variable. To loop over an array, Smalltalk provides high level construct such as \ct{do:}. In this case, \ct{do:} is very similar to \ct{foreach} in other languages and allows to iterate over the array while providing at each iteration of the loop the array's element in the variable \ct{element}. The \ct{do:} method takes a single argument, a closure, which is evaluated using \ct{value:} at each iteration of the loop. During the closure evaluation, the bottom three frames are the closure activation, the frame for \ct{Array >> do:} and the frame for \ct{ApplicationClass >> exampleArrayLoop} as shown on figure \ref{fig:ExampleLoopStack}.
 
-\begin{code}
-	ApplicationClass >> exampleArrayLoop
-	    array do: [ :element | FileStream stdout nextPutAll: element printString ].
-		
-	Array >> do: aClosure
-	    1 to: self size do: [:index | aClosure value: (self at: index)].
-\end{code}
+\begin{figure}[h!]
+    \begin{center}
+        \begin{code}
+        	ApplicationClass >> exampleArrayLoop
+        	    array do: [ :element | FileStream stdout nextPutAll: element printString ].
+        		
+        	Array >> do: aClosure
+        	    1 to: self size do: [:index | aClosure value: (self at: index)].
+        \end{code}   
+	\caption{Example code}
+        \label{fig:ExampleCode}
+    \end{center}
+\end{figure}
 
 \begin{figure}[h!]
     \begin{center}
@@ -197,7 +203,7 @@ On the contrary to most other VMs, deoptimisation is done in two steps. Firstly,
 
 \begin{figure}[h!]
     \begin{center}
-        \includegraphics[width=0.9\linewidth]{SFDeoptimisation}
+        \includegraphics[width=0.85\linewidth]{SFDeoptimisation}
         \caption{Stack frame deoptimisation in two steps}
         \label{fig:SFDeoptimisation}
     \end{center}

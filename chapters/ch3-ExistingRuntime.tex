@@ -17,35 +17,79 @@
 \minitoc
 
 %global intro
-This chapter describes the Smalltalk dialect Pharo and part of its implementation. The Sista architecture was originally designed to improve the performance of the Pharo VM by adding speculative optimisations. Some existing features and implementation details already present in Pharo impacted several design decisions. They are detailled in this chapter to help the reader understanding the design decisions explained in further chapters. The chapter is not meant to explain the whole existing implementation, but only the most relevant points for the thesis. 
+This chapter describes the Smalltalk dialect Pharo~\cite{Blac09a} and part of its implementation. The Sista architecture was originally designed to improve the performance of the Pharo VM by adding speculative optimisations. Some existing features and implementation details already present in Pharo impacted design decisions. They are detailled in this chapter to help the reader understanding the design decisions explained in further chapters. The chapter is not meant to explain the whole existing implementation, but only the most relevant points for the thesis. 
 
-Pharo is an object-oriented language. Everything is an object, including classes or bytecoded versions of methods. It is dynamically-typed and every call is a virtual call. The virtual machine relies on a bytecode interpreter and a baseline JIT to gain performance. Modern Smalltalks directly inherit from Smalltalk-80~\cite{Gold83a} but have evolved during the past 35 years. For example, real closures and exceptions were added.
+Pharo is a oure object-oriented language. Everything is an object, including green threads, classes, method dictionaries or virtual functions. It is dynamically-typed and every call is a virtual call. The virtual machine relies on a virtual function interpreter and Cogit as a baseline JIT to gain performance. Pharo directly inherits from Smalltalk-80~\cite{Gold83a} but have evolved during the past 35 years with the introduction of new feautes such as real closures, exceptions or continuations.
 
-The chapter successively describes the Pharo programming language, the interface with its VM and some aspects of the VM implementation.
+The chapter successively describes some aspects of the Pharo VM, the interface with the language and the Pharo programming language.
 
-\section{Pharo programming language}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-This section details three main aspects of the programming language: native thread management, stack frame reification and snapshots.
+\section{Virtual machine}
 
-\paragraph{Native threads management.}
+The Pharo VM is a flavor of the Cog VM~\cite{Mira08a}. It relies on a v-function interpreter and Cogit as a baseline JIT to gain performance.
 
-Pharo features a global interpreter lock, similarly to python. Only calls to external libraries through the foreign function interface and specific virtual machine extensions have access to the other native threads. All the different virtual machine tasks, such as bytecode interpretation, machine code execution, just-in-time compilation or garbage collection are not done concurrently. This has a impact on design decisions because several other VMs implement the optimising JIT in concurrent native threads to the application (CITE). As Scorch is written in Pharo, the optimisation of v-functions and the application optimised are running in the same native thread.
+\paragraph{Executable generation.}
+Most of the existing VM, inheriting from the original Squeak VM~\cite{Inga97a}, is written in Slang, a subset of Smalltalk. Slang is compiled to C and then to native code through standard C compilers. The execution engine (the memory manager, the interpreter and the baseline JIT) are entirely written in Slang.
 
-%TODO, closures and NLR?
+In addition to providing some abstractions over machine-specific-details, the slang code has two main advantages over plain C:
+\begin{itemize}
+	\item \emph{Specifying inlining and code duplication:} To keep the interpreter code efficient, one has to be very careful on what code is inlined in the main interpreter loop and what code is not. In addition, for performance, specific code may need to be duplicated. For example, the interpreter code to push a temporary variable on stack is duplicated 17 times. The 16 first versions are dedicated versions for temporary numbers 0 to 15, the most common cases, and are more efficient because of the use of constants. The 17th version is the generic version, which could be used on any temporary variable but is used in practice for temporary variable 17 and over. Slang allows to annotate functions to direct Slang to C compilation, by duplicating or inlining specific functions. This feature is very important for uncommon processors where available C compilers are often not as good at optimising C code and Cogit is not available (because it does not implement the corresponding assembly back-end).
+	\item \emph{Simulation:} As Slang is a subset of Smalltalk, it can be executed as normal Smalltalk code. This is used to simulate the interpreter and garbage collector behavior. The JIT runtime is simulated using both Slang execution and external processor simulators. Simulation is very convenient to debug the VM as all the Smalltalk debugging tools are available. In addition, the simulator state can be saved and duplicated, which is very convenient to reproduce quickly and many times the same bug happing from this specific runtime state.
+\end{itemize}
+
+The executable is generated in two steps as shown on figure \ref{VMCompilation}. The first step is to generate the two C files representing the whole execution engine written in Slang using the Slang-to-C compiler. During the second step, a C compiler is called to compile the execution engine and the platform-specific code written directly in C to the executable VM.
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.45\linewidth]{VMCompilation}
+        \caption{VM executable generation}
+        \label{fig:VMCompilation}
+    \end{center}
+\end{figure}
+
+\paragraph{Baseline JIT.}
+Cogit is currently used as the baseline JIT. It takes a v-function as input, generates a n-function and installs it. Cogit performs three main kind of optimisations:
+\begin{enumerate}
+	\item \emph{Stack-to-register mapping:} As the v-functions are encoded using a stack-based bytecode set, values are constantly pushed and popped off the stack. To avoid this behavior, Cogit simulates the stack state during compilation. When reaching an instruction using values on stack, Cogit uses a dynamic template scheme to generate the native instructions. The simulated stack provides information such as which values are constants or already in registers. Based on this information, Cogit picks one of the available template for the instruction, use a linear scan algorithm to allocate registers that do not need to be fixed into specific concrete registers and generate the native instructions.
+	\item \emph{Inline caches:} Each virtual call is compiled to an unlinked inline cache. During execution, the inline cache is relinked to a monomorphic, polymorphic or megamorphic inline cache~\cite{Deut84a,Holz91a} when new receiver types are met. The inline caches improve performance but also allows, through n-function introspection, to determine which types were met for previous runs of each virtual call site.
+	\item \emph{Calling convention:} Cogit defines specific calling conventions for calls in-between n-functions. Typically, the receiver of the virtual call is always passed by register, and the arguments may or may not be passed by registers depending on how many there are. This is especially efficient to speed-up the inline cache logic and for primitive methods that have an assembly template available as they can directly use the values in registers.
+\end{enumerate}
+
+Cogit provides abstractions over the different memory managers supported by the VM (including 32-bits and 64-bits abstractions) and the different assembly back-ends. Most of the optimisations performed are platform-independent, through specific parts, such as inline cache relinking, needs to be implemented differently in each back-end. Cogit currently supports four different back-ends in production: x86, x64, ARMv6 and MIPSEL.
 
 \paragraph{Stack frame reification.}
+The current VM evolved from the VM specified in the blue book~\cite{Gold83a}. The original specification relied on a spaghetti stack: the execution stack was represented as a linked list of \emph{contexts}, a context being a v-function activation in the form of an object. Each context was represented as an object that could, as any other object, be read or written by the program. Over the years, Deutsch and Schiffman~\cite{Deut84a} changed the VM internal representation of the stack to improve performance. The new stack representation consists of a linked list of stack pages, where each stack page have stack frames next to each other, allowing to use efficient call and return instructions inside a stack page. Only uncommon calls and return, across stack pages, needs to use slower code. With the current production settings, each stack page has enough size to hold around 50 stack pages and different heuristics are used to make call and return across stack pages even more uncommon. However, the VM still provides the ability for the Smalltalk developer to read and write the reified stack as if it was a linked list of contexts according to the original specification. To do so, the stack is reified as a linked list of contexts on demand. Figure \ref{fig:StackRepresentation} shows the reified stack and the concrete stack. In the figure, stack pages hold around 5 stack frames to make it easier to read, but in practice stack pages holding less than 40 frames induce considerable overhead.
 
-The current VM evolved from the VM specified in the blue book~\cite{Gold83a}. The original specification relied on a spaghetti stack: the execution stack was represented as a linked list of v-function activations. Each v-function activation was represented as an object that could be read or written by the program. Over the years, Deutsch and Schiffman~\cite{Deut84a} changed the representation of the stack in the VM to use an execution stack similar to the one used in other programming languages, where stack frames are next to each other on a single stack. However, the VM still provides the ability to the programmer to read and write reified stack frames as if they where objects. To do so, each stack frame is reified as an object on demand. 
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.9\linewidth]{StackRepresentation}
+        \caption{Stack representations}
+        \label{fig:StackRepresentation}
+    \end{center}
+\end{figure}
 
-The reification of a stack frame abstracts away from the low-level details, a reified stack frame accessed from the language always looks like it is a v-function activation. A reified frame is exactly the same if the VM is started with the interpreter only or with the hybrid interpreter plus baseline JIT runtime. Conceptually, for the Smalltalk developer, Smalltalk code is interpreted and the reified frame always look like so. In fact, it is possible that some developers manipulate the stack without even knowing that there are n-frame or v-frame in practice in the VM.
+The reification of the stack is used in three main places: the debugger, exceptions and continuations. For the two latter, they are implemented in Smalltalk on top of the stack reification, without any special VM support. In the Sista architecture, Scorch can use this feature from Smalltalk to instrospect and edit the stack.
 
-The reification of the stack frames is used in three main places: the debugger, exceptions and continuations. For the two latter, they are implemented in Smalltalk on top of the stack frame reification, without any special VM support. In the Sista architecture, as Scorch is written in Pharo, it can use this feature to instrospect or modify the stack.
+Contexts abstract away from low-level details. A context is exactly the same if the VM is started with the interpreter only or with the hybrid interpreter plus baseline JIT runtime. Conceptually, for the Smalltalk developer, the code is interpreted and the contexts always look like so. The VM is responsible to intercept read and writes to contexts to read and write concrete v-frames and n-frames.
 
-\paragraph{Snapshots.}
+In the thesis, we will suppose that a context is the same thing as a v-frame. In practice, there are three differences:
+\begin{enumerate}
+	\item A context is an object while a v-frame use a low-level representation compliant with the stack.
+	\item V-frames have to care about some low-level details, such as calls and returns from v-frames to n-frames and n-frames to v-frames, or the access to the v-function arguments by reading values in the outer frames. 
+	\item Contexts have a reference to the caller, as conceptually there is a linked list of contexts, while v-frames are below the caller.
+\end{enumerate}
+However, both v-frames and contexts use the virtual instruction pointer and never the native instruction pointer and both refer to the v-function and never to the n-function. Both representations abstract away from machine-specific state and all the values used by the execution are always on stack and never in registers.
 
-A snapshot~\footnote{Smalltalk developers use the term \emph{image} instead of snapshot.} is a sequence of bytes that represents a serialized form of all the objects present at a precise moment in the runtime. As everything is an object in Smalltalk, including green threads, the virtual machine can, at start-up, load all the objects from a snapshot and resume the execution based on the active green thread precised by the snapshot. In fact, this is the normal way of launching a Smalltalk runtime. 
+To read and write contexts, the VM intercepts all the accesses to the context objects. Contexts can be in two forms. They can be "married" to a v-frame or n-frame, in which case they act as proxies to the frame. Alternatively, they can be "single" (for example when instantiated from Smalltalk), which means there is no stack frame on stack representing the context and they act like normal objects. Upon activatio,n the VM lazily recreates a v-frame for a single context to execute it. Returns to single contexts are necessarily across stack page boundaries, hence the overhead to test if the caller is a context on heap or a stack frame on stack is required only in the uncommon case of return across stack pages.
 
-One interesting problem in snapshots is how to save the execution stack, \ie the green threads. It possible in the existing VM to convert reify each stack frame into an object. To perform a snapshot, each stack frame is reified and only objects are saved in the snapshot. When the snapshot is restarted, the VM recreates a stack frame for each reified frame lazily. As discussed in the previous paragraph, all reified frames are in virtual state. In any case, snapshots cannot save n-frames because they are platform-independent. In the Pharo VM for example, a snapshot can be taken on a laptop using a x86 processor and restarted on a raspberry pie using a ARMv6 processor.
+Aggressive stack manipulation (instruction pointer modification, caller modification) may lead the VM to crash. The program performing such operations needs to guarantee it won't happen, this is not the VM responsibility. Such operations can require a married context to "divorce" the frame, killing the frame in the process. Upon divorce, the stack page is split in two parts and one part if copied to another stack page. One stack page returns to the single divorced context while the context returns to the other stack page.
+
+%Divorce figure
+FIGURE DIVORCE.
+
+Marriage and divorces between stack frames and contexts are not specific to aggressive stack manipulations, they are also used for other features such as snapshots or stack page overflow. Indeed, there's a limited number of stack pages (currently 50 in production environments), so when a stack page is required and none is available the VM marries then divorces all frames on the least recently used stack page to persist the page in the form of single contexts and re-use the stack page for other stack frames. 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -53,8 +97,8 @@ One interesting problem in snapshots is how to save the execution stack, \ie the
 
 Pharo interfaces with its VM in two different ways:
 \begin{enumerate}
-	\item Pharo can instantiate v-functions and install them so the VM can execute them.
-	\item A small list of objects is registered in the VM so the VM can access them directly.
+	\item Pharo can instantiate v-functions and install them for execution.
+	\item A small list of objects is registered in the VM for direct access.
 \end{enumerate}
 
 \paragraph{Virtual function representation.}
@@ -69,7 +113,7 @@ As everything is an object in Pharo, virtual functions are objects. A v-function
     \end{center}
 \end{figure}
 
-The bytecode set is stack-based. This means that most operations are pushing and popping values of the stack. All the operations are untyped and work with any object. One of the main instruction is the virtual call instruction, popping the receiver and arguments from the stack and pushing back the result. The bytecode set also includes conditional and unconditional branches to encode condition and loops, as well as specific bytecodes to create efficiently closures.
+The bytecode set is stack-based. Most operations are pushing and popping values of the stack. All the operations are untyped and work with any object. One of the main instruction is the virtual call instruction, popping the receiver and arguments from the stack and pushing back the result. The bytecode set also includes conditional and unconditional branches to encode conditions and loops, as well as specific bytecodes to create efficiently closures.
 
 
 %Move to interface section I believe.
@@ -106,58 +150,44 @@ The bytecode set is stack-based. This means that most operations are pushing and
 
 \subparagraph{Virtual function installation.}
 
-Classes and method dictionaries are normal objects in Pharo. Hence, the installation of a method uses normal dictionary APIs, inserted the selector and the method. Method dictionaries, upon modification, request the VM to flush look-up caches for the installed selector. As Pharo is dynamically typed and through uncommon behavior such as aggressive stack modification (modification of the receiver of the current frame) or primitives any method can be called by any object, flushing all the methods matching the selector is easier to implement and safer. Closure' functions are installed inside the method they are created in when the method is created, as a literal. Changing the literal (hence the closure's function) is normally not done in the current runtime.
+Classes and method dictionaries are normal objects in Pharo. Hence, the installation of a method uses the normal dictionary API, inserting the selector as the key and the method as a value. Method dictionaries, upon modification, request the VM to flush look-up caches for the installed selector. As Pharo is dynamically typed and through uncommon behavior (stack frame modification, exotic primitives) any method can be called by any object, flushing all the methods matching the selector is easier to implement and safer. Closure's functions are installed inside the method that instantiate them as a literal. Changing the literal (hence the closure's function) is normally not done in the current runtime.
 
 \subparagraph{Primitive methods.}
 
-Virtual methods can be annotated with a primitive number at creation time. A primitive method can be executed through a virtual call, like any other method, but upon activation a low-level function (either a Slang function or the native code generated from an assembly code template, depending on the current state of the runtime) is executed. The low-level code can fail if the receiver and arguments of the primitive method does not meet specific constraints. 
+Virtual methods can be annotated with a primitive number at creation time. A primitive method can be executed through a virtual call, like any other method, but upon activation a low-level function (either a Slang function or the native code generated from an assembly code template, depending on the current state of the runtime) is executed. The low-level code can fail if the receiver and arguments of the primitive method do not meet specific constraints. 
 
 Although primitive methods can be used for performance, most of them provides essential features that could not be implemented otherwise. For example, the addition between two integers is implemented as a primitive, forwarding the operation to the processor's implementation of the addition.
 
-Smalltalk features its set of exotic primitives, non present in most other programming languages. The best example is \ct{become:}, a primitive which swaps the references of two objects. If \ct{a become: b}, then all references to \ct{a} now refer to \ct{b}, and all the references to \ct{b} now refer to \ct{a}. This primitive is implemented efficiently based on Smalltalk specific strategies~\cite{Mir15a}.
+Smalltalk features its set of exotic primitives, non present in most other programming languages. A notable example is \ct{become:}, a primitive which swaps the references of two objects. If \ct{a become: b}, then all references to \ct{a} now refer to \ct{b}, and all the references to \ct{b} now refer to \ct{a}. This primitive is implemented efficiently based on specific strategies~\cite{Mir15a}.
 
-The Sista architecture required the addition of a primitive method, detailled later in the thesis, and was using at some point exotic primitives such as \ct{become:}, until a better solution was found.
+The Sista architecture required the addition of a primitive method, detailled later in the thesis. In addition, the architecture used at some point exotic primitives such as \ct{become:} until a better solution was found.
 
-\paragraph{Registered objects.} An array of registered objects can be accessed in the Pharo runtime. This array contains multiple objects that need to be accessed by the VM, for example the objects \ct{nil, true} and \ct{false}. Any new object can be registered in the array, which can be requested to grow. 
+\paragraph{Registered objects.} An array of registered objects~\footnote{Smalltalk developers use the term special object array for this array} can be accessed in the Pharo runtime. This array contains multiple objects that need to be accessed directly by the VM, for example the objects \ct{nil, true} and \ct{false}. Any new object can be registered in the array and the array can grow on demand.
 
 Among registered objects are specific selectors. For example, the \ct{\#doesNotUnderstand:} selector is registered. When a look-up performed by the VM does not find any method to activate (the selector is not implemented for the given receiver), the VM instead performs a virtual call, using the same receiver, the registered \ct{\#doesNotUnderstand:} selector and reifies the virtual call as an object (which class is also registered) containing the original selector, the arguments and the look-up class in case of a super send. This strategy of registering a selector and using it in specific case to activate Smalltalk code is used in the Sista architecture to activate Scorch from the VM.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Virtual machine}
+\section{Pharo programming language}
 
-The Pharo VM is a flavor of the Cog VM~\cite{Mira08a}. It relies on a v-function interpreter and Cogit to gain performance.
+This section details two main aspects of the programming language: native thread management and snapshots.
 
-\subsection{Executable generation}
+\paragraph{Native threads management.}
 
-Most of the existing VM, inheriting from the original Squeak VM~\cite{Inga97a}, is written in Slang, a subset of Smalltalk. Slang is compiled to C and then to native code through standdard C compilers. The execution engine (the memory manager, the interpreter and the baseline JIT) are entirely written in Slang.
+Pharo features a global interpreter lock, similarly to python. Only calls to external libraries through the foreign function interface and specific virtual machine extensions have access to the other native threads. Smalltalk execution, including bytecode interpretation, machine code execution, just-in-time compilation and garbage collection are not done concurrently. 
 
-The slang code has two main advantages over plain C:
-\begin{itemize}
-	\item \emph{Specifying inlining and code duplication:} To keep the interpreter code efficient, one has to be very careful on what code is inlined in the main interpreter loop and what code is not. In addition, for performance, specific code may need to be duplicated. For example, the interpreter code to push a temporary variable on stack is duplicated 17 times, the 16 first versions are dedicated versions for temporary numbers 0 to 15, the most common cases, more efficient because of constant usage, and the 17th version is the generic version. Slang allows to annotate functions to direct Slang to C compilation, by duplicating or inlining specific functions. This feature is very important for uncommon processors where available C compilers are often less efficient to optimise C code.
-	\item \emph{Simulation:} As Slang is a subset of Smalltalk, it can be executed as normal Smalltalk code. This is used to simulate the interpreter and garbage collector behavior. The JIT runtime is simulated using both Slang execution and external processor simulators. Simulation is very convenient to debug the VM as all the Smalltalk debugging tools are available. In addition, the simulator state can be saved and duplicated, which is very convenient to debug non deterministic garbage collection bugs.
-\end{itemize}
+Being single-threaded has a impact on design decisions because several other VMs implement the optimising JIT in concurrent native threads to the application (CITE Adaptive Optimization in the Jalapeno JVM: The Controller's Analytical Model or maybe somethign with truffle graal). As Scorch is written in Pharo, the optimisation of v-functions and the application optimised are running in the same native thread.
 
-The executable is generated in two steps. The first steps is to generate using the Slang-to-C compiler the two C files representing the whole execution engine written in Slang. Then, a C compiler is called and compiles the execution engine and additional C files (mostly the OS-specific code is written in C) to the executable VM.
+%TODO, closures and NLR?
 
-\subsection{Baseline JIT}
+\paragraph{Snapshots.}
 
-Cogit is currently used as the baseline JIT. It takes a v-function as input, generates a n-function and installs it. Cogit performs three main kind of optimisations:
-\begin{enumerate}
-	\item \emph{Stack-to-register mapping:} As the v-functions are encoded using a stack-based bytecode set, values are constantly pushed and popped off the stack. To avoid this behavior, Cogit simulates the stack state during compilation. When reaching an instruction using values on stack, Cogit uses a dynamic template scheme to generate the native instructions. The simulated stack provides information such as which values are constants or already in registers. Based on this information, Cogit picks one of the available template for the instruction, use a linear scan algorithm to allocate registers that do not need to be fixed into a specific concrete register, and generate the native instructions.
-	\item \emph{Inline caches:} Each virtual call is compiled to an unlinked inline cache. During execution, the inline cache is relinked to a monomorphic, polymorphic or megamorphic inline cache~\cite{Deut84a,Holz91a} when new receiver types are met. The inline caches improve performance but also allows, through n-function introspection, to determine which type is met for each virtual call site.
-	\item \emph{Calling convention:} Cogit defines specific calling conventions for calls in-between n-functions. Typically, the receiver of the virtual call is always passed by register, and the arguments may or may not be passed by registers depending on how many there are. This is especially efficient to speed-up the inline cache logic and for primitive methods that have an assembly template available as they can directly use the values in registers.
-\end{enumerate}
+In the context of Smalltalk, a snapshot~\footnote{Smalltalk developers use the term \emph{image} instead of snapshot.} is a sequence of bytes that represents a serialized form of all the objects present at a precise moment in the runtime. As everything is an object in Smalltalk, including green threads, the virtual machine can, at start-up, load all the objects from a snapshot and resume the execution based on the green thread that was active at snapshot time. In fact, this is the normal way of launching a Smalltalk runtime. 
 
-Cogit provides abstractions over the different memory managers supported by the VM (including 32-bits and 64-bits abstractions) and the different assembly back-ends. Most of the optimisations performed are platform-independent, through specific parts, such as inline cache relinking, needs to be implemented differently in each back-end. Cogit currently supports four different back-ends in production: x86, x64, ARMv6 and MIPSEL.
+One interesting problem in snapshots is how to save the execution stack, \ie the green threads. To perform a snapshot, each stack frame is reified into an object and only objects are saved in the snapshot. When the snapshot is restarted, the VM recreates a stack frame for each reified frame lazily. 
 
-\subsection{Stack frame reification}
+In any case, snapshots cannot save n-frames because they are platform-independent. In the Pharo VM for example, a snapshot can be taken on a laptop using a x86 processor and restarted on a raspberry pie using a ARMv6 processor.
 
-The VM intercepts all accesses to reified stack frames. The reified stack frame can be single, for example when created from Smalltalk and not by the VM, in which case it is a normal object and returning execution to it requires the VM to create a v-frame and marry it with the reified stack frame. In most cases, the reified stack frame is married and all accessed to it are intercepted, the VM then maps all the read and write operations to the current representation of the married frame (which is either a v-frame or a n-frame). Specific writes, typically the modification of the virtual instruction pointer or the caller, requires the frame to be divorced. The reified stack frame then becomes single, as if it was created from the Smalltalk, and returning execution to it requires the VM to create a v-frame and marry it. This kind of writes are unsafe and the Smalltalk program performing such operations needs to guarantee the operations won't lead to a crash, this is not the VM responsibility. 
-
-Stack transformation (such as divorces) are handled by abusing stack page management. The stack is managed by the VM using multiple stack pages containing each between 40 and 60 frames on average. The VM uses different heuristic to ensure calls and returns across stack pages are uncommon in normal execution, as they are more expensive. Stack transformation usually split a stack page in two on the stack frame to modify, copying the lower part on another stack page. Returns across stack pages perform multiple checks, for example, returning to a single reified stack frame requires the creation of a v-frame and to marry them together.
-
-%Maybe some figures, but which ones.
 
 \ifx\wholebook\relax\else
     \end{document}
