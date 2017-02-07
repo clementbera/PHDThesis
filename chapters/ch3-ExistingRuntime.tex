@@ -19,7 +19,7 @@
 %global intro
 This chapter describes the Smalltalk dialect Pharo~\cite{Blac09a} and part of its implementation. The Sista architecture was originally designed to improve the performance of the Pharo VM by adding speculative optimisations. Some existing features and implementation details already present in Pharo impacted design decisions. They are detailled in this chapter to help the reader understanding the design decisions explained in further chapters. The chapter is not meant to explain the whole existing implementation, but only the most relevant points for the thesis. 
 
-Pharo is a oure object-oriented language. Everything is an object, including green threads, classes, method dictionaries or virtual functions. It is dynamically-typed and every call is a virtual call. The virtual machine relies on a virtual function interpreter and Cogit as a baseline JIT to gain performance. Pharo directly inherits from Smalltalk-80~\cite{Gold83a} but have evolved during the past 35 years with the introduction of new feautes such as real closures, exceptions or continuations.
+Pharo is a pure object-oriented language. Everything is an object, including green threads, classes, method dictionaries or virtual functions. It is dynamically-typed and every call is a virtual call. The virtual machine relies on a virtual function interpreter and Cogit as a baseline JIT to gain performance. Pharo directly inherits from Smalltalk-80~\cite{Gold83a} but has additionnal features such as real closures, exceptions or continuations.
 
 The chapter successively describes some aspects of the Pharo VM, the interface with the language and the Pharo programming language.
 
@@ -34,11 +34,11 @@ Most of the existing VM, inheriting from the original Squeak VM~\cite{Inga97a}, 
 
 In addition to providing some abstractions over machine-specific-details, the slang code has two main advantages over plain C:
 \begin{itemize}
-	\item \emph{Specifying inlining and code duplication:} To keep the interpreter code efficient, one has to be very careful on what code is inlined in the main interpreter loop and what code is not. In addition, for performance, specific code may need to be duplicated. For example, the interpreter code to push a temporary variable on stack is duplicated 17 times. The 16 first versions are dedicated versions for temporary numbers 0 to 15, the most common cases, and are more efficient because of the use of constants. The 17th version is the generic version, which could be used on any temporary variable but is used in practice for temporary variable 17 and over. Slang allows to annotate functions to direct Slang to C compilation, by duplicating or inlining specific functions. This feature is very important for uncommon processors where available C compilers are often not as good at optimising C code and Cogit is not available (because it does not implement the corresponding assembly back-end).
-	\item \emph{Simulation:} As Slang is a subset of Smalltalk, it can be executed as normal Smalltalk code. This is used to simulate the interpreter and garbage collector behavior. The JIT runtime is simulated using both Slang execution and external processor simulators. Simulation is very convenient to debug the VM as all the Smalltalk debugging tools are available. In addition, the simulator state can be saved and duplicated, which is very convenient to reproduce quickly and many times the same bug happing from this specific runtime state.
+	\item \emph{Specifying inlining and code duplication:} To keep the interpreter code efficient, one has to be very careful on what code is inlined in the main interpreter loop and what code is not. In addition, for performance, specific code may need to be duplicated. For example, the interpreter code to push a temporary variable on stack is duplicated 17 times. The 16 first versions are dedicated versions for temporary numbers 0 to 15, the most common cases, and are more efficient because of the use of constants. The 17th version is the generic version, which could be used on any temporary variable but is used in practice for temporary variable 16 and over. Slang allows to annotate functions to direct Slang to C compilation, by duplicating or inlining specific functions. This feature is very important for uncommon processors where available C compilers are often not as good at optimising C code as on mainstream processors.
+	\item \emph{Simulation:} As Slang is a subset of Smalltalk, it can be executed as normal Smalltalk code. This is used to simulate the interpreter and garbage collector behavior. The JIT runtime is simulated using both Slang execution and external processor simulators. Simulation is very convenient to debug the VM as all the Smalltalk debugging tools are available. In addition, the simulator state can be saved and duplicated, which is very convenient to reproduce quickly and many times the same bug happing from a specific runtime state.
 \end{itemize}
 
-The executable is generated in two steps as shown on figure \ref{VMCompilation}. The first step is to generate the two C files representing the whole execution engine written in Slang using the Slang-to-C compiler. During the second step, a C compiler is called to compile the execution engine and the platform-specific code written directly in C to the executable VM.
+The executable is generated in two steps as shown on figure \ref{fig:VMCompilation}. The first step is to generate the two C files representing the whole execution engine written in Slang using the Slang-to-C compiler. During the second step, a C compiler is called to compile the execution engine and the platform-specific code written directly in C to the executable VM.
 
 \begin{figure}[h!]
     \begin{center}
@@ -52,43 +52,61 @@ The executable is generated in two steps as shown on figure \ref{VMCompilation}.
 Cogit is currently used as the baseline JIT. It takes a v-function as input, generates a n-function and installs it. Cogit performs three main kind of optimisations:
 \begin{enumerate}
 	\item \emph{Stack-to-register mapping:} As the v-functions are encoded using a stack-based bytecode set, values are constantly pushed and popped off the stack. To avoid this behavior, Cogit simulates the stack state during compilation. When reaching an instruction using values on stack, Cogit uses a dynamic template scheme to generate the native instructions. The simulated stack provides information such as which values are constants or already in registers. Based on this information, Cogit picks one of the available template for the instruction, use a linear scan algorithm to allocate registers that do not need to be fixed into specific concrete registers and generate the native instructions.
-	\item \emph{Inline caches:} Each virtual call is compiled to an unlinked inline cache. During execution, the inline cache is relinked to a monomorphic, polymorphic or megamorphic inline cache~\cite{Deut84a,Holz91a} when new receiver types are met. The inline caches improve performance but also allows, through n-function introspection, to determine which types were met for previous runs of each virtual call site.
+	\item \emph{Inline caches:} Each virtual call is compiled to an unlinked inline cache. During execution, the inline cache is relinked to a monomorphic, polymorphic or megamorphic inline cache~\cite{Deut84a,Holz91a} when new receiver types are met. The inline caches improve performance but also allows, through n-function introspection, to determine which types were met during previous runs of each virtual call site.
 	\item \emph{Calling convention:} Cogit defines specific calling conventions for calls in-between n-functions. Typically, the receiver of the virtual call is always passed by register, and the arguments may or may not be passed by registers depending on how many there are. This is especially efficient to speed-up the inline cache logic and for primitive methods that have an assembly template available as they can directly use the values in registers.
 \end{enumerate}
 
 Cogit provides abstractions over the different memory managers supported by the VM (including 32-bits and 64-bits abstractions) and the different assembly back-ends. Most of the optimisations performed are platform-independent, through specific parts, such as inline cache relinking, needs to be implemented differently in each back-end. Cogit currently supports four different back-ends in production: x86, x64, ARMv6 and MIPSEL.
 
 \paragraph{Stack frame reification.}
-The current VM evolved from the VM specified in the blue book~\cite{Gold83a}. The original specification relied on a spaghetti stack: the execution stack was represented as a linked list of \emph{contexts}, a context being a v-function activation in the form of an object. Each context was represented as an object that could, as any other object, be read or written by the program. Over the years, Deutsch and Schiffman~\cite{Deut84a} changed the VM internal representation of the stack to improve performance. The new stack representation consists of a linked list of stack pages, where each stack page have stack frames next to each other, allowing to use efficient call and return instructions inside a stack page. Only uncommon calls and return, across stack pages, needs to use slower code. With the current production settings, each stack page has enough size to hold around 50 stack pages and different heuristics are used to make call and return across stack pages even more uncommon. However, the VM still provides the ability for the Smalltalk developer to read and write the reified stack as if it was a linked list of contexts according to the original specification. To do so, the stack is reified as a linked list of contexts on demand. Figure \ref{fig:StackRepresentation} shows the reified stack and the concrete stack. In the figure, stack pages hold around 5 stack frames to make it easier to read, but in practice stack pages holding less than 40 frames induce considerable overhead.
+The current VM evolved from the VM specified in the blue book~\cite{Gold83a}. The original specification relied on a spaghetti stack: the execution stack was represented as a linked list of \emph{contexts}, a context being a v-function activation in the form of an object. Each context was represented as an object that could, as any other object, be read or written by the program. 
+
+Over the years, Deutsch and Schiffman~\cite{Deut84a} changed the VM internal representation of the stack to improve performance. The new stack representation consists of a linked list of stack pages, where each stack page have stack frames next to each other. Most calls and returns, inside a stack page, can use efficient call and return instructions. Only uncommon calls and returns, across stack pages, need to use slower code. With the current production settings, each stack page has enough size to hold around 50 stack frames and different heuristics are used to make calls and returns across stack pages as uncommon as possible. Figure \ref{fig:StackRepresentation} shows the representation of the stack. In the figure, stack pages hold around 5 stack frames to make it easier to read, but in practice stack pages holding less than 40 frames induce considerable overhead.
 
 \begin{figure}[h!]
     \begin{center}
-        \includegraphics[width=0.9\linewidth]{StackRepresentation}
-        \caption{Stack representations}
+        \includegraphics[width=0.52\linewidth]{StackRepresentation}
+        \caption{Stack representation}
         \label{fig:StackRepresentation}
     \end{center}
 \end{figure}
+
+The VM however still provides the ability for the Smalltalk developer to read and write the reified stack as if it was a linked list of contexts according to the original specification. To do so, the stack is reified as a linked list of contexts on demand. 
 
 The reification of the stack is used in three main places: the debugger, exceptions and continuations. For the two latter, they are implemented in Smalltalk on top of the stack reification, without any special VM support. In the Sista architecture, Scorch can use this feature from Smalltalk to instrospect and edit the stack.
 
 Contexts abstract away from low-level details. A context is exactly the same if the VM is started with the interpreter only or with the hybrid interpreter plus baseline JIT runtime. Conceptually, for the Smalltalk developer, the code is interpreted and the contexts always look like so. The VM is responsible to intercept read and writes to contexts to read and write concrete v-frames and n-frames.
 
-In the thesis, we will suppose that a context is the same thing as a v-frame. In practice, there are three differences:
+In the thesis, we will suppose that a context is the same thing as a v-frame as the mapping between both has no impact in the design and brings no interesting additionnal concepts or side-effects. In practice, there are three differences:
 \begin{enumerate}
 	\item A context is an object while a v-frame use a low-level representation compliant with the stack.
-	\item V-frames have to care about some low-level details, such as calls and returns from v-frames to n-frames and n-frames to v-frames, or the access to the v-function arguments by reading values in the outer frames. 
-	\item Contexts have a reference to the caller, as conceptually there is a linked list of contexts, while v-frames are below the caller.
+	\item V-frames have to care about some low-level details, such as calls and returns from v-frames to n-frames and n-frames to v-frames, or the access to the v-function arguments by reading values in the caller frame. 
+	\item Contexts have a reference to the caller, as conceptually there is a linked list of contexts, while v-frames are below the caller on stack.
 \end{enumerate}
-However, both v-frames and contexts use the virtual instruction pointer and never the native instruction pointer and both refer to the v-function and never to the n-function. Both representations abstract away from machine-specific state and all the values used by the execution are always on stack and never in registers.
+However, both v-frames and contexts use the virtual instruction pointer and never the native instruction pointer and both refer to the v-function and never to the n-function. Both representations abstract away from machine-specific state as all the values used by the execution are always on stack and never in registers.
 
-To read and write contexts, the VM intercepts all the accesses to the context objects. Contexts can be in two forms. They can be "married" to a v-frame or n-frame, in which case they act as proxies to the frame. Alternatively, they can be "single" (for example when instantiated from Smalltalk), which means there is no stack frame on stack representing the context and they act like normal objects. Upon activatio,n the VM lazily recreates a v-frame for a single context to execute it. Returns to single contexts are necessarily across stack page boundaries, hence the overhead to test if the caller is a context on heap or a stack frame on stack is required only in the uncommon case of return across stack pages.
+To read and write contexts, the VM intercepts all the accesses to the context objects. To do so, contexts can be in two forms. They can be "married" to a v-frame or n-frame, in which case they act as proxies to the frame. The VM then maps reads and writes to read and write the correct field in the frame representation. Alternatively, they can be "single" (for example when instantiated from Smalltalk), which means there is no stack frame on stack representing the context. In this case, the VM can modify the context as a normal object. Upon activation, the VM lazily recreates a v-frame for a single context to execute it. Returns to single contexts are necessarily across stack page boundaries, hence the overhead to test if the caller is a context on heap or a stack frame on stack is required only in the uncommon case of return across stack pages. 
 
-Aggressive stack manipulation (instruction pointer modification, caller modification) may lead the VM to crash. The program performing such operations needs to guarantee it won't happen, this is not the VM responsibility. Such operations can require a married context to "divorce" the frame, killing the frame in the process. Upon divorce, the stack page is split in two parts and one part if copied to another stack page. One stack page returns to the single divorced context while the context returns to the other stack page.
+Aggressive stack manipulation (instruction pointer modification, caller modification) may lead the VM to crash. The program performing such operations needs to guarantee it won't happen, this is not the VM responsibility. In addition, such operations can require a married context to "divorce" the frame, killing the frame in the process. Upon divorce, the stack page is split in two parts and one part if copied to another stack page. One stack page returns to the single divorced context while the context returns to the other stack page, as shown on figure \ref{fig:Divorce}. In normal execution the stack is composed exclusively of stack pages, but after stack manipulation from Smalltalk, the stack can be a linkedlist of stack pages and contexts. 
+%as shown on figure \ref{fig:StackRepresentation2}.
 
-%Divorce figure
-FIGURE DIVORCE.
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.55\linewidth]{Divorce}
+        \caption{Stack frame divorce}
+        \label{fig:Divorce}
+    \end{center}
+\end{figure}
 
-Marriage and divorces between stack frames and contexts are not specific to aggressive stack manipulations, they are also used for other features such as snapshots or stack page overflow. Indeed, there's a limited number of stack pages (currently 50 in production environments), so when a stack page is required and none is available the VM marries then divorces all frames on the least recently used stack page to persist the page in the form of single contexts and re-use the stack page for other stack frames. 
+%\begin{figure}[h!]
+%    \begin{center}
+%        \includegraphics[width=0.7\linewidth]{StackRepresentation2}
+%        \caption{Stack representation after stack manipulation}
+%        \label{fig:StackRepresentation2}
+%    \end{center}
+%\end{figure}
+
+Marriage and divorces between stack frames and contexts are not specific to aggressive stack manipulations. They are also used for other features such as snapshots and stack page overflow. In the latter case, as there is a limited number of stack pages (currently 50 in production environments), when a stack page is required and none is available, the VM needs to free a page. To do so, the VM marries then divorces all frames on the least recently used stack page to persist the page in the form of single contexts and re-use the stack page for the execution of new code. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -107,7 +125,7 @@ As everything is an object in Pharo, virtual functions are objects. A v-function
 
 \begin{figure}[h!]
     \begin{center}
-        \includegraphics[width=0.4\linewidth]{CompiledCode}
+        \includegraphics[width=0.38\linewidth]{CompiledCode}
         \caption{Virtual function representation}
         \label{fig:CompiledCode}
     \end{center}
@@ -184,7 +202,7 @@ Being single-threaded has a impact on design decisions because several other VMs
 
 In the context of Smalltalk, a snapshot~\footnote{Smalltalk developers use the term \emph{image} instead of snapshot.} is a sequence of bytes that represents a serialized form of all the objects present at a precise moment in the runtime. As everything is an object in Smalltalk, including green threads, the virtual machine can, at start-up, load all the objects from a snapshot and resume the execution based on the green thread that was active at snapshot time. In fact, this is the normal way of launching a Smalltalk runtime. 
 
-One interesting problem in snapshots is how to save the execution stack, \ie the green threads. To perform a snapshot, each stack frame is reified into an object and only objects are saved in the snapshot. When the snapshot is restarted, the VM recreates a stack frame for each reified frame lazily. 
+One interesting problem in snapshots is how to save the execution stack, \ie the green threads. To perform a snapshot, each stack frame is reified into a context and only objects are saved in the snapshot. When the snapshot is restarted, the VM recreates a stack frame for each context lazily. 
 
 In any case, snapshots cannot save n-frames because they are platform-independent. In the Pharo VM for example, a snapshot can be taken on a laptop using a x86 processor and restarted on a raspberry pie using a ARMv6 processor.
 

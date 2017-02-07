@@ -26,7 +26,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2017-02-04 13:43:47 +0000</string>
+	<string>2017-02-07 10:16:51 +0000</string>
 	<key>Modifier</key>
 	<string>Clement Bera</string>
 	<key>NotesVisible</key>
@@ -92,6 +92,20 @@
 				<integer>2</integer>
 				<key>Style</key>
 				<dict>
+					<key>fill</key>
+					<dict>
+						<key>Color</key>
+						<dict>
+							<key>a</key>
+							<string>0</string>
+							<key>b</key>
+							<string>0.911552</string>
+							<key>g</key>
+							<string>0.911552</string>
+							<key>r</key>
+							<string>0.911552</string>
+						</dict>
+					</dict>
 					<key>shadow</key>
 					<dict>
 						<key>Draws</key>
@@ -180,13 +194,13 @@
 							<key>Color</key>
 							<dict>
 								<key>a</key>
-								<string>0.25</string>
+								<string>0</string>
 								<key>b</key>
 								<string>1</string>
 								<key>g</key>
-								<string>0</string>
+								<string>1</string>
 								<key>r</key>
-								<string>0.501961</string>
+								<string>1</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -226,14 +240,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -273,14 +285,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -320,14 +330,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -367,14 +375,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -414,14 +420,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -461,14 +465,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -508,14 +510,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -555,14 +555,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -602,14 +600,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -649,14 +645,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -696,14 +690,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -743,14 +735,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -790,14 +780,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -837,14 +825,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -884,14 +870,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -931,14 +915,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -978,14 +960,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -1025,14 +1005,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -1072,14 +1050,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -1119,14 +1095,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -1139,6 +1113,16 @@
 							<key>Width</key>
 							<real>3</real>
 						</dict>
+					</dict>
+					<key>Text</key>
+					<dict>
+						<key>Text</key>
+						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
+\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
+
+\f0\fs24 \cf0 B}</string>
 					</dict>
 				</dict>
 				<dict>
@@ -1156,14 +1140,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -1203,14 +1185,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -1250,14 +1230,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -1297,14 +1275,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -1344,14 +1320,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -1391,14 +1365,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -1438,14 +1410,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -1485,14 +1455,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -1532,14 +1500,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -1579,14 +1545,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -1626,14 +1590,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -1673,14 +1635,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -1720,14 +1680,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -1767,14 +1725,12 @@
 						<dict>
 							<key>Color</key>
 							<dict>
-								<key>a</key>
-								<string>0.25</string>
 								<key>b</key>
-								<string>0.4</string>
+								<string>0.887042</string>
 								<key>g</key>
-								<string>0.8</string>
+								<string>0.887042</string>
 								<key>r</key>
-								<string>1</string>
+								<string>0.887042</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -1815,13 +1771,13 @@
 							<key>Color</key>
 							<dict>
 								<key>a</key>
-								<string>0.25</string>
-								<key>b</key>
 								<string>0</string>
+								<key>b</key>
+								<string>1</string>
 								<key>g</key>
 								<string>1</string>
 								<key>r</key>
-								<string>0.501961</string>
+								<string>1</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -1862,13 +1818,13 @@
 							<key>Color</key>
 							<dict>
 								<key>a</key>
-								<string>0.25</string>
-								<key>b</key>
 								<string>0</string>
+								<key>b</key>
+								<string>1</string>
 								<key>g</key>
 								<string>1</string>
 								<key>r</key>
-								<string>0.501961</string>
+								<string>1</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -1909,13 +1865,13 @@
 							<key>Color</key>
 							<dict>
 								<key>a</key>
-								<string>0.25</string>
-								<key>b</key>
 								<string>0</string>
+								<key>b</key>
+								<string>1</string>
 								<key>g</key>
 								<string>1</string>
 								<key>r</key>
-								<string>0.501961</string>
+								<string>1</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -1956,13 +1912,13 @@
 							<key>Color</key>
 							<dict>
 								<key>a</key>
-								<string>0.25</string>
-								<key>b</key>
 								<string>0</string>
+								<key>b</key>
+								<string>1</string>
 								<key>g</key>
 								<string>1</string>
 								<key>r</key>
-								<string>0.501961</string>
+								<string>1</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -2003,13 +1959,13 @@
 							<key>Color</key>
 							<dict>
 								<key>a</key>
-								<string>0.25</string>
-								<key>b</key>
 								<string>0</string>
+								<key>b</key>
+								<string>1</string>
 								<key>g</key>
 								<string>1</string>
 								<key>r</key>
-								<string>0.501961</string>
+								<string>1</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -2050,13 +2006,13 @@
 							<key>Color</key>
 							<dict>
 								<key>a</key>
-								<string>0.25</string>
+								<string>0</string>
 								<key>b</key>
-								<string>0</string>
+								<string>1</string>
 								<key>g</key>
-								<string>0.501961</string>
+								<string>1</string>
 								<key>r</key>
-								<string>0</string>
+								<string>1</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -2097,13 +2053,13 @@
 							<key>Color</key>
 							<dict>
 								<key>a</key>
-								<string>0.25</string>
+								<string>0</string>
 								<key>b</key>
 								<string>1</string>
 								<key>g</key>
-								<string>0.501961</string>
+								<string>1</string>
 								<key>r</key>
-								<string>0</string>
+								<string>1</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -2139,6 +2095,18 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.887042</string>
+								<key>g</key>
+								<string>0.887042</string>
+								<key>r</key>
+								<string>0.887042</string>
+							</dict>
+						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2157,6 +2125,18 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.887042</string>
+								<key>g</key>
+								<string>0.887042</string>
+								<key>r</key>
+								<string>0.887042</string>
+							</dict>
+						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2185,6 +2165,18 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.887042</string>
+								<key>g</key>
+								<string>0.887042</string>
+								<key>r</key>
+								<string>0.887042</string>
+							</dict>
+						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2203,6 +2195,18 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.887042</string>
+								<key>g</key>
+								<string>0.887042</string>
+								<key>r</key>
+								<string>0.887042</string>
+							</dict>
+						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2221,6 +2225,18 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.887042</string>
+								<key>g</key>
+								<string>0.887042</string>
+								<key>r</key>
+								<string>0.887042</string>
+							</dict>
+						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2239,6 +2255,18 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.887042</string>
+								<key>g</key>
+								<string>0.887042</string>
+								<key>r</key>
+								<string>0.887042</string>
+							</dict>
+						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2257,6 +2285,18 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.887042</string>
+								<key>g</key>
+								<string>0.887042</string>
+								<key>r</key>
+								<string>0.887042</string>
+							</dict>
+						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2275,6 +2315,18 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.887042</string>
+								<key>g</key>
+								<string>0.887042</string>
+								<key>r</key>
+								<string>0.887042</string>
+							</dict>
+						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2293,6 +2345,18 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.887042</string>
+								<key>g</key>
+								<string>0.887042</string>
+								<key>r</key>
+								<string>0.887042</string>
+							</dict>
+						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2311,6 +2375,18 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.887042</string>
+								<key>g</key>
+								<string>0.887042</string>
+								<key>r</key>
+								<string>0.887042</string>
+							</dict>
+						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2329,6 +2405,18 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.887042</string>
+								<key>g</key>
+								<string>0.887042</string>
+								<key>r</key>
+								<string>0.887042</string>
+							</dict>
+						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2347,6 +2435,18 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.887042</string>
+								<key>g</key>
+								<string>0.887042</string>
+								<key>r</key>
+								<string>0.887042</string>
+							</dict>
+						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2365,6 +2465,18 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.887042</string>
+								<key>g</key>
+								<string>0.887042</string>
+								<key>r</key>
+								<string>0.887042</string>
+							</dict>
+						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2393,6 +2505,18 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.887042</string>
+								<key>g</key>
+								<string>0.887042</string>
+								<key>r</key>
+								<string>0.887042</string>
+							</dict>
+						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2411,6 +2535,18 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.887042</string>
+								<key>g</key>
+								<string>0.887042</string>
+								<key>r</key>
+								<string>0.887042</string>
+							</dict>
+						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2429,6 +2565,18 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.887042</string>
+								<key>g</key>
+								<string>0.887042</string>
+								<key>r</key>
+								<string>0.887042</string>
+							</dict>
+						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -3669,7 +3817,7 @@
 			</dict>
 		</array>
 		<key>Frame</key>
-		<string>{{633, 112}, {693, 925}}</string>
+		<string>{{1118, 239}, {693, 925}}</string>
 		<key>ListView</key>
 		<true/>
 		<key>OutlineWidth</key>
