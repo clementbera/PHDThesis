@@ -76,11 +76,11 @@ The new primitive iterates over the n-function, collecting for each virtual call
 
 \subsection{Runtime optimiser and deoptimiser}
 
+During the implementation of the Sista architecture, the bulk of the work is the design and the implementation of the Scorch optimiser and deoptimiser. 
+
 TODO
 
 %Explain simple behavior.
-
-%Maybe it makes sense to say Context are the same as objects.
 
 %Doc: my blog post + sista arch
 
@@ -127,18 +127,22 @@ In addition to allowing the generation of efficient n-functions, other problems 
 
 \subsection{New bytecode set}
 
-TODO 
-
-%\cite{Bera14a}
-%New bytecode set needs to be discussed (not only extensions).
-
-
+The existing Pharo bytecode set had multiple encoding limitations~\cite{Bera14a}. For example, jumps (forward, backward and conditonnal) were able to jump over 1024 bytes at most. Such limitations are very rarely a problem while compiling normal Smalltalk code due to coding convention encouraging developers to write small functions. However, the optimised function produced by the Scorch optimiser includes many inlined functions and in some case the limitations were a problem. As the bytecode set already needed to be extended to support new operations, we designed a complete new bytecode set instead of just adding the new operations to leverage encoding limitations.
 
 \subsection{Register allocation}
 
-%Linear scan and reg alloc, plus branches
+To allocate registers, Cogit simulates the stack state during compilation. When reaching an instruction using values on stack, Cogit uses a dynamic template scheme to generate the native instructions. The simulated stack provides information such as which values are constants or already in registers. Based on this information, Cogit picks one of the available template for the instruction, use a linear scan algorithm to allocate registers that do not need to be fixed into specific concrete registers and generate the native instructions.
 
-END TODO
+The existing linear scan algorithm was very naive and limited. It was very efficient because registers are not live across certain instructions that are very common in non optimised code. Specifically, registers cannot be live across these three instructions:
+\begin{enumerate}
+	\item \emph{virtual calls:} All registers are caller-saved.
+	\item \emph{backjumps:} Backjumps are interrupt points.
+	\item \emph{Conditionnal branches:} If the branch is on a non-boolean, a slow path is taken to handle the case requiring to spill the registers.
+\end{enumerate}
+
+However, these instructions are not that common in optimised code. Most virtual calls are inlined. Some backjumps are annotated not to require an interrupt check. Lastly, some conditionnal branches are removed because one branch has never been used and other are annotated as branching on a value which is guaranteed to be a boolean. Registers can therefore stay live across many more instructions and register allocation algorithm have more impact on native code quality.
+
+We wrote a new linear scan register algorithm, performing better under register pressure. The most difficult part is to correctly keep registers live across conditional branches and merges. At each merge point, the register state has to be the same in both branches or Cogit needs to generate additional instructions to spill oor move registers.
 
 \subsection{Read-only objects}
 
@@ -150,6 +154,7 @@ Literals can now all be read-only objects by default. Any attempt to modify a re
 
 \subsection{Closure implementation}
 
+Another important problem encountered when building the Scorch optimiser was related to the implementation of closures.
 TODO
 
 %The second major issue encountered was related to the closure implementation. 
