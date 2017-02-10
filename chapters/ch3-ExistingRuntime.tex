@@ -75,7 +75,7 @@ The VM however still provides the ability for the Smalltalk developer to read an
 
 The reification of the stack is used in three main places: the debugger, exceptions and continuations. For the two latter, they are implemented in Smalltalk on top of the stack reification, without any special VM support. In the Sista architecture, Scorch can use this feature from Smalltalk to instrospect and edit the stack.
 
-Contexts abstract away from low-level details. A context is exactly the same if the VM is started with the interpreter only or with the hybrid interpreter plus baseline JIT runtime. Conceptually, for the Smalltalk developer, the code is interpreted and the contexts always look like so. The VM is responsible to intercept read and writes to contexts to read and write concrete v-frames and n-frames.
+Contexts abstract away from low-level details. A context is exactly the same if the VM is started with the interpreter only or with the hybrid interpreter plus baseline JIT runtime. Conceptually, for the Smalltalk developer, the code is interpreted and the contexts always look identical. The VM is responsible to intercept context accesses to read and write concrete v-frames and n-frames.
 
 In the thesis, we will suppose that a context is the same thing as a v-frame as the mapping between both has no impact in the design and brings no interesting additionnal concepts or side-effects. In practice, there are three differences:
 \begin{enumerate}
@@ -205,6 +205,10 @@ In the context of Smalltalk, a snapshot~\footnote{Smalltalk developers use the t
 One interesting problem in snapshots is how to save the execution stack, \ie the green threads. To perform a snapshot, each stack frame is reified into a context and only objects are saved in the snapshot. When the snapshot is restarted, the VM recreates a stack frame for each context lazily. 
 
 In any case, snapshots cannot save n-frames because they are platform-independent. In the Pharo VM for example, a snapshot can be taken on a laptop using a x86 processor and restarted on a raspberry pie using a ARMv6 processor.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Maybe conclusion summary in 1 sentence of chapter + what comes next
 
 
 \ifx\wholebook\relax\else

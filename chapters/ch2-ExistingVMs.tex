@@ -12,64 +12,62 @@
 	\begin{document}
 \fi
 
-\chapter{Mainstream and Research Virtual Machines}
+\chapter{State of the art}
 \label{chap:stateOfTheArt}
 \minitoc
 
-In this chapter, the most popular production VMs and relevant research VMs are discussed. In further chapter, the thesis' proposed architecture will be compared against those VMs. 
+Intro we are building an opt JIT + rephrase pbmatique
 
-\section{C++ virtual machines}
++ 3 research pbm rephrase
 
-Don't discuss closed-source.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Detail Self, HotSpot, Webkit, Azul, Dart, 
+\section{Optimising Just-in-Time compiler architecture}
 
-+ Mozilla monkeys
+intro on the need of optimising JIT quickly. 
 
-original tiered architecture.
+discuss quickly AOT, advantages and cons.
 
-New metatracing architecture.
+Explain more compile time vs number of time it is executed
 
+modern st VM no opt JIT in prod
 
-%NOTE ! Tier 3 et 4 de webkit => reuse back-end too.
+do not really discuss closed-source.
 
-Most popular production VMs, such as Java hotspot (Cite) or Javascript's V8 (Cite) VMs are written in C++. Using C++ as a performance oriented low-level programming language proved to be very effective as it is possible to write code in a performance oriented fashion. A clear separation is made between the VM and the programming language run so there are no metacircular problems.
+two main tendencies.
 
-Most of those VMs start-up from the language kernel, a set of core librairies and either source files or files containing bytecodes. Reaching peak performance takes a certain amount of time as the VM needs to detect and optimise correctly frequently used patterns of code. Reportedly, this warm-up time can be from several milliseconds up to multiple days. To solve partially the warm-up problem, such VMs are built with a tiered-architecture: the first few executions are run slowly but without any compilation time, subsequent hundreds of executing are run a bit faster with limited compilation time while further execution are run at peak performance after a certain amount of compilation time.
+\subsection{Classical tiered architecture}
 
-An interesting point ot note is that several mainstream VMs were led by the same person (Lars Bak), who became very good at implementing very efficient and easy-to-maintain VMs in C++ as he implemented multiple of those in his life. His work therefore pushed the direction of VM implementation in the C++ direction.
+explain overall architecture.
 
-Among the C++ virtual machines, we will detail two specific VMs have uncommon features that are relevant in the context of the thesis. 
+cost of opt compared to runtime perf improvement.
+first run required to direct in dynamic language.
 
-\subsection{Azul}
-The Azul VM \cite{Azul} is a closed-source VM and expensive VM for Java. As for all closed-source projects, no one external to the project can be certain of what the code is doing. However, word has been that the Azul VM is able to persist optimised machine code across multiple start-ups. If the application is started on another processor, then the saved machine code is simply discarded. 
+quote Self (never really become mainstream), into strongtalk (ST but never reach prod) and hotspot, V8 and Dart. 
 
-\subsection{Dart}
-The Dart VM is an open-source VM for the Dart programming language. Dart features snapshots for fast application start-up. In Dart, the programmer can generate different kind of snapshots \cite{Anna13a}. Since that publication, the Dart team have added two new kind of snapshots, specialized for iOS and Android application deployment, which are quite similar to our snapshots.
-
-We MAY NEED TO DISCUSS TIER IN WEBKIT HERE AS THEY REUSE BACK-end too.
-
-%This is moved to persistance chapter.
-
-%\subparagraph{Android snapshot.} A Dart snapshot for an Android application is a complete representation of the application code and the heap once the application code has been loaded but before the execution of the application. The Android snapshots are taken after a warm-up phase to be able to record call site caches in the snapshot. The call site cache is a regular heap object accessed from machine code, and its presence in the snapshot allows to persist type feedback and call site frequency.
-
-%\subparagraph{iOS snapshot.} For iOS, the Dart snapshot is slightly different as iOS does not entirely allow JIT compilers. All reachable functions from the iOS application are compiled ahead of time, using only the features of the Dart optimizing compiler that don't require dynamic deoptimization. A shared library is generated, including all the instructions, and a snapshot that includes all the classes, functions, literal pools, call site caches, etc.
-
-\section{The new era: Multi-languages VMs}
-
-One big focus nowadays in VM research is the design of a VM that could run all the existing programming languages at full performance, with minimal engineering time required to add support for a new programming language. Two main projects are going in this direction, the RPython toolchain (CITE) and the Truffle framework (CITE One VM to rule them all). In both case, support for a new language is introduced by building an interpreter, the JIT compilers being automatically generated from the interpreter.
-
-\subsection{Truffle and Graal}
-
-Truffle is a framework developped mainly at Oracle Labs. 
+Designed to be plugged in other VMS ? Extracted from Maxine and put on hotspot. Can be used as a specific compiler.
+Explain quickly multilanguage
+Discuss Graal, Truffle + Graal.
 
 describe the runtime model
 
-non meta tracing
-
 explain JIT generation from annotation on AST interpreter
 
-\subsection{Pypy}
+\paragraph{Number of tiers}
+
+explain tier between 1 and 4
+
+Example of V8 (2 -> 3 tiers)
+Example of webkit 4 tiers + shared back-end.
+
+\subsection{Meta-tracing architecture}
+
++ Mozilla monkeys
+LuaJIT
+
+Alternative for multi language
+Rpython + Pypy.
+RPython tool chain \cite{Rigo06a}
 
 explain quickly metatracing from interpreter
 
@@ -77,33 +75,79 @@ present them here so they can be compared to later.
 
 RPython tool chain \cite{Rigo06a}
 
-\section{Meta-circular VMs}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Multiple research VMs attempted to be designed and built entirely in the 
+\section{Virtual machine implementation language}
 
-One of the direction was full metacircular.
+1) Low level languages
 
-\subsection{Klein}
+typically C / C++ or other
 
-Klein and failure ~\cite{Unga05b}
+why advantages and cons
 
-\subsection{Jikes RVM}
+2) DSl / HIGH level language compiling AOT to assembly code.
 
-Jikes RVM aka Jalapeno \cite{Alp99a}
 
-\subsection{Maxine}
+3) Metacircular VM (check metacircular related work)
 
-Maxine ~\cite{Wimm13a}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Not built on top of existing but from scratch, not really interesting to us.
+\section{Runtime state persistance}
 
-\section{Smalltalk virtual machines}
+Check paper Sista persistance
 
-As the sista architecture is implemented in the context of Smalltalk, it could be relevant to discuss existing Smalltalk virtual machines. These VMs are interesting for multiple reasons, but unfortunately many of the Smalltalk virtual machines in production today are closed-source, making the discussion around them not that relevant as information is missing and unaccessible. In addition, as far as we know, there are no production Smalltalk VM today with an optimising JIT compiler, so the comparison with such VMs is even less relevant. 
+1)Fast warm-up
 
-However, speculative optimisations in VMs started with the Self VM (CITE), with Self being a Smalltalk-like language, and was followed up with the strongtalk VM (CITE). Both VMs are open-source and available today but none of them are used in production. Self had never really broken through mainstream programming while strongtalk had never reached production state.
+Discuss tiered arch and lower warm-up.
 
-Just mention Bee smalltalk with their publication (still not open source)
+saving metadata + strongtalk and maybe Dart
+
+save machine code and Azul
+
+AOT
+
+2) Preheating through snapshot in Dart
+
+Snapshot in general for Kernel ?
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Interface}
+
++ Graal and interface
+
+Maybe shared back-end in webkit ?
+
+WebAssembly
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%MAybe conclusion, 1 sentence what we did and what comes next
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%FOLLOWING IS OLD VERSION FOR HISTORY.
+
+%In this chapter, the most popular production VMs and relevant research VMs are discussed. In further chapter, the thesis' proposed architecture will be compared against those VMs. 
+
+%Most popular production VMs, such as Java hotspot (Cite) or Javascript's V8 (Cite) VMs are written in C++. Using C++ as a performance oriented low-level programming language proved to be very effective as it is possible to write code in a performance oriented fashion. A clear separation is made between the VM and the programming language run so there are no metacircular problems.
+
+%Most of those VMs start-up from the language kernel, a set of core librairies and either source files or files containing bytecodes. Reaching peak performance takes a certain amount of time as the VM needs to detect and optimise correctly frequently used patterns of code. Reportedly, this warm-up time can be from several milliseconds up to multiple days. To solve partially the warm-up problem, such VMs are built with a tiered-architecture: the first few executions are run slowly but without any compilation time, subsequent hundreds of executing are run a bit faster with limited compilation time while further execution are run at peak performance after a certain amount of compilation time.
+
+%An interesting point ot note is that several mainstream VMs were led by the same person (Lars Bak), who became very good at implementing very efficient and easy-to-maintain VMs in C++ as he implemented multiple of those in his life. His work therefore pushed the direction of VM implementation in the C++ direction.
+
+%Among the C++ virtual machines, we will detail two specific VMs have uncommon features that are relevant in the context of the thesis. 
+
+%\subsection{Azul}
+%The Azul VM \cite{Azul} is a closed-source VM and expensive VM for Java. As for all closed-source projects, no one external to the project can be certain of what the code is doing. However, word has been that the Azul VM is able to persist optimised machine code across multiple start-ups. If the application is started on another processor, then the saved machine code is simply discarded. 
+
+%\subsection{Dart}
+%The Dart VM is an open-source VM for the Dart programming language. Dart features snapshots for fast application start-up. In Dart, the programmer can generate different kind of snapshots \cite{Anna13a}. Since that publication, the Dart team have added two new kind of snapshots, specialized for iOS and Android application deployment, which are quite similar to our snapshots.
+
+
+%As the sista architecture is implemented in the context of Smalltalk, it could be relevant to discuss existing Smalltalk virtual machines. These VMs are interesting for multiple reasons, but unfortunately many of the Smalltalk virtual machines in production today are closed-source, making the discussion around them not that relevant as information is missing and unaccessible. In addition, as far as we know, there are no production Smalltalk VM today with an optimising JIT compiler, so the comparison with such VMs is even less relevant. 
+
+%However, speculative optimisations in VMs started with the Self VM (CITE), with Self being a Smalltalk-like language, and was followed up with the strongtalk VM (CITE). Both VMs are open-source and available today but none of them are used in production. Self had never really broken through mainstream programming while strongtalk had never reached production state.
 
 \ifx\wholebook\relax\else
     \end{document}
