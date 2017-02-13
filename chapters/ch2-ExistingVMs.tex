@@ -16,62 +16,95 @@
 \label{chap:stateOfTheArt}
 \minitoc
 
+%Overall intro + arch
 The thesis is an attempt to build an optimising JIT for Pharo. We discuss in the first section about the two main different architectures possible to build an optimising JIT. The traditional architecture focuses on the optimisation of frequently used functions based on its previous runs. The modern architecture, the meta-tracing JITs, attempts to optimise linear sequences of frequently used instructions. The chapter follows by analysing existing work on the three reseach problems.
 
+%metacircular
 Firstly, the JITs written in a high-level language are discussed. Multiple high-level languages were used with different execution models. In the case where the optimising JIT is running in the same runtime than the optimised application, some JITs are able to optimise their own code. However, certains constraints exist to avoid metacircular issues.
 
+%persistance
 Secondly, most modern VMs always start-up an application with only non optimised code. This can be a problem in specific cases. For example, the application needs a certain amount of time, called \emph{warm-up time}, to reach peak performance, which is a problem if the application needs high-performance immediately. We detail how some VMs attempt to persist part of the optimisations across multiple start-ups.
 
+%interface
 Thirdly, the Sista architecture is designed so that the optimising JIT re-use the baseline JIT as a back-end while being written in a different programming language. We detail one of the rare cases where the JIT back-end is shared between the baseline JIT and the optimising JIT. We follow up by discussing the interface provided from the VM to generate and execute efficient machine code.
+
+%what do we discuss
+The chapter tries to discuss the main production and research open source VMs. Specific closed-source VMs are described because they are relevant in the context the thesis. However, most closed-source VMs are ignored as it is too difficult to get reliable information about them. 
+
+%Smalltalk.
+Commercial Smalltalk VMs existing today are closed-source and do not feature optimising JITs so we do not discuss them. In the 90s, the Self VM (CITE) and the Strongtalk VM (CITE) were able to execute Smalltalk code using an optimising JIT. Those VMs are briefly discussed but as far as we know there are not used in production today and no further development on those VMs is in progress.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Optimising Just-in-Time compiler architecture}
+\section{Optimising Just-in-Time compiler architectures}
+
+Standard object-oriented languages feature dynamic dispatch. This is typically done through the use of virtual calls: the function to activate for each virtual call depends on information available at runtime but not at compile-time. Because of dynamic dispatch, it is difficult for an ahead-of-time compiler to optimise efficiently the code to execute. This problem is very important for languages such as Smalltalk where every call is a virtual call.
+
+To avoid the problem, one solution is to use a JIT. The first runs of a function are done through a slow path, such as an interpreter or through a baseline JIT. Statistics are collected from these first runs to direct optimisations such as what functions each virtual call has activated. 
+
+Two main architecture are present in modern VMs. On the one hand, the traditional approach compiles and optimises frequently used functions. On the other hand, the meta-tracing JITs optimise a linear sequence of frequently used instructions.
+
+\subsection{Traditionnal architecture}
+
+The traditionnal optimising JIT architecture is composed of multiple tiers. Each tier requires more time than the previous tier to compile the function to execute but the generated code is more efficient than the previous tier. 
+
+In most VMs following this architecture, three tiers are present:
+\begin{enumerate}
+	\item \emph{Tier 1: v-function interpreter: } The first tier is a virtual function interpreter. In most VMs, no compilation time is required at all to interpret a v-function~\footnote{Some VMs require compilation time for interpretation because the v-functions are not provided in an executable format (for example source code is provided instead).}. However, the execution by the interpreter is not very fast.
+	\item \emph{Tier 2: baseline JIT: } The second tier is the baseline JIT, which generates from the v-function a n-function with a limited number of optimisations. Once compiled, the n-function is used to execute the function instead of interpreting the v-function. A small amount of time is wasted to generate the n-function and the execution of the n-function is faster than interpreting the v-function. Baseline JITs usually generates inline caches (CITE): each virtual call has a local cache with the functions it has activated, both speeding-up the execution and collecting runtime information for the next tier.
+	\item \emph{Tier 3: optimising JIT: } The last tier is the optimising JIT, which generates an optimised n-function. The optimising JIT uses runtime information such as the inline cache data to speculate on what function is called at each virtual calls, allowing to perform inlining and generating the optimised n-function from multiple v-functions. Such optimisations greatly speed-up execution but are invalid if one of the compile-time speculation is not valid at runtime. In this case, the VM deoptimises the code and re-optimise it differently. The optimising JIT require more time than the baseline JIT to generate n-functions, but the generated code is much faster.
+\end{enumerate}
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.95\linewidth]{TieredArchitecture}
+        \caption{Execution of a frequently used v-function}
+        \label{fig:TieredArchitecture}
+    \end{center}
+\end{figure}
+
+Figure \ref{fig:TieredArchitecture} shows the execution of a frequently used v-functions over the three tiers. The first few runs are interpreted, each run taking 0.5 ms. The following run requires some compilation time for the baseline JIT to kick in, but the function is then executed 2.5 times faster and runtime information is collected. Lastly, after 10,000 runs, the optimising JIT takes a significant amount of time to generate an optimised n-function, but the optimised version is three times faster than the baseline JIT version.
 
 
+The first VM featuring this traditional tiered architecture was the Self VM (CITE). The Self VM had only two tiers, the baseline JIT and the optimising JIT, which they called "the non optimising compiler" and "the optimising compiler". The Self programming language has never really become popular so the VM is not really used anymore. 
 
-intro on the need of optimising JIT quickly. 
+The second VM built with this design was the animorphic VM for the Strongtalk programming language(CITE), a Smalltalk dialect. This VM is the first to feature three tiers. The first tier is a threaded code interpreter hence interpretation requires a small amount of compilation time to generate threaded code from the v-function. The two other tiers are the same as in the Self-VM. The animorphic VM has never reached production.
 
-discuss quickly AOT, advantages and cons.
+Then the hotspot VM (CITE) was implemented, which has been the default Java VM provided by Oracle for more than a decade. More recently, the V8 Javascript engine (CITE), used for Google Chrome and Node JS and the Dart VMs are built using similar architectures.  
 
-Explain more compile time vs number of time it is executed
+\paragraph{Number of tiers.} Most featuring this design have three tiers. The number of tiers can however vary from two to four. The following paragraphs discuss the reasons why the VM implementors may choose to more or less tiers.
 
-modern st VM no opt JIT in prod
+Each new tier needs to be maintained and evolved accordingly to the other tiers. Hence, a VM having more tiers requires more engineering time for maintainance and evolutions as any bug can come from any tier and evolutions need to be implemented on each tier. To lower the VM maintenance and evolution cost, a VM needs to have the least number of tiers possible.
 
-do not really discuss closed-source.
+By design, the optimising JIT is the key component for high-performance and it needs runtime information from previous runs to generate optimised code. Hence, a VM with the tiered architecture requires at least two tiers. One tier is used for the first runs to collect statistical information and the second tier generates optimised code. 
 
-two main tendencies.
+It is currently not possible to collect runtime information without overhead from a virtual function interpreter if the interpreter is written in a machine independent language. However, the inline cache technique allows to collect such information while speeding-up code execution over a v-function interpreter. Hence, using a v-function interpreter to collect runtime information is much slower than using a baseline JIT. For this reason, a VM with two tiers is most likely going to be designed with a baseline JIT and an optimising JIT. The Self VM was done exactly like that and the V8 Javascript engine was running this way from 2008 to 2016.
 
-\subsection{Classical tiered architecture}
+The interpreter tier is present in most VMs for two main reasons. Firstly, v-functions are usually more compact than n-functions. Being able to interpret v-functions allow to always keep functions rarely executed in v-function representation, lowering the memory footprint. Secondly, starting-up an application usually require the execution of multiple functions once to initialize the application. If a function is executed only once, the interpreter is usually faster because the compilation time is not worth it for one run. If we take the example in figure \ref{fig:TieredArchitecture}, we see that interpreting the v-function once takes 0.5 ms while compiling it with the baseline JIT and executing it takes 1.2 ms. Not having an interpreter can lead to poor start-up performance. The V8 Javascript engine added an interpreter tier in 2016 for these purposes.
 
-explain overall architecture.
+In general, the non optimising tiers (the v-function interpreter and the baseline JIT) are kept as simple as possible to ease maintainance and evolutions. Only the third tier, the optimising JIT, is complex to be able to generate efficient n-functions.
 
-cost of opt compared to runtime perf improvement.
-first run required to direct in dynamic language.
+Adding more than three tiers is usually not worth it as it would mean additional maintenance and evolution cost. However, in specific languages such as Javascript the start-up performance is very important and it can be worth it to have two optimising JIT tiers to increase start-up performance. The Javascript Webkit VM has four tiers since 2015 (CITE). In this case, the VM team introduced two optimising JIT tiers after the interpreter and baseline JIT. One optimising JIT tier has smaller compilation time than the other one but produce less efficient n-function.
 
-quote Self (never really become mainstream), into strongtalk (ST but never reach prod) and hotspot, V8 and Dart. 
-
-Designed to be plugged in other VMS ? Extracted from Maxine and put on hotspot. Can be used as a specific compiler.
-Explain quickly multilanguage
-Discuss Graal, Truffle + Graal.
-
-describe the runtime model
-
-explain JIT generation from annotation on AST interpreter
-
-\paragraph{Number of tiers}
-
-explain tier between 1 and 4
-
-Example of V8 (2 -> 3 tiers)
-Example of webkit 4 tiers + shared back-end.
-
-\paragraph{Sharing back-ends}
+\paragraph{Sharing portion of compilers.}
 
 Shared back-end in webkit 
 
 Shared backend in TurboFan and WebAssembly
 
+\paragraph{Native threads and optimising JITs}
+
+opt in other native threads.
+
+\paragraph{The Graal optimising JIT}
+
+Designed to be plugged in other VMS ? Extracted from Maxine and put on hotspot. Can be used as a specific compiler.
+Explain quickly multilanguage
+Discuss Graal, Truffle + Graal.
+
+describe the runtime model with threads here. Or somewhere else but we need thread description.
+
+explain JIT generation from annotation on AST interpreter
 
 \subsection{Meta-tracing architecture}
 
@@ -90,25 +123,36 @@ present them here so they can be compared to later.
 
 \section{Virtual machine implementation language}
 
-
 Can the JIT optimise itself ?
 
-1) Low level languages
+\subsection{Low-level languages}
 
 typically C / C++ or other
 
 why advantages and cons
 
+\subsection{High-level language compiled ahead-of-time}
+
 2) DSl / HIGH level language compiling AOT to assembly code.
 
+fig.
+
+
+\subsection{High-level language}
 
 3) Metacircular VM (check metacircular related work)
+
++ Truffle. HL language but not the same.
+
+Say 2 sentence Bee Smalltalk, closed source but maybe open source later.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Runtime state persistance}
 
 Check paper Sista persistance
+
+\subsection{Warm-up time}
 
 1) Fast warm-up
 
@@ -120,15 +164,21 @@ save machine code and Azul
 
 AOT
 
+\subsection{Snapshots}
+
 2) Preheating through snapshot in Dart
 
 Snapshot in general for Kernel ?
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Interface}
+\section{Virtual machine interface}
+
+\subsection{The Graal-Hotspot architecture}
 
 + Graal and interface
+
+\subsection{WebAssembly}
 
 WebAssembly 
 
