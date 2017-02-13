@@ -16,13 +16,19 @@
 \label{chap:stateOfTheArt}
 \minitoc
 
-Intro we are building an opt JIT + rephrase pbmatique
+The thesis is an attempt to build an optimising JIT for Pharo. We discuss in the first section about the two main different architectures possible to build an optimising JIT. The traditional architecture focuses on the optimisation of frequently used functions based on its previous runs. The modern architecture, the meta-tracing JITs, attempts to optimise linear sequences of frequently used instructions. The chapter follows by analysing existing work on the three reseach problems.
 
-+ 3 research pbm rephrase
+Firstly, the JITs written in a high-level language are discussed. Multiple high-level languages were used with different execution models. In the case where the optimising JIT is running in the same runtime than the optimised application, some JITs are able to optimise their own code. However, certains constraints exist to avoid metacircular issues.
+
+Secondly, most modern VMs always start-up an application with only non optimised code. This can be a problem in specific cases. For example, the application needs a certain amount of time, called \emph{warm-up time}, to reach peak performance, which is a problem if the application needs high-performance immediately. We detail how some VMs attempt to persist part of the optimisations across multiple start-ups.
+
+Thirdly, the Sista architecture is designed so that the optimising JIT re-use the baseline JIT as a back-end while being written in a different programming language. We detail one of the rare cases where the JIT back-end is shared between the baseline JIT and the optimising JIT. We follow up by discussing the interface provided from the VM to generate and execute efficient machine code.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Optimising Just-in-Time compiler architecture}
+
+
 
 intro on the need of optimising JIT quickly. 
 
@@ -60,6 +66,13 @@ explain tier between 1 and 4
 Example of V8 (2 -> 3 tiers)
 Example of webkit 4 tiers + shared back-end.
 
+\paragraph{Sharing back-ends}
+
+Shared back-end in webkit 
+
+Shared backend in TurboFan and WebAssembly
+
+
 \subsection{Meta-tracing architecture}
 
 + Mozilla monkeys
@@ -73,11 +86,12 @@ explain quickly metatracing from interpreter
 
 present them here so they can be compared to later.
 
-RPython tool chain \cite{Rigo06a}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Virtual machine implementation language}
+
+
+Can the JIT optimise itself ?
 
 1) Low level languages
 
@@ -96,7 +110,7 @@ why advantages and cons
 
 Check paper Sista persistance
 
-1)Fast warm-up
+1) Fast warm-up
 
 Discuss tiered arch and lower warm-up.
 
@@ -116,9 +130,7 @@ Snapshot in general for Kernel ?
 
 + Graal and interface
 
-Maybe shared back-end in webkit ?
-
-WebAssembly
+WebAssembly 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
