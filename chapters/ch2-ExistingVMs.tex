@@ -171,39 +171,29 @@ In this section, the languages used to implement VMs, including optimising JITs,
 \subsection{Virtual machine implementation language}
 
 \paragraph{Low-level language.}
+Historically, VMs have been implemented in low-level languages such as C or C++. Because of this, the first people having skills in high-performance VM development were also very good in low-level languages. Hence many VMs were implemented afterwards using this kind of language. Low-level languages are very convenient for multiple VM development tasks, such as direct memory access or optimisation of specific portion of code for VM performance. However, they lack abstractions, making it difficult for non low-level experts to contribute to the VM.
 
-typically C / C++ or other
-
-why advantages and cons
+Many optimising JITs are written in low-level languages, especially C++. The main examples would be the Self, Java hotspot or V8 optimising JITs. As far as we know none of them is able to compile C++ code, so they are not able to optimise their own code.
 
 \paragraph{High-level language compiled ahead-of-time.}
+Another approach is to use a high-level language compiled ahead-of-time to assembly code. This approach is used by the RPython toolchain~\cite{Rigo06a}, where RPythong is a restricted Python that can be compiled to native code through C. This approach is also used in the existing Pharo VM, which is written in a restricted Smalltalk called Slang (CITE) that can also be compiled to native code through C, though this second case has no optimising JIT.
 
-2) DSl / HIGH level language compiling AOT to assembly code.
-
-discuss if metacircular or not.
-
-fig.
+In RPython, the optimising JIT could potentially optimise its own code as RPython is a subset of python. However, in the current execution model where the optimising JIT code is compiled ahead-of-time to native code, the optimising JIT cannot optimise its own code at runtime as only native code is present.
 
 \paragraph{Metacircular VMs.}
-3) Metacircular VM (check metacircular related work)
 
-To optimise itself, language it supports. Two trend with Rpython / Tryffle with cross language VMs. Truffle can opt guest + Java.
+Multiple research work has shown that it is possible to implement a VM in the language the VM runs. It has been done firstly in the Jalape\~no project, now called Jikes RVM (CITE), a Java VM written in Java. Another Java VM written in Java was implemented in the late 2000s at Oracle, called Maxine VM. There were other attempts to implement meta-circular VMs for other languages than Java. For instance, the Klein VM~\cite{Unga05b} is a Self VM written in Self, the Tachyon VM is a Javascript VM written in Javascript and there is even an attempt to write a Smalltalk VM in Smalltalk (CITE), called Bee Smalltalk, which is unfortunately, as of today, closed-source. In this case, the optimising JIT is able to optimise its own code.
 
-\cite{Unga05b}
-+ Truffle. HL language but not the same.
-
-Say 2 sentence Bee Smalltalk, closed source but maybe open source later.
-
-\paragraph{Multi-implementing language VMs.}
-
-Example of Graal hot spot.
+Another case it the Truffle framework (CITE). Truffle is a framework allowing to write efficiently VMs for different programming languages running on top of the Java runtime using the Graal optimising JIT. There are VM implementations, using Truffle, of multiple programming languages. In each case, the Graal compiler in the Truffle runtime can optimise both Java code and the programming language run. As Graal is written in Java, it can optimise its own code.
  
-
 \subsection{Optimising Just-in-time compiler optimising itself}
 
--> first metacircular, already threads.
+To be able to optimise its own code, the optimising JIT compiler needs to be implemented in a programming language it can compile. In addition, it needs to run in the same runtime than the optimised application. Two main category of optimising JIT compilers fulfill these constraints: the optimising JITs present in the metacircular VMS and the Graal optimising JIT in the context where Graal is used as an alternative optimising compiler for Java hotspot.
 
-Still Graal multi threaded
+The first VM where it was possible for the optimising JIT to optimise itself was the Jalape\~no VM, written in Java for Java. When the optimising JIT was released, it used concurrent native threads to optimise code (CITE Adaptive Optimization in the Jalapeno JVM: The Controller's Analytical Model).
+
+TODO
+They optimise themselves in concurrent threads. Still Graal multi threaded. Explain stop for stack search and deopt.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
