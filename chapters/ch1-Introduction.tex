@@ -23,7 +23,7 @@ Object-oriented languages have been one of the most popular programming language
 \paragraph{Virtual machines for high-level programming languages.}
 Most high-level languages pursue a strict separation between language-side and VM-side. VMs for instance provide automatic memory management or use platform independent instructions such as bytecodes. These properties allow a programming language to develop independently from the underlying hardware.
 
-High performance VMs, such as Java HotSpot or current Javascript VMs achieve high performance through just-in-time compilation techniques: once the VM has detected that a portion of code is frequently used (called \emph{hot spot}), it recompiles it on-the-fly with speculative optimizations based on previous runs of the code. If usage patterns change and the code is not executed as previously speculated anymore, the VM dynamically deoptimizes the execution stack and resumes execution with the unoptimized code.
+High performance VMs, such as Java HotSpot or current Javascript VMs achieve high performance through just-in-time compilation techniques: once the VM has detected that a portion of code is frequently used (called \emph{hot spot}), it recompiles it on-the-fly with speculative optimizations based on previous runs of the code. If usage patterns change and the code is not executed as previously speculated anymore, the VM dynamically deoptimizes the execution stack and resumes execution with the unoptimised code.
 
 Such performance techniques allow object-oriented languages to greatly improve their peak performance. However, a warm-up time is required for the VM to speculate correctly about frequently used patterns. This warm-up time can be problematic for different use-cases.
 

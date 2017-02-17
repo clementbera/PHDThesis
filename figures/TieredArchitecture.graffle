@@ -26,7 +26,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2017-02-14 16:36:36 +0000</string>
+	<string>2017-02-17 08:46:29 +0000</string>
 	<key>Modifier</key>
 	<string>Clement Bera</string>
 	<key>NotesVisible</key>
@@ -1187,7 +1187,7 @@
 			<array>
 				<dict>
 					<key>Bounds</key>
-					<string>{{314, 176}, {74, 82}}</string>
+					<string>{{144, 176}, {74, 82}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FontInfo</key>
@@ -1223,7 +1223,7 @@ optimising JIT}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{314, 135}, {74, 41}}</string>
+					<string>{{144, 135}, {74, 41}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FontInfo</key>
@@ -1258,7 +1258,7 @@ optimising JIT}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{314, 94}, {74, 41}}</string>
+					<string>{{144, 94}, {74, 41}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FontInfo</key>
@@ -1307,7 +1307,7 @@ optimising JIT}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{229, 176}, {85, 82}}</string>
+					<string>{{303, 176}, {85, 82}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FontInfo</key>
@@ -1342,7 +1342,7 @@ optimising JIT}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{144, 217}, {85, 41}}</string>
+					<string>{{218, 217}, {85, 41}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FontInfo</key>
@@ -1377,7 +1377,7 @@ optimising JIT}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{79, 217}, {65, 41}}</string>
+					<string>{{74, 217}, {70, 41}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FontInfo</key>
@@ -1407,12 +1407,12 @@ optimising JIT}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs28 \cf0 102 +}</string>
+\f0\fs28 \cf0 1002 +}</string>
 					</dict>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{144, 176}, {85, 41}}</string>
+					<string>{{218, 176}, {85, 41}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FontInfo</key>
@@ -1447,7 +1447,7 @@ optimising JIT}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{79, 176}, {65, 41}}</string>
+					<string>{{74, 176}, {70, 41}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FontInfo</key>
@@ -1477,12 +1477,12 @@ optimising JIT}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs28 \cf0 101}</string>
+\f0\fs28 \cf0 1001}</string>
 					</dict>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{229, 135}, {85, 41}}</string>
+					<string>{{303, 135}, {85, 41}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FontInfo</key>
@@ -1517,7 +1517,7 @@ optimising JIT}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{144, 135}, {85, 41}}</string>
+					<string>{{218, 135}, {85, 41}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FontInfo</key>
@@ -1552,7 +1552,7 @@ optimising JIT}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{79, 135}, {65, 41}}</string>
+					<string>{{74, 135}, {70, 41}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FontInfo</key>
@@ -1582,12 +1582,12 @@ optimising JIT}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs28 \cf0 1 to 100}</string>
+\f0\fs28 \cf0 1 to 1000}</string>
 					</dict>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{229, 94}, {85, 41}}</string>
+					<string>{{303, 94}, {85, 41}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FontInfo</key>
@@ -1636,7 +1636,7 @@ optimising JIT}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{144, 94}, {85, 41}}</string>
+					<string>{{218, 94}, {85, 41}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FontInfo</key>
@@ -1685,7 +1685,7 @@ optimising JIT}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{79, 94}, {65, 41}}</string>
+					<string>{{74, 94}, {70, 41}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FontInfo</key>
