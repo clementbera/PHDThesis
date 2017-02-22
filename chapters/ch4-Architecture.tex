@@ -27,7 +27,7 @@ This section starts by describing briefly the existing runtime and evolutions re
 
 \subsection{Existing runtime}
 
-The existing Pharo runtime relies on a v-function interpreter and a baseline JIT named Cogit to execute functions. Cogit is able to compile a single v-function to a single n-function with a limited number of optimisations such as inline caches. Cogit does not perform optimisations requiring speculations based on runtime information. To load new code in Smalltalk, it is possible to install new v-functions at runtime. In this case, the program request the VM to flush caches matching the new v-functions installed.
+The existing Pharo runtime relies on a v-function interpreter and a baseline JIT named Cogit to execute functions. Cogit is able to compile a single v-function to a single n-function with a limited number of optimisations such as inline caches~\cite{Deut84a,Holz91a}. Cogit does not perform optimisations requiring speculations based on runtime information. To load new code in Smalltalk, it is possible to install new v-functions at runtime. In this case, the program request the VM to flush caches matching the new v-functions installed.
 
 Compared to the function based architecture described in the previous chapter, the Pharo runtime is missing entirely an optimising JIT performing speculative optimisations based on runtime information. The first missing feature is that the baseline JIT is not able to detect hotspots to trigger the optimising JIT nor to introspect the n-function it generates to provide runtime information. The second missing feature is the optimising JIT itelf, which should be able to generate an optimised n-function from v-functions and the corresponding runtime information. The optimising JIT needs to include specific components in addition to the optimisation pipeline. A deoptimiser is needed to resume execution with non optimised code when a speculation made at optimisation time is incorrect at runtime. A dependency manager is required to discard dependant optimised functions when new code is loaded.
 
@@ -340,16 +340,16 @@ Work in this direction has mostly vanished for two reasons. Firstly, the executi
 Recently, one problem for VM implementors was to implement JITs for iOS. Apple's policy was forbidding, until very recently, to have a memory page both writable and executable. Such a page is required by a JIT to store the native code it generates so it was not possible to build a JIT running in iOS. One experiment in the Dart VM was to keep the three tiers strategy of the function based architecture, but the baseline and optimising JIT would generate an abstract assembly, similar to threaded code. The abstract assembly was then executed quickly by a low-level interpreter, mapping almost one-to-one abstract assembly instructions to native instructions. This solution was not as fast as regular JITs, but it allowed the VM to perform decently under Apple's policy constraints.
 
 \paragraph{Hotspot Graal runtime.}
-The VM design the most similar to ours is certainly the Hotspot VM using the Graal compiler as an alternative optimising JIT. In both cases, the baseline JIT and the interpreter are compiled to machine code ahead of time (in our case, from Slang to native code, in Hotspot, from C++ to native code). The optimising JITs, Scorch and Graal, are however written in the language run by the VM and run in the same runtime as the optimised application. 
+The VM design the most similar to ours is certainly the Hotspot VM using the Graal compiler~\cite{Dubo13c} as an alternative optimising JIT. In both cases, the baseline JIT and the interpreter are compiled to machine code ahead of time (in our case, from Slang to native code, in Hotspot, from C++ to native code). The optimising JITs, Scorch and Graal, are however written in the language run by the VM and run in the same runtime as the optimised application. 
 
 The main difference still lies with the optimised function representation. Graal generates optimised n-functions in the form of a data structure including the native code and metadata. Graal provides these data structures to the Hotspot VM so it can install them. Scorch generates however optimised v-functions, which requires Cogit to compile them. 
 
 With the Graal strategy, it may be possible to produce optimised n-functions slightly faster to execute as the Graal back-end may perform low-level optimisations more aggressively than Cogit. The compilation time may also be slightly better as no optimised v-function representation needs to be created. However, our optimised v-function representation allows us to have a single back-end to maintain for the two JIT tiers in the form of Cogit and as discussed later in the thesis to persist optimised n-functions across multiple start-ups.
 
 \paragraph{WebAssembly.}
-Recent Javascript VMs have support for WebAssembly, an abstract assembly code representation for functions. In this case, the VM can take as input two different representations of v-functions. One form is the v-function representation for the language supported, in the case of Javascript the source code of v-functions. The other form, the WebAssembly form, allows the VM to execute v-functions optimised ahead-of-time.
+Recent Javascript VMs have support for WebAssembly~\cite{WebAssembly}, an abstract assembly code representation for functions. In this case, the VM can take as input two different representations of v-functions. One form is the v-function representation for the language supported, in the case of Javascript the source code of v-functions. The other form, the WebAssembly form, allows the VM to execute v-functions optimised ahead-of-time.
 
-It would be interesting for Scorch to target an optimised v-function representation such as WebAssembly instead of our extended bytecode set. We implemented Scorch to target the extended bytecode set as we could make the architecture work with a limited number of evolutions in Cogit. Being able to compile efficiently a representation such as WebAssembly would require us to add larger extensions to Cogit. One of the goal of our architecture was to limit evolutions on low-level parts of the VM, so the direction we took looked more interesting. Recently, an abstract assembly started to be supported in the Pharo VM, called LowCode (CITE). It would be interesting, as future work, to investigate if Scorch targeting LowCode would be a valuable option.
+It would be interesting for Scorch to target an optimised v-function representation such as WebAssembly instead of our extended bytecode set. We implemented Scorch to target the extended bytecode set as we could make the architecture work with a limited number of evolutions in Cogit. Being able to compile efficiently a representation such as WebAssembly would require us to add larger extensions to Cogit. One of the goal of our architecture was to limit evolutions on low-level parts of the VM, so the direction we took looked more interesting. Recently, an abstract assembly started to be supported in the Pharo VM, called LowCode~\cite{Salg16a}. It would be interesting, as future work, to investigate if Scorch targeting LowCode would be a valuable option.
 
 \subsection{Sharing code between compiler tiers}
 \label{sec:codeSharing}
@@ -360,20 +360,18 @@ We believe that with Cogit performing a limited number of low-level optimisation
 
 There are two main cases in the litterature where JIT tiers are sharing portions of code.
 
-\paragraph{Webkit VM.}The Javascript Webkit VM (CITE) is one of the only VM where important parts of code are shared between multiple JIT tier. The Webkit VM is 
-different from other VMs as it features four tiers, including two optimising compiler tiers. In the webkit VM, the two optimising JIT tiers are sharing the high-level part of the compiler, but not the back-end. There are some code shared for n-function introspection, but each back-end of each JIT tier is mostly independent from the other tiers.
+\paragraph{Webkit VM.}The Javascript Webkit VM~\cite{Webkit15} is one of the only VM where important parts of code are shared between multiple JIT tier. The Webkit VM is different from other VMs as it features four tiers, including two optimising compiler tiers. In the webkit VM, the two optimising JIT tiers are sharing the high-level part of the compiler, but not the back-end. There are some code shared for n-function introspection, but each back-end of each JIT tier is mostly independent from the other tiers.
 
 In our case, we share the back-ends of our two compiler tiers. In addition, the portion of code is shared between a baseline and an optimising JIT and not two optimising JIT tiers.
 
-\paragraph{WebAssembly.}Modern Javascript VMs supports WebAssembly(CITE), a abstract assembly representation for functions. In the V8 Javascript engine (CITE), the back-end of the optimising compiler Turbofan is shared between the WebAssembly compiler and the optimising JIT. This are some similarities with our work as WebAssembly is a representation that could be used to represent optimised v-function. 
+\paragraph{WebAssembly.}Modern Javascript VMs supports WebAssembly~\cite{WebAssembly}, a abstract assembly representation for functions. In the V8 Javascript engine~\cite{V8}, the back-end of the optimising compiler Turbofan is shared between the WebAssembly compiler and the optimising JIT. This are some similarities with our work as WebAssembly is a representation that could be used to represent optimised v-function. 
 
-In this case, the back-end is shared between two optimising runtime compilers. There is no code sharing with the baseline JIT. 
+In this case, the back-end is shared between two optimising runtime compilers. There is no code shared between the optimising JIT and the baseline JIT. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \paragraph{Conclusion.}
 The chapter provided an overview of the Sista architecture and detailed the optimisation of functions and deoptimisation of stack frames. The following chapter discusses the evolutions of the Pharo runtime implemented in the context of the thesis.
-
 
 \ifx\wholebook\relax\else
     \end{document}
