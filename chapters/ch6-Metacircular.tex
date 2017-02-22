@@ -161,28 +161,18 @@ Modifying the deoptimiser while it is running is also more complex than the opti
 
 \section{Related work}
 
- C++ no problem
+We find that stack search and deopt require specific rules. 
 
-\subsection{Graal}
+Implementing language --> problem only in Graal / metacircular VMs.
 
-Stack search and deoptimisation in the VM
+Thread system and our solution versus their solution.
+implementing language like graal. single threaded. blabla.
+However, compilation is done in same thread with hybrid interrupt / background approach
+native threads - we are single threaded so that's how we do it.
 
-\subsection{DSL compiled to machine code}
+solution of Graal, C++ for stack search and deopt while concurrent optimisation.
 
-Modification at runtime of the optimiser in our case (Smalltalk + same runtime), though crashes.
-Restrictive.
-
-\subsection{Metacircular VMs}
-
-Klein and failure ~\cite{Unga05b}
-
-Jikes RVM aka Jalapeno \cite{Alp99a}
-
-Maxine ~\cite{Wimm13a}
-
-In general this problem is solved, for example with magic or threads (Jalapeno).
-
-Mention Bee Smalltalk and paper and say not open source yet.
+In Jalapeno, no deopt currently, profiling and optimisation concurrent 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

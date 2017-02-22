@@ -17,34 +17,36 @@
 \minitoc
 
 %Generic intro + overview intro
-The overall thesis focuses on the design and implementation of an optimising JIT compiler for Pharo, written in Pharo itself, running in the same runtime than the optimised application on top of the existing runtime environment. The chapter explains the overall architecture designed and implemented, called the Sista architecture. The first section gives an overview of the architecture. Section \ref{sec:functionOptimisation} details how functions are optimised. Section \ref{sec:functionDeoptimisation} focuses on the deoptimisation of optimised functions when an assumption taken at optimisation time is not valid at runtime. Section \ref{sec:relatedWorkArch} compares the architecture presented to existing architectures.
+The overall thesis focuses on the design and implementation of an optimising JIT compiler for Pharo, written in Pharo itself, running in the same runtime than the optimised application on top of the existing runtime environment. The chapter explains the overall architecture designed and implemented, called the Sista architecture. The first section gives an overview of the architecture. Section \ref{sec:functionOptimisation} details how functions are optimised. Section \ref{sec:functionDeoptimisation} focuses on the deoptimisation of optimised stack frames when an assumption taken at optimisation time is not valid at runtime. Section \ref{sec:relatedWorkArch} compares the Sista architecture against related work.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Overview}
 
-This section starts by describing briefly the existing runtime and missing elements to introduce an optimising JIT. Section \ref{sec:splitDesign} explain the overall design. As the architecture is different from classical architectures, the terminology is clarified in our context in section \ref{sec:terminologyI}. Lastly, section \ref{sec:further} briefly describe how functions are optimised and deoptimised in the architecture. 
+This section starts by describing briefly the existing runtime and evolutions required to introduce an optimising JIT. Section \ref{sec:splitDesign} explain the overall design. As the architecture is different from classical architectures, the terminology is clarified in section \ref{sec:terminologyI}. Lastly, section \ref{sec:further} briefly describe how functions are optimised and deoptimised. 
 
 \subsection{Existing runtime}
 
 The existing Pharo runtime relies on a v-function interpreter and a baseline JIT named Cogit to execute functions. Cogit is able to compile a single v-function to a single n-function with a limited number of optimisations such as inline caches. Cogit does not perform optimisations requiring speculations based on runtime information. To load new code in Smalltalk, it is possible to install new v-functions at runtime. In this case, the program request the VM to flush caches matching the new v-functions installed.
 
-Compared to the function based architecture described in the previous chapter, the Pharo runtime is missing entirely an optimising JIT performing speculative optimisations based on runtime information. The first missing feature is that Cogit is not able to detect hotspots to trigger the optimising JIT nor to introspect the n-function it generates to provide runtime information. The second missing feature is the optimising JIT itelf, that should be able to generate an optimised n-function from v-functions and runtime information. The optimising JIT needs to include specific components, such as a deoptimiser to resume execution with non optimised code when a speculation made by the optimising JIT is incorrect at runtime and a dependency manager to discard dependant optimised functions when new code is loaded.
+Compared to the function based architecture described in the previous chapter, the Pharo runtime is missing entirely an optimising JIT performing speculative optimisations based on runtime information. The first missing feature is that the baseline JIT is not able to detect hotspots to trigger the optimising JIT nor to introspect the n-function it generates to provide runtime information. The second missing feature is the optimising JIT itelf, which should be able to generate an optimised n-function from v-functions and the corresponding runtime information. The optimising JIT needs to include specific components in addition to the optimisation pipeline. A deoptimiser is needed to resume execution with non optimised code when a speculation made at optimisation time is incorrect at runtime. A dependency manager is required to discard dependant optimised functions when new code is loaded.
 
 \subsection{Split design}
 \label{sec:splitDesign}
 
+The architecture requires both baseline JIT extensions and the addition of the optimising JIT.
+
 \paragraph{Baseline JIT extensions.}
 The existing baseline JIT, Cogit, had to be extended to detect hot spot and to provide runtime information to direct the optimising JIT decisions. 
 
-Hot spot detection was introduced by the generation of profiling counters inside n-functions produced by Cogit. When a profiling counter reaches a specific threshold, a specific VM call-back is triggered to activate a specific function on the reification of the stack frame where the hot spot is detected. More details on the profiling counters are present in section \ref{sec:hotSpot}.
+To detect hot spot, Cogit was extended to be able to generate profiling counters in generated n-functions. When a profiling counter reaches a specific threshold, a specific routine is triggered and may activate an optimising JIT. More details on the profiling counters are present in section \ref{sec:hotSpot}.
 
-Cogit was already able to introspect the n-function it generates for debugging purposes. The introspection logic was extended to provide in Smalltalk for a given function both the values present in inline caches and the values of profiling counters.
+Cogit was already able to introspect the n-function it generates for multiple purposes, such as debugging, inline cache relinking or literals garbage collection. The introspection logic was extended to provide a new primitive method in Smalltalk, which answers for a given function both the values present in inline caches and the values of profiling counters.
 
 \paragraph{Optimising JIT.}
-The optimising JIT was designed in two different parts as shown on figure \ref{fig:OptArchitecture}. 
+The optimising JIT was designed in two different parts as shown on figure \ref{fig:OptArchitecture}. The high-level part is a non optimised v-functions to optimised v-function compiler called \emph{Scorch}. The second part is a v-function to a n-function compiler and an extended version of Cogit, the baseline JIT, is used. The compilation of non optimised v-functions to an optimised n-function through Scorch followed by Cogit forms an optimising JIT.
 
-The high-level part is called \emph{Scorch}. Scorch is a non optimised v-functions to optimised v-function compiler. Scorch is written in Pharo in a metacircular style. Scorch deals with Smalltalk-specific optimisations. Hence, any work performed on Scorch is done in Smalltalk dealing with Smalltalk-specific optimisations. Such work can be performed with little knowledge on low-level or machine-specific details. The optimised v-functions have accessed, in addition to the non optimised v-function instructions, to unsafe instructions that are faster to execute but requires the compiler to guarantee specific invariants.
+Scorch is written in Pharo and runs in the same runtime as the optimised application in a metacircular style. Scorch deals with Smalltalk-specific optimisations. Hence, any work performed on Scorch is done in Smalltalk dealing with Smalltalk-specific optimisations. Such work can be performed with little knowledge on low-level or machine-specific details. The optimised v-functions generated by Scorch may use unsafe instructions in addition to the non optimised v-function instructions. Unsafe instructions are faster to execute but requires the compiler to guarantee specific invariants.
 
 \begin{figure}[h!]
     \begin{center}
@@ -54,7 +56,7 @@ The high-level part is called \emph{Scorch}. Scorch is a non optimised v-functio
     \end{center}
 \end{figure}
 
-For the low-level part, the existing baseline JIT Cogit is reused. Cogit can compile any v-function to a n-function. Cogit may perform machine-specific optimisations. To be used as a back-end for the optimised v-functions, Cogit was extended to support the new unsafe instructions, including a specific VM call-back to trigger deoptimisation when an summption speculated at optimisation time is invalid at runtime.
+For the low-level part, the existing baseline JIT Cogit is reused. Cogit may perform machine-specific optimisations. To be used as a back-end for the optimised v-functions, Cogit was extended to support the new unsafe instructions, including a specific VM call-back to trigger deoptimisation when an assumption speculated at optimisation time is invalid at runtime.
 
 \subsection{Terminology}
 \label{sec:terminologyI}
@@ -313,40 +315,64 @@ If the deoptimisation happened due to a guard failure (or due to a return to a d
 \section{Related work}
 \label{sec:relatedWorkArch}
 
-This section compares our architecture against existing architectures. The first section compares the overall Sista architecture versus the meta-tracing and function based architecture. Section \ref{sec:codeSharing} discusses on specificity of the architecture: Cogit is re-used as a back-end for the optimising JIT, which is uncommon. Section \ref{sec:thread} compares our critical and background optimisation modes against existing approaches. Section \ref{sec:interface} compares our optimised v-function representation against other representation existing in other VMs.
+This section compares our architecture against existing work. The first section compares the overall Sista architecture versus the meta-tracing and function based architecture. Section \ref{sec:interface} compares our optimised v-function representation against other representation existing in other VMs. Section \ref{sec:codeSharing} discusses how different JIT tiers may or may not share portions of code.
 
-The two research subproblems and their related work are detailled later in the thesis. Chapter \ref{chap:metacircular} discusses how Scorch is able, under specific constraints, to optimise its own code. Chapter \ref{chap:persistance} details how the runtime state, including optimised v-functions, can be persisted across multiple start-ups.
+The two research subproblems and their related work are detailed later in the thesis. Chapter \ref{chap:metacircular} discusses how Scorch is able, under specific constraints, to optimise its own code. Chapter \ref{chap:persistance} details how the runtime state, including optimised v-functions, can be persisted across multiple start-ups.
 
-\subsection{Function based architecture}
+\subsection{Architecture}
 
-Compared to the classical three tiers function based architecture, the existing Pharo runtime featured only the first two tiers. The Sista architecture is an implementation of the third optimising JIT tier. The implementation is however quite different from other VMs. One of the main difference is the optimised v-function representation used to communicate between Scorch and Cogit which is not present at all in other VMs. The other main difference is Cogit, which in one code base can be used both as a baseline JIT and as a back-end for the optimising JIT.
+Compared to the classical three tiers function based architecture described in chapter \ref{chap:stateOfTheArt}, the existing Pharo runtime featured only the first two tiers. The Sista architecture is an implementation of the third tier, the optimising JIT tier. The implementation is however quite different from other VMs. One of the main difference is the split between the high and low level part of the optimising JIT as well as the optimised v-function representation used to communicate between both parts. As far as we know, no other VM splits its optimising JIT this way. The other main difference is Cogit, which in one code base can be used both as a baseline JIT and as a back-end for the optimising JIT.
 
-The Sista architecture was not designed as a meta-tracing JIT. The main reason is that improving the performance of loop bodies is inefficient in most cases in the context of Pharo. As explained in the example of section \ref{ss:stackSearch}, most loops in Pharo just activates a closure. The optimiser needs to optimise outside of the loop body to be able to inline the closure activation and improve performance. Hence, optimising only loop bodies cannot compete in performance.
+The Sista architecture was not designed as a meta-tracing JIT. The main reason is that improving the performance of loop bodies did not seem the right thing to do in the case of Pharo. As explained in the example of section \ref{ss:stackSearch}, if the Smalltalk code executed respects standard Smalltalk coding conventions, most loops just activates a closure. The optimiser needs to optimise code outside of the loop body to be able to inline the closure activation and improve performance. Hence, it is not clear how to implement an efficient meta-tracing JIT for Pharo.
+
+\subsection{Optimised virtual function representation}
+\label{sec:interface}
+
+One important difference in the Sista architecture compared to most optimising JITs lies with the optimised v-function representation. Most optimising JIT do not generate optimised v-function but generate only optimised n-functions. As far as we know, no existing baseline JIT is used to compile v-functions optimised using runtime information to optimised n-functions.
+
+\paragraph{Threaded code.}
+(CITE ???)
+One of the first work in the late 80s to speed up object language virtual machines was in the direction of threaded code interpreters. Such virtual machine would feature a threaded code interpreter instead of a v-function interpreter. A threaded code interpreter is faster to execute code, but require a small compilation time to translate the v-function to its threaded code representation. The threaded code represenation is platform-independent and can be considered as an optimised v-function. The main advantage of the threaded code interpreter is to provide speed-up while keeping the VM platform-independent. Indeed, JIT require a different back-end for each native code supported. 
+
+Work in this direction has mostly vanished for two reasons. Firstly, the execution of v-function through JITs is more efficient than the execution through a threaded interpreter. Secondly, new implementation techniques for v-function interpreters using threaded jumps allowed to massively reduce the performance difference between threaded code interpreter and v-function interpreters.
+
+(CITE ???)
+Recently, one problem for VM implementors was to implement JITs for iOS. Apple's policy was forbidding, until very recently, to have a memory page both writable and executable. Such a page is required by a JIT to store the native code it generates so it was not possible to build a JIT running in iOS. One experiment in the Dart VM was to keep the three tiers strategy of the function based architecture, but the baseline and optimising JIT would generate an abstract assembly, similar to threaded code. The abstract assembly was then executed quickly by a low-level interpreter, mapping almost one-to-one abstract assembly instructions to native instructions. This solution was not as fast as regular JITs, but it allowed the VM to perform decently under Apple's policy constraints.
+
+\paragraph{Hotspot Graal runtime.}
+The VM design the most similar to ours is certainly the Hotspot VM using the Graal compiler as an alternative optimising JIT. In both cases, the baseline JIT and the interpreter are compiled to machine code ahead of time (in our case, from Slang to native code, in Hotspot, from C++ to native code). The optimising JITs, Scorch and Graal, are however written in the language run by the VM and run in the same runtime as the optimised application. 
+
+The main difference still lies with the optimised function representation. Graal generates optimised n-functions in the form of a data structure including the native code and metadata. Graal provides these data structures to the Hotspot VM so it can install them. Scorch generates however optimised v-functions, which requires Cogit to compile them. 
+
+With the Graal strategy, it may be possible to produce optimised n-functions slightly faster to execute as the Graal back-end may perform low-level optimisations more aggressively than Cogit. The compilation time may also be slightly better as no optimised v-function representation needs to be created. However, our optimised v-function representation allows us to have a single back-end to maintain for the two JIT tiers in the form of Cogit and as discussed later in the thesis to persist optimised n-functions across multiple start-ups.
+
+\paragraph{WebAssembly.}
+Recent Javascript VMs have support for WebAssembly, an abstract assembly code representation for functions. In this case, the VM can take as input two different representations of v-functions. One form is the v-function representation for the language supported, in the case of Javascript the source code of v-functions. The other form, the WebAssembly form, allows the VM to execute v-functions optimised ahead-of-time.
+
+It would be interesting for Scorch to target an optimised v-function representation such as WebAssembly instead of our extended bytecode set. We implemented Scorch to target the extended bytecode set as we could make the architecture work with a limited number of evolutions in Cogit. Being able to compile efficiently a representation such as WebAssembly would require us to add larger extensions to Cogit. One of the goal of our architecture was to limit evolutions on low-level parts of the VM, so the direction we took looked more interesting. Recently, an abstract assembly started to be supported in the Pharo VM, called LowCode (CITE). It would be interesting, as future work, to investigate if Scorch targeting LowCode would be a valuable option.
 
 \subsection{Sharing code between compiler tiers}
 \label{sec:codeSharing}
 
-Most optimising JITs have no code in common with the baseline JIT they work with. In our context, 
-sharing back-ends - we believe we can waste only limited performance by reusing Cogit while decreasing maintenance cost
+Most optimising JITs have no code in common with the baseline JIT they extract runtime information from. In our context, Cogit is used both as the baseline JIT and as a back-end for the optimising JIT. Most VM teams keep the back-ends of different JIT tiers independant as each back-end has different constraints. On the one hand, the optimising JIT back-end needs to generate high-performance code in a reasonnable amount of time. On the other hand, the baseline JIT back-end needs to generate code that can be instrospected later as quickly as possible. 
 
-\subsection{Interface virtual machine language}
-\label{sec:interface}
-VS GRaal however interface is optimised v-function with extended bytecode set.
-interface - WebAssembly, Graal, but not like us.
+We believe that with Cogit performing a limited number of low-level optimisations while providing n-function instrospection, we can reduce the maintenance cost of the low-level parts of our VM compared to other architecture with a reasonnable performance loss. 
 
+There are two main cases in the litterature where JIT tiers are sharing portions of code.
 
-\subsection{Implementing language and thread management}
-\label{sec:thread}
-implementing language like graal. single threaded. blabla.
+\paragraph{Webkit VM.}The Javascript Webkit VM (CITE) is one of the only VM where important parts of code are shared between multiple JIT tier. The Webkit VM is 
+different from other VMs as it features four tiers, including two optimising compiler tiers. In the webkit VM, the two optimising JIT tiers are sharing the high-level part of the compiler, but not the back-end. There are some code shared for n-function introspection, but each back-end of each JIT tier is mostly independent from the other tiers.
 
-However, compilation is done in same thread with hybrid interrupt / background approach
-native threads - we are single threaded so that's how we do it.
+In our case, we share the back-ends of our two compiler tiers. In addition, the portion of code is shared between a baseline and an optimising JIT and not two optimising JIT tiers.
 
+\paragraph{WebAssembly.}Modern Javascript VMs supports WebAssembly(CITE), a abstract assembly representation for functions. In the V8 Javascript engine (CITE), the back-end of the optimising compiler Turbofan is shared between the WebAssembly compiler and the optimising JIT. This are some similarities with our work as WebAssembly is a representation that could be used to represent optimised v-function. 
+
+In this case, the back-end is shared between two optimising runtime compilers. There is no code sharing with the baseline JIT. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \paragraph{Conclusion.}
-The chapter provided an overview of the Sista architecture and detailled the optimisation of functions and deoptimisation of stack frames. The following chapter discusses the evolutions of the Pharo runtime implemented in the context of the thesis.
+The chapter provided an overview of the Sista architecture and detailed the optimisation of functions and deoptimisation of stack frames. The following chapter discusses the evolutions of the Pharo runtime implemented in the context of the thesis.
 
 
 \ifx\wholebook\relax\else
