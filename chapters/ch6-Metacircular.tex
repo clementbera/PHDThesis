@@ -145,19 +145,26 @@ Alternatively, the optimiser's code could be optimised statically by calling its
 
 \section{Scorch deoptimiser}
 
-The deoptimiser can be activated in multiple contexts. If an optimisation time assumption is invalid at runtime, Cogit triggers a call-back to deoptimise the stack. Alternatively, multiple tools in the language, such as the debugging tools, may call the deoptimiser to introspect the stack.
+The deoptimiser can be activated in multiple situations. If an optimisation time assumption is invalid at runtime, a deoptimisation guard fails and Cogit triggers a call-back to deoptimise the stack. In addition, multiple development tools in the language, such as the debugging tools, may call the deoptimiser to introspect the stack.
 
 \subsection{Infinite recursion issue}
 
+% repeat problem for deopt
+As Scorch deoptimiser is written in Smalltalk, its code base may get optimised. If one of the optimisation-time speculation is incorrect at runtime, the frame representing the execution of the optimised function requires the deoptimiser to restore the stack frames with non optimised functions to continue the execution of the program. In the case where the deoptimiser functions are optimised, the deoptimiser may call itself on one of its own frame to be able to continue deoptimising code. If each time the deoptimiser calls itself on one of its own frame, the deoptimisation cannot terminate because the deoptimiser needs to call itself again on of its own frame, the application gets stuck in an infinite loop.
 
-%TODO repeat problem for deopt
+Figure \ref{fig:InfiniteRecursionDeoptPb} shows the problem in the case where the deoptimiser is triggered by a guard failure. On the left, in the normal deoptimisation flow, the application is interrupted when a guard fails. The deoptimiser recreates the non optimised stack frames from the optimised stack frame and edits the stack. The application can then resume with non optimised code. On the right, in the infinite recursion issue, the application is also interrupted when a guard fails. However, while the deoptimiser is deoptimising the stack, another guard fails in the deoptimiser code. The deoptimiser then restarts to deoptimise one of its own frame, but another guard fails in its own code. The deoptimiser keeps restarting the deoptimisation of one of its own frame and the application gets stuck in an infinite loop.
 
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.65\linewidth]{InfiniteRecursionDeoptPb}
+        \caption{Infinite recursion problem during deoptimisation}
+        \label{fig:InfiniteRecursionDeoptPb}
+    \end{center}
+\end{figure}
 
-On the contrary to the optimiser, deoptimisation cannot be postponed to a background green thread. The application green thread is blocked until the deoptimisation of the frame is performed. In addition, the deoptimiser cannot be disabled, or any application green thread requiring deoptimisation cannot continue executing code. The optimiser could be disabled as the execution could simply fall back to non optimised code. However, if the deoptimiser cannot restore the stack, the application green thread cannot keep executing code.
+This problem was solved in the optimiser by disabling it temporarily in specific circumstances. The optimiser could be disabled as the execution could simply fall back to non optimised code. The deoptimiser cannot however be disabled or any application green thread requiring deoptimisation would not be able to keep executing code. As the deoptimiser cannot be disabled, it is not possible to solve the infinite recursion problem in the same way than the optimiser. 
 
-As the deoptimiser cannot be disabled, it is not possible to solve the infinite recursion problem in the same way than the optimiser. If the deoptimiser request deoptimisation, as for the optimiser requesting optimisation, the programs ends up in an infinite recursion where it keeps deoptimising / optimising itself. In the case of the optimiser, we could simply disable it while it is running, and the entire problem was solved. In the case of the deoptimiser, if we disable it and the deoptimiser request deoptimisation, the program cannot resume using non optimised code and crashes. 
-
-To solve this infinite recursion problem, we implemented two solutions. The first solution attempts to restore the system in a recovery mode when recursive deoptimisation happens. It was used for the first benchmark, but it did not work correctly with benchmarks creating multiple green threads, and making it thread-safe had too many constraints. Then a second solution, used now, was designed and consists in keeping all the deoptimiser code in a library completely independent from the rest of the system that cannot be optimised.
+To solve this infinite recursion problem, we implemented two different solutions. The first solution attempts to restore the runtime in a "recovery mode" when recursive deoptimisation happens. In recovery mode, no optimised function can be used (the runtime relies entirely on the v-function interpreter and the baseline JIT). This solution was used for the first benchmarks, but it did not work correctly with benchmarks creating multiple green threads and making this solution thread-safe had too many constraints. We then designed and implemented a second solution in use now. The second solution consists in keeping all the deoptimiser code in a library completely independent from the rest of the system that cannot be optimised.
 
 \subsection{Recovery mode}
 
