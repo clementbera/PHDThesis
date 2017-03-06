@@ -16,17 +16,27 @@
 \label{chap:validation}
 \minitoc
 
-To validate the Sista architecture, we firstly run a set of benchmarks. The benchmarks compare the existing VM against the Sista VM. In addition, the benchmarks evaluate the performance overhead due to the profiling counters. In the Sista VM, the benchmarks are run from a normal Pharo snapshot and from a snapshot where optimised code is already present to evaluate how optimised code is persisted across multiple start-ups. The second section discusses other strategies we implemented to validate our architecture.
+
+To validate the Sista architecture, we evaluated in section \ref{sec:bench} the execution time of a set of benchmarks on the Pharo VM with and without the Sista architecture. The VM was also evaluated in different configuration to show the overhead of profiling counters and the persistance of optimisations across multiple start-ups. Section \ref{sec:otherValid} discusses other strategies we implemented to validate our architecture.
 
 \section{Benchmarks}
+\label{sec:bench}
 
 %TODO use a citation instead of footnote
 
-We evaluate our architecture on a variety of benchmarks from the Squeak/Smalltalk speed center\footnote{\url{http://speed.squeak.org}} that is used to monitor the performance of the Cog VM and other compatible virtual machines for Squeak and Pharo. The benchmarks are adapted from the Computer Language Benchmarks Game suite \cite{GameBenchs} and contributed by the Smalltalk community. We have selected these benchmarks to give an indication of how certain combinations of operations are optimised with our architecture. Although they tend to over-emphasize the effectiveness of certain aspects of a VM, they are widely used by VM authors to give an indication of performance.
+We evaluate our architecture on a variety of benchmarks from the Squeak/Smalltalk speed center~\cite{Felg16a} that is used to monitor the performance of the Cog VM and other compatible virtual machines for Squeak and Pharo. The benchmarks are adapted from the Computer Language Benchmarks Game suite \cite{GameBenchs} and contributed by the Smalltalk community. We have selected these benchmarks to give an indication of how certain combinations of operations are optimised with our architecture. Although they tend to over-emphasize the effectiveness of certain aspects of a VM, they are widely used by VM authors to give an indication of performance.
 
-We consider the results of the Cog VM (interpreter and baseline JIT) our baseline performance. Since we have added counters to the Cog VM to support our architecture, we also measure the performance overhead of maintaining these counters without any additional optimization (Cog+Counters). To show our approach reduces the required warm-up time, we also compare the VM with our runtime optimiser on a snapshot without any optimised code (Sista Cold), and the VM with the runtime optimiser started on a snapshot that already contains optimised code (Sista Warm).
+We consider the results on the Pharo VM with four different configurations:
+\begin{enumerate}
+	\item \emph{Cog} is the existing VM (interpreter and Cogit as the baseline JIT). Cog represents the baseline performance.
+	\item \emph{Cog+Counters} is the existing VM with profiling counters without any additional optimisation. Cog+Counters is used to evaluate the profiling counters overhead.
+	\item \emph{Sista Cold} is the Sista VM started on a snapshot without any optimised v-function.
+	\item \emph{Sista Warm} is the Sista VM started on a snapshot that already contains optimised v-functions.
+\end{enumerate}
 
-We iterated each benchmark for 100 iterations or 60 seconds, whichever came last, and measured the last 10 iterations. For Sista Warm, we start with an already optimised snapshot. For Sista Cold, we only enable the optimizing compiler before the last 10 iterations (this way, the warm-up from Cog's baseline JIT is not included in measuring the warm-up of Sista Cold). The benchmarks were run on an otherwise idle Mac mini 7,1 with a Dual-Core Intel Core i7 running at 3GHz and 16 GB of RAM. We report the average milliseconds taken per iteration, with the confidence interval given for the 90$^{th}$ percentile. For these measurements, we configured the VM to detect frequently used portion of code when a profiling counter reaches 65535 iterations (they are encoded as \emph{int16}, so this is currently the maximum) and we allow the optimiser up to 0.4 seconds to produce an optimised method. We use a high counter value and allow for a long optimization time, because as the optimizations are saved across start-ups we believe it does not matter if the VM takes a long time to reach peak performance, and we have found these values to produce good performance across a variety of benchmarks. Because Sista is written in Smalltalk itself, it is possible to configure various other optimization options depending on the application, for example, to emphasize inlining, to produce larger or smaller methods, or to spend more or less time in various optimization steps. In this set of benchmarks, we use a default configuration for the optimiser across all benchmarks. Besides the graphs given above, we report the measurements in Table~\ref{tbl:benchmark}.
+We iterated each benchmark for 100 iterations or 60 seconds, whichever came last, and measured the last 10 iterations. For Sista Warm, we start with an already optimised snapshot. For Sista Cold, we only enable the optimising compiler before the last 10 iterations (this way, the warm-up from Cog's baseline JIT is not included in measuring the warm-up of Sista Cold). The benchmarks were run on an otherwise idle Mac mini 7,1 with a Dual-Core Intel Core i7 running at 3GHz and 16 GB of RAM. We report the average milliseconds taken per iteration, with the confidence interval given for the 90$^{th}$ percentile. For these measurements, we configured the VM to detect hot spots when a profiling counter reaches 65535 iterations (they are encoded as \emph{int16}, so this is currently the maximum) and we allow the optimiser up to 0.4 seconds to produce an optimised method in critical mode (the benchmarks are run consecutively without any idle time so optimisation in background mode is not considered). We use a high counter value and allow for a long optimisation time, because as the optimisations are saved across start-ups we believe it does not matter that much if the VM takes a long time to reach peak performance. We have found these values to produce good performance across a variety of benchmarks. Because Scorch is written in Smalltalk itself, it is possible to configure various other optimisation options depending on the application, for example, to emphasize inlining, to produce larger or smaller methods, or to spend more or less time in various optimisation steps. 
+
+Figure \ref{fig:measure} shows all the measurements in the form of graphs. The exact values of the measurements are reported in figure \ref{tbl:benchmark}. The following paragraphs describe each a benchmark and its corresponding performance measurements. 
 
 \begin{figure}[h!]
     \begin{center}
@@ -40,13 +50,13 @@ We iterated each benchmark for 100 iterations or 60 seconds, whichever came last
 
 The A* benchmark is a good approximation for applications where many objects collaborate. It measures parsing of large strings that define the layout of the nodes, message sending between each node, arithmetic to calculate costs, and collection operations. In the benchmark, we alternately parse and traverse two different graphs with 2,500 and 10,000 nodes, respectively. It is also a good benchmark for inlining block closures that are used in iterations.
 
-Figure~\ref{fig:measure}(a) shows that adding counters to the VM comes with a slight overhead. A cold start for the benchmarks manages to improve the performance, but due to the ongoing optimizations in the beginning of the measurments, the error is extremely large and thus the run is not significantly faster. Measuring the warmed up image, we see a significant improvement being about 30\% faster.                          
+Figure~\ref{fig:measure}(a) shows that adding counters to the VM comes with a slight overhead. A cold start for the benchmarks manages to improve the performance, but due to the ongoing optimisations in the beginning of the measurments, the error is extremely large and thus the run is not significantly faster. Measuring the warmed up image, we see a significant improvement being about 30\% faster.                          
 
 \subparagraph{Binary tree.}
 
 The binary tree benchmark allocates, walks and deallocates binary trees. The benchmark is parameterized with  the maximum tree depth, which we have set to 10.
 
-In this benchmark, peak performance of Sista is about 25\% faster than the standard VM, with very little error (Figure~\ref{fig:measure}(b)). The overhead of optimization during a cold start leaves it around 5\% behind warm start.
+In this benchmark, peak performance of Sista is about 25\% faster than the standard VM, with very little error (Figure~\ref{fig:measure}(b)). The overhead of optimisation during a cold start leaves it around 5\% behind warm start.
 
 \subparagraph{JSON parsing.}
 
@@ -58,13 +68,13 @@ We can see a peak-performance is about 20\% faster (Figure~\ref{fig:measure}(c))
 
 Richards is an OS kernel simulation benchmark that focuses on message sending between objects and block invocation. We ran this benchmark with the customary idle task, two devices, two handler tasks, and a worker, and filled the work queue of the latter three.
 
-Figure \ref{fig:measure}(d) again shows a clear decrease in performance after adding counters to the VM. For this benchmark, warm-up is very quick even with our additional optimizations. The top-level benchmarking method is optimised very quickly, and only six optimised methods are installed in total. This quick warm-up means there is no significant difference between the cold start Sista and the warmed up image. Both cases are a little over 10\% faster than the Cog VM without counters.
+Figure \ref{fig:measure}(d) again shows a clear decrease in performance after adding counters to the VM. For this benchmark, warm-up is very quick even with our additional optimisations. The top-level benchmarking method is optimised very quickly, and only six optimised methods are installed in total. This quick warm-up means there is no significant difference between the cold start Sista and the warmed up image. Both cases are a little over 10\% faster than the Cog VM without counters.
 
 \subparagraph{k-Nucleotide.}
 
 This benchmark reads a 2.4 MB DNA sequence string and counts all occurrences of nucleotides of lengths 1 and 2, as well as a number of specific sequences. It is a benchmark meant to test the performance of dictionaries in different languages, but serves well to test our inlining of small methods into loops.
 
-The benchmark runs much slower than the others due to the large input, taking over 4 minutes to complete. Sista manages to optimise it to be about 10\% faster, with the cold start showing that the optimization takes a while to amortize (Figure~\ref{fig:measure}(e)).
+The benchmark runs much slower than the others due to the large input, taking over 4 minutes to complete. Sista manages to optimise it to be about 10\% faster, with the cold start showing that the optimisation takes a while to amortize (Figure~\ref{fig:measure}(e)).
 
 \subparagraph{Thread ring benchmark.}
 
@@ -86,12 +96,12 @@ For our default parameters, the benchmark shows no significant differences betwe
 
 \subparagraph{Comments.}
 
-We ran our VM profiler to profile the VM C code, but as for real world application, the time spent in the baseline JIT compiler generating machine code from bytecode is less than 1\% of the total execution time. As the runtime switches from interpreted code to machine code at second invocation for most functions and at first invocation for optimised functions, the time lost here is too small to be shown on our graphics. In fact, the time lost here is not significant compared to the variation so it is difficult to evaluate in our current setting. We believe that using a back-end doing many more machine low-level optimizations would increase the machine code compilation time and in this case we would be able to see a difference between the first run of pre-heated snapshot and second run as the VM still needs to produce the machine code for the optimised bytecoded functions.
+We ran our VM profiler to profile the VM C code, but as for real world application, the time spent in the baseline JIT compiler generating machine code from bytecode is less than 1\% of the total execution time. As the runtime switches from interpreted code to machine code at second invocation for most functions and at first invocation for optimised functions, the time lost here is too small to be shown on our graphics. In fact, the time lost here is not significant compared to the variation so it is difficult to evaluate in our current setting. We believe that using a back-end doing many more machine low-level optimisations would increase the machine code compilation time and in this case we would be able to see a difference between the first run of pre-heated snapshot and second run as the VM still needs to produce the machine code for the optimised bytecoded functions.
 
 \begin{figure}[h!]
     \begin{center}
         \includegraphics[width=\linewidth]{BenchTable}
-        \caption{Benchmark results with standard errors in avg ms per iteration with 90\% confidence interval}
+        \caption{Benchmark results (standard errors in avg ms, 90\% confidence interval)}
         \label{tbl:benchmark}
     \end{center}
 \end{figure}
@@ -99,12 +109,13 @@ We ran our VM profiler to profile the VM C code, but as for real world applicati
 Our optimiser is controlled by a number of variables that have been heuristically chosen to give good performance in a variety of cases. These include, among others, global settings for inlining depth, the allowed maximum size of optimised methods as well as methods to be inlined, as well as the time allowed for the optimiser to create an optimised method before it is aborted. We have found that for certain benchmarks (such as DeltaBlue), these variables can have a great impact. We are working on fine-tuning these default values, as well as enabling heuristics to dynamically adapt these values depending on the application.
 
 \section{Other validations}
+\label{sec:otherValid}
 
-To evaluate our infrastructure, we tried to other techniques in addition to benchmarks. On the one hand, we built an experimental technique to validate runtime deoptimisation was correct using partial evaluation. On the other hand, we compared the runtime information extracted from inline caches against two different static type inferencer.
+To evaluate our infrastructure, we tried two other innovative techniques in addition to measuring benchmarks. On the one hand, we built an experimental technique to validate runtime deoptimisation using partial evaluation. On the other hand, we built a type inferencer using the runtime information extracted from inline caches. The promising results of the type inferencer confirm that the runtime information is quite precise and should give Scorch valuable hints to direct compiler optimisations.
 
 \subsection{Experimental validation of the deoptimiser}
 
-The speculative optimisations in the Sista VM enable many performance optimisations. However, they also introduce significant complexity. The compiler optimizations themselves, as well as the deoptimisation mechanism are complex and error prone. To stabilize Scorch, we designed a new approach to validate the correctness of dynamic deoptimization. The approach~\cite{Bera16a} consists of the symbolic execution of an optimised and a non optimized v-function side by side, deoptimising the abstract stack at each point where dynamic deoptimisation is possible and comparing the deoptimised and non optimised abstract stack to detect bugs. 
+The speculative optimisations in the Sista VM enable many performance optimisations. However, they also introduce significant complexity. The compiler optimisations themselves, as well as the deoptimisation mechanism are complex and error prone. To stabilize Scorch, we designed a new approach to validate the correctness of dynamic deoptimisation. The approach~\cite{Bera16a} consists of the symbolic execution of an optimised and a non optimised v-function side by side, deoptimising the abstract stack at each point where dynamic deoptimisation is possible and comparing the deoptimised and non optimised abstract stack to detect bugs. 
 
 Although this approach is interesting, the complexity required to maintain a good symbolic executor is significant compared to the time available for the maintenance of the overall VM. In other VMs such as V8~\cite{V8}, dynamic deoptimisation is stabilised using a "deopt-every-n-time" approach: the program run is forced to deoptimise the stack regularly (every n deoptimisation point met). This approach is way simpler to maintain and finds in practice a similar number of bugs than the approach built. We are now using a "deopt-every-n-time" approach to validate the deoptimisation of functions.
 
@@ -112,7 +123,7 @@ Although this approach is interesting, the complexity required to maintain a goo
 
 Thanks to a new primitive method, any Pharo program, including Scorch, may request Cogit to provide the runtime information of a specific function. This runtime information is composed of the types met and functions called at each virtual call and the profiling counter values. To assess the quality of the runtime information provided for each virtual call, we built an approach called \emph{inline-cache type inference} (ICTI) to augment the precision of fast and simple type inference algorithms~\cite{Milo16a}. 
 
-ICTI uses type information available in the inline caches during multiple software runs, to provide a ranked-list of possible classes that most likely represent a variable's type. We evaluated ICTI through a proof-of-concept that we implemented in Pharo Smalltalk. Analyzing the top-$n$+2 inferred types (where $n$ is the number of recorded runtime types for a variable) for 5486 variables from four different software systems (Glamour~\cite{Bung09a}, Roassal2~\cite{Pena13a}, Morphic~\cite{Fern07y} and Moose~\cite{Girb10a, Duca05a, Duca00b}) show that ICTI produces promising results for about 75\% of the variables. \textbf{For more than 90\% of variables, the correct runtime type was present among first ten inferred types.} Our ordering shows a twofold improvement when compared with the unordered base approach, \ie for a significant number of variables for which the base approach offered ambiguous results, ICTI was able to promote the correct type to the top of the list.
+ICTI uses type information available in the inline caches during multiple software runs, to provide a ranked-list of possible classes that most likely represent a variable's type. We evaluated ICTI through a proof-of-concept that we implemented in Pharo Smalltalk. Analyzing the top-$n$+2 inferred types (where $n$ is the number of recorded runtime types for a variable) for 5486 variables from four different software systems (Glamour~\cite{Bung09a}, Roassal2~\cite{Pena13a}, Morphic~\cite{Fern07y} and Moose~\cite{Girb10a, Duca05a, Duca00b}) show that ICTI produces promising results for about 75\% of the variables. For more than 90\% of variables, the correct runtime type was present among first ten inferred types. Our ordering shows a twofold improvement when compared with the unordered base approach, \ie for a significant number of variables for which the base approach offered ambiguous results, ICTI was able to promote the correct type to the top of the list.
 
 Based on this results, we believe the runtime information extracted from the first runs to be quite reliable. In any case, this information is used only to direct compiler optimisation: if the runtime information is not correct, the code is executed slower but correctly.
 
