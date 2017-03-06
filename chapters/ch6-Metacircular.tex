@@ -196,18 +196,29 @@ Although the constraints are important, we were able to run all our benchmarks w
 
 \section{Related work}
 
-We find that stack search and deopt require specific rules. 
+To have an optimising JIT optimising its own code and encounter the infinite recursion problem we discussed in this chapter, the optimising JIT has to be written in one of the languages it can optimise and run in the same runtime than the optimised application. 
 
-Implementing language --> problem only in Graal / metacircular VMs.
+In our work Scorch is written in Smalltalk, the language it optimises. Scorch optimiser is able to optimise most of its own code unconditionnally, but the stack search code, searching the stack from a hot spot a function to optimise can be optimised only if the a hot spot is detected while the optimiser is running in background mode. Scorch deoptimiser code cannot, however, be optimised at all. 
+
+Many production VMs are entirely written in a low-level language such as C++ (CITE V8 Webkit hotspot). The optimising JIT cannot optimise its own code in such VMs. Other VMs such as the ones written with the RPython toolchain (CITE) are written in a language that the optimising JIT could optimise, but the production VMs are compiled ahead-of-time to native code, hence the optimising JIT does not optimise its own code at runtime in the production runtime. Some VMs are metacircular(CITE KLEIN and Jalapeno), which means they are entirely written in a language they can run. However, many metacircular VMs, such as Klein (CITE), do not feature an optimising JIT. 
+
+Overall, there are two main VMs where the optimising JIT optimises its own code at runtime. On the one hand, there is the Graal compiler (CITE) which can be used both in the context of the Maxine VM (CITE) and the Java hotspot VM (CITE). The Graal compiler effectively optimises its own code at runtime as it would optimise the application code. On the other hand, Jikes RVM (CITE) features a runtime compiler that can optimise its own code at runtime. Jikes RVM runtime compiler is currently not able to use runtime information to direct its optimisations and do not generate deoptimisation guards, making it not that relevant in our context. The runtime compiler uses however an interesting technique to detect hot spots where the stack search code can be entirely optimised without any constraints.
+
+\subsection{Graal}
+
+we dscuss in the context of hot. Maxine same with magic
 
 Thread system and our solution versus their solution.
+
+stack search and deopt in C++
+
 implementing language like graal. single threaded. blabla.
 However, compilation is done in same thread with hybrid interrupt / background approach
 native threads - we are single threaded so that's how we do it.
 
-solution of Graal, C++ for stack search and deopt while concurrent optimisation.
+\subsection{Jikes RVM}
 
-In Jalapeno, no deopt currently, profiling and optimisation concurrent 
+In Jalapeno, no deopt currently, profiling and optimisation concurrent, can be optimised with no constraint. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
