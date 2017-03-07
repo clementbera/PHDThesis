@@ -196,29 +196,29 @@ Although the constraints are important, we were able to run all our benchmarks w
 
 \section{Related work}
 
-To have an optimising JIT optimising its own code and encounter the infinite recursion problem we discussed in this chapter, the optimising JIT has to be written in one of the languages it can optimise and run in the same runtime than the optimised application. 
-
-In our work Scorch is written in Smalltalk, the language it optimises. Scorch optimiser is able to optimise most of its own code unconditionnally, but the stack search code, searching the stack from a hot spot a function to optimise can be optimised only if the a hot spot is detected while the optimiser is running in background mode. Scorch deoptimiser code cannot, however, be optimised at all. 
+To have an optimising JIT optimising its own code and encounter the infinite recursion problem we discussed in this chapter, the optimising JIT has to be written in one of the languages it can optimise and run in the same runtime than the optimised application. Such an optimising JIT is not common.
 
 Many production VMs are entirely written in a low-level language such as C++ (CITE V8 Webkit hotspot). The optimising JIT cannot optimise its own code in such VMs. Other VMs such as the ones written with the RPython toolchain (CITE) are written in a language that the optimising JIT could optimise, but the production VMs are compiled ahead-of-time to native code, hence the optimising JIT does not optimise its own code at runtime in the production runtime. Some VMs are metacircular(CITE KLEIN and Jalapeno), which means they are entirely written in a language they can run. However, many metacircular VMs, such as Klein (CITE), do not feature an optimising JIT. 
 
-Overall, there are two main VMs where the optimising JIT optimises its own code at runtime. On the one hand, there is the Graal compiler (CITE) which can be used both in the context of the Maxine VM (CITE) and the Java hotspot VM (CITE). The Graal compiler effectively optimises its own code at runtime as it would optimise the application code. On the other hand, Jikes RVM (CITE) features a runtime compiler that can optimise its own code at runtime. Jikes RVM runtime compiler is currently not able to use runtime information to direct its optimisations and do not generate deoptimisation guards, making it not that relevant in our context. The runtime compiler uses however an interesting technique to detect hot spots where the stack search code can be entirely optimised without any constraints.
+Overall, there are two main VMs where the optimising JIT optimises its own code at runtime. On the one hand, there is the Graal compiler (CITE) which can be used both in the context of the Maxine VM (CITE) and the Java hotspot VM (CITE). The Graal compiler effectively optimises its own code at runtime as it would optimise the application code. On the other hand, Jikes RVM (CITE) features a runtime compiler that can optimise its own code at runtime. 
 
-\subsection{Graal}
+\subsection{Graal optimising JIT}
 
-we dscuss in the context of hot. Maxine same with magic
+The Graal runtime compiler(CITE) was initially designed and implemented as part of the Maxine VM (CITE), a metacircular Java VM. Graal was then extracted from Maxine. It was then integrated in the Java hotspot VM (CITE). Graal can be used in two different ways on top of the hotspot VM. It can be used as an alternative optimising JIT, replacing the Java hotspot optimising JIT written in C++ or it can be used as a special purpose optimising JIT, optimising only specific libraries or application while the rest of the Java runtime is optimised with hotspot optimising JIT. VMs built with Truffle (CITE), a framework allowing to build efficient VMs by simply writting an AST interpreter in Java, are now running using the Java hotspot VM and the Graal compiler as the optimising JIT.
 
-Thread system and our solution versus their solution.
+The most relevant use-case, in our context, is when the Graal compiler is used as an alternative optimising JIT on top of the Java hotspot VM. The interpreter and baseline JIT tiers are in this case present in Java hotspot VM, written in a low level language (C++) and compiled ahead-of-time to native code. In our case, the Pharo interpreter and baseline JIT are also compiled ahead-of-time to native code. The optimising JIT are in both cases written in the language run by the VM (Graal in Java and Scorch in Smalltalk), they can optimise their own code and they need to interface with the existing VM to trigger runtime compilation or to install optimised code.
 
-stack search and deopt in C++
+In the Graal-hotspot runtime, when a hotspot is detected, code in the hotspot VM (written in C++) searches the stack for a function to optimise. Once the function is chosen, Hotspot adds it to a thread-safe compilation queue. The Graal compiler is run in different native threads concurrently to the application native threads. Graal takes functions to optimise from the compilation queue, generates concurrently optimised n-function and hands them over to the hotspot VM for installation. The optimised n-functions handed by Graal to hotspot respect the Graal Java native interface. They include deoptimisation metadata that hot spot is able to understand. When dynamic deoptimisation happens, code written in the hotspot VM (in C++) is responsible for the deoptimisation of the stack.
 
-implementing language like graal. single threaded. blabla.
-However, compilation is done in same thread with hybrid interrupt / background approach
-native threads - we are single threaded so that's how we do it.
+In our work, Scorch optimiser is able to optimise most of its own code unconditionnally, but the stack search code can be optimised only if the a hot spot is detected while the optimiser is running in background mode. Scorch deoptimiser code cannot be optimised at all. In the case of the Graal-hotspot runtime, the stack search and deoptimisation code is written in C++ and cannot be optimised by Graal. Having the stack search and deoptimisation code in Smalltalk, even if they cannot be optimised normally, allow us to change part of the design such as the deoptimisation metadata without having to recompile the VM. We therefore believe that our approach has an advantage over the Graal-hotspot runtime.
 
 \subsection{Jikes RVM}
 
-In Jalapeno, no deopt currently, profiling and optimisation concurrent, can be optimised with no constraint. 
+Jikes RVM (CITE) optimising runtime compiler is written entirely in Java and can optimise Java code. However, it is not currently able to use runtime information to direct its optimisations and do not generate deoptimisation guards, making it not that relevant in our context. The runtime compiler uses however an interesting technique (CITE ADAPTIVE) to choose what function to optimise. Jikes RVM uses an external sampling profiling native thread. Based on the profiling samples, the profiling thread detect what function should be optimised and adds it to a thread-safe compilation queue. The optimising runtime compiler can then start other native threads which take functions to optimise from the compilation queue, optimise and install them. 
+
+The n-function generated by the Jikes RVM baseline JIT do not need profiling counters as profiling is performed using the samples taken by the profiling native thread. The functions to optimise are chosen entirely concurrently. The application is not interrupted, at any time, to search the stack for a function to optimise or to detect a hot spot.
+
+We did not investigate in this direction because our VM is currently single threaded. We do not think it is possible to implement something similar in a single-threaded environment.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
