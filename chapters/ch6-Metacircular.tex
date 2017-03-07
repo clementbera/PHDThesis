@@ -230,6 +230,8 @@ The optimiser solves this issue by disabling itself when it runs in critical mod
 
 The deoptimiser cannot solve the problem the same way as it cannot be disabled at any time or Smalltalk code cannot be executed any more. The deoptimiser avoids the problem by being written using a small number of classes that cannot be optimised nor call any other libraries.
 
+The next chapter explains how the runtime state is persisted across multiple VM start-ups, including the running green threads and the optimised functions.
+
 \ifx\wholebook\relax\else
     \end{document}
 \fi
