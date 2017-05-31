@@ -192,7 +192,7 @@ Another approach is to use a high-level language compiled ahead-of-time to assem
 
 \paragraph{Metacircular VMs.} Multiple research projects showed that it is possible to implement an entire VM in the programming language the VM runs. Such VMs are called metacircular VMs. 
 
-The Jalape\~no project, now called Jikes RVM (CITE), was the first successful VM with such a design. Jikes RVM is a Java VM written in Java. On the Jikes RVM official page, it is written that the current version of the VM does not perform runtime optimisations based on runtime information. There is however a runtime compiler present in Jikes RVM (CITE Adaptive Optimization in the Jalapeno JVM: The Controller's Analytical Model) optimising the code more aggressively than the baseline JIT, but it does not seem to use runtime information to direct its optimisations. 
+The Jalape\~no project, now called Jikes RVM~\cite{Alp99a}, was the first successful VM with such a design. Jikes RVM is a Java VM written in Java. On the Jikes RVM official page, it is written that the current version of the VM does not perform runtime optimisations based on runtime information. There is however a runtime compiler present in Jikes RVM~\cite{Arn00} optimising the code more aggressively than the baseline JIT, but it does not seem to use runtime information to direct its optimisations. 
 
 Another Java VM written in Java was implemented in the late 2000s at Oracle, called Maxine VM~\cite{Wimm13a}. Maxine had multiple working optimising JITs. The most popular was extracted from the Maxine VM and is now known as the Graal compiler~\cite{Oracle13,Dubo13c}. In the case of Maxine, the optimising JIT is written in Java and is able to optimise its own code.
 
