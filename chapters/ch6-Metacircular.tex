@@ -230,15 +230,38 @@ Although the constraints are important, we were able to run all our benchmarks w
 
 To have an optimising JIT optimising its own code and encounter the infinite recursion problem we discussed in this chapter, the optimising JIT has to be written in one of the languages it can optimise and run in the same runtime than the optimised application. Such an optimising JIT is not common.
 
-Many production VMs are entirely written in a low-level language such as C++~\cite{V8,Webkit15}. The optimising JIT cannot optimise its own code in such VMs. Other VMs such as the ones written with the RPython toolchain ~\cite{Rigo06a} are written in a language that the optimising JIT could optimise, but the production VMs are compiled ahead-of-time to native code, hence the optimising JIT does not optimise its own code at runtime in production. Some VMs are metacircular~\cite{Unga05b}(CITE JIKES RVM), which means they are entirely written in a language they can run. However, many metacircular VMs, such as Klein~\cite{Unga05b}, do not feature an optimising JIT \footnote{In 2009, Adam Spitz reported some work in the direction of an inlining JIT compiler in Klein on the project web page, but there has been no further news about it since then.}. 
+Many production VMs are entirely written in a low-level language such as C++~\cite{V8,Webkit15}. The optimising JIT cannot optimise its own code in such VMs. Other VMs such as the ones written with the RPython toolchain ~\cite{Rigo06a} are written in a language that the optimising JIT could optimise, but the production VMs are compiled ahead-of-time to native code, hence the optimising JIT does not optimise its own code at runtime in production. Some VMs are metacircular~\cite{Unga05b,Alp99a}, which means they are entirely written in a language they can run. However, many metacircular VMs, such as Klein~\cite{Unga05b}, do not feature an optimising JIT \footnote{In 2009, Adam Spitz reported some work in the direction of an inlining JIT compiler in Klein on the project web page, but there has been no further news about it since then.}. 
 
 There are two main VMs where the optimising JIT optimises its own code at runtime. On the one hand, there is the Graal compiler~\cite{Oracle13,Dubo13c} which can be used both in the context of the Maxine VM~\cite{Wimm13a} and the Java hotspot VM (CITE). The Graal compiler effectively optimises its own code at runtime as it would optimise the application code. On the other hand, the Jalape\~no VM~\cite{Alp99a}, now called Jikes RVM, features a runtime compiler that can optimise its own code at runtime. 
 
 \subsection{Graal optimising JIT}
 
-The Graal runtime compiler~\cite{Oracle13,Dubo13c} was initially designed and implemented as part of the Maxine VM~\cite{Wimm13a}, a metacircular Java VM. Graal was then extracted from Maxine. It was then integrated in the Java hotspot VM (CITE). Graal can be used in two different ways on top of the hotspot VM. It can be used as an alternative optimising JIT, replacing the Java hotspot optimising JIT written in C++ or it can be used as a special purpose optimising JIT, optimising only specific libraries or application while the rest of the Java runtime is optimised with hotspot optimising JIT. VMs built with Truffle~\cite{Wur13a}, a framework allowing to build efficient VMs by simply writting an AST interpreter in Java, are now running using the Java hotspot VM and the Graal compiler as the optimising JIT.
+The Graal runtime compiler~\cite{Oracle13,Dubo13c} is an optimising JIT written in Java, which is able to optimise its own code at runtime. Graal can be used in different contexts, with different solutions to the infinite recursion problem. Initially, the Graal runtime compiler was designed and implemented as part of the Maxine VM~\cite{Wimm13a}, a metacircular Java VM. Graal was then extracted from Maxine and it can now work on top of the Java hotspot VM (CITE). Graal can be used in two main ways on top of the hotspot VM. On the one hand, it can be used as an alternative optimising JIT, replacing the Java hotspot optimising JIT written in C++. On the other hand, it can be used as a special purpose optimising JIT, optimising only specific libraries or application while the rest of the Java runtime is optimised with hotspot optimising JIT. %VMs built with Truffle~\cite{Wur13a}, a framework allowing to build efficient VMs by simply writting an AST interpreter in Java, are now running using the Java hotspot VM and the Graal compiler as the optimising JIT.
 
-The most relevant use-case, in our context, is when the Graal compiler is used as an alternative optimising JIT on top of the Java hotspot VM. The interpreter and baseline JIT tiers are in this case present in Java hotspot VM, written in a low level language (C++) and compiled ahead-of-time to native code. In our case, the Pharo interpreter and baseline JIT are also compiled ahead-of-time to native code. The optimising JIT are in both cases written in the language run by the VM (Graal in Java and Scorch in Smalltalk), they can optimise their own code and they need to interface with the existing VM to trigger runtime compilation or to install optimised code.
+In our context, the most relevant use-case is when the Graal compiler is used as an alternative optimising JIT on top of the Java hotspot VM. The interpreter and baseline JIT tiers are in this case present in Java hotspot VM, written in a low level language (C++) and compiled ahead-of-time to native code. This is very similar to our design, where the Pharo interpreter and baseline JIT are also compiled ahead-of-time to native code. The optimising JIT are in both cases written in the language run by the VM (Graal in Java and Scorch in Smalltalk), they can optimise their own code and they need to interface with the existing VM to trigger runtime compilation and to install optimised code.
+
+-> fix from here
+
+Need explanation of table. maybe merge with existing paragraph afterwards partly.
+
+\begin{table}
+  \caption{Comparison between Sista and Graal-hotspot}
+  \vspace{0.1cm}
+  \centering
+  \begin{tabular}{ c || c | c }
+    \toprule
+     & Sista architecture & Graal-hotspot architecture \\
+    \midrule
+	Interpreter and baseline JIT & Compiled AOT & Compiled AOT \\
+	Stack search & Application runtime & Compiled AOT \\
+	Optimisation of a function & Application runtime & Application runtime \\
+	Deoptimisation of a frame & Application runtime & Compiled AOT \\
+  \end{tabular}
+  \label{tbl:banane}
+\end{table}
+
+-> infinite rec can happen only if in same runtime...
+-> we proposed a sol for 3 in section X, they solve it that way but we cannot cause multithreading.
 
 In the Graal-hotspot runtime, when a hotspot is detected, code in the hotspot VM (written in C++) searches the stack for a function to optimise. Once the function is chosen, Hotspot adds it to a thread-safe compilation queue. The Graal compiler is run in different native threads concurrently to the application native threads. Graal takes functions to optimise from the compilation queue, generates concurrently optimised n-function and hands them over to the hotspot VM for installation. The optimised n-functions handed by Graal to hotspot respect the Graal Java native interface. They include deoptimisation metadata that hot spot is able to understand. When dynamic deoptimisation happens, code written in the hotspot VM (in C++) is responsible for the deoptimisation of the stack.
 
@@ -252,15 +275,16 @@ The n-function generated by the Jikes RVM baseline JIT do not need profiling cou
 
 We did not investigate in this direction because our VM is currently single threaded. We do not think it is possible to implement something similar in a single-threaded environment.
 
+-> to here
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Conclusion.}
 
-In this chapter we discussed the main issue existing because the optimiser and the deoptimiser are implemented in Smalltalk and are running in the same runtime and the same native thread than the application they optimise and deoptimise respectively. The main issue is related to infinite recursion. If a hot spot is detected inside the optimiser code, the optimiser may call itself indefinitely to try to optimise it. The deoptimiser has a similar issue when it needs to deoptimise its own code. In both cases, the program may get slow or gets completely stuck.
+In this chapter we discussed the infinite recursion issue. If a hot spot is detected inside the optimiser code, the optimiser may call itself indefinitely to try to optimise it. The deoptimiser has a similar issue when it needs to deoptimise its own code. The problem exists because the optimiser and the deoptimiser are implemented in Smalltalk and are running in the same runtime and the same native thread than the application they optimise and deoptimise respectively. The main issue is related to infinite recursion.
 
-The optimiser solves this issue by disabling itself when it runs in critical mode (when it interrupts temporarily the application green thread to perform the optimisation). The optimiser cannot optimise itself directly while running in critical mode, it can only optimise the  application, which may include libraries used both by the application and the optimiser itself. For functions taking a long time to optimise, the optimiser cannot stop the application for too long or the application becomes unresponsive, hence it postpone the optimisation to a background compilation queue where functions are optimised when the application is in idle. When performing optimisations in the background, the optimiser can optimise itself entirely.
-
-The deoptimiser cannot solve the problem the same way as it cannot be disabled at any time or Smalltalk code cannot be executed any more. The deoptimiser avoids the problem by being written using a small number of classes that cannot be optimised nor call any other libraries.
+The optimiser solves this issue by disabling itself when it runs in critical mode (when it interrupts temporarily the application green thread to perform the optimisation). %The optimiser cannot optimise itself directly while running in critical mode, it can only optimise the  application, which may include libraries used both by the application and the optimiser itself. For functions taking a long time to optimise, the optimiser cannot stop the application for too long or the application becomes unresponsive, hence it postpone the optimisation to a background compilation queue where functions are optimised when the application is in idle. When performing optimisations in the background, the optimiser can optimise itself entirely.
+The deoptimiser has to solve the problem differently as it cannot be disabled temporarily or Smalltalk code cannot be executed any more. The deoptimiser avoids the problem by being written using a small number of classes, independent from the rest of the system, that cannot be optimised nor call any external function.
 
 The next chapter explains how the runtime state is persisted across multiple VM start-ups, including the running green threads and the optimised functions.
 
