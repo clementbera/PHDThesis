@@ -23,7 +23,7 @@ The overall thesis focuses on the design and implementation of an optimising JIT
 
 \section{Overview}
 
-This section starts by describing briefly the existing runtime and evolutions required to introduce an optimising JIT. Section \ref{sec:splitDesign} explain the overall design. As the architecture is different from classical architectures, the terminology is clarified in Section \ref{sec:terminologyI}. Lastly, Section \ref{sec:further} briefly describe how functions are optimised and deoptimised. 
+This section starts by describing briefly the existing runtime and evolutions required to introduce an optimising JIT. Section \ref{sec:splitDesign} explain the overall design. Lastly, Section \ref{sec:further} briefly describe how functions are optimised and deoptimised. 
 
 \subsection{Existing runtime}
 
@@ -173,25 +173,45 @@ In the code sample in Figure \ref{fig:ExampleCode}, \ct{exampleArrayLoop} is a m
 
 \begin{figure}[h!]
     \begin{center}
-        \begin{code}
-        	ApplicationClass >> exampleArrayLoop
-        	    array do: [ :element | FileStream stdout nextPutAll: element printString ].
-        		
-        	Array >> do: aClosure
-        	    1 to: self size do: [:index | aClosure value: (self at: index)].
-        \end{code}   
-	\caption{Example code}
-        \label{fig:ExampleCode}
-    \end{center}
-\end{figure}
-
-+ ADD BYTECODE
-
-\begin{figure}[h!]
-    \begin{center}
         \includegraphics[width=0.42\linewidth]{ExampleLoopStack}
         \caption{Example stack during closure execution}
         \label{fig:ExampleLoopStack}
+    \end{center}
+\end{figure}
+
+\begin{figure}
+    \begin{center}
+		\noindent \begin{tabular}{@{}c|l|l@{}}
+		Method & ApplicationClass >> & Array >> \\
+		 & exampleArrayLoop & do: aClosure \\
+		\midrule
+		Source &  array do: [ :elem | & 1 to: self size do: [:index | \\
+		Code &\hspace{0.3cm}FileStream stdout nextPutAll: &\hspace{0.3cm}aClosure value: (self at: index)]. \\
+		 &\hspace{0.6cm}elem printString ]. &  \\
+		\midrule
+		Bytecode &  17 <00> pushRcvr: 0 & 17 <4C> self \\
+		& 18 <F9 00 00> createClosure & 19 <D1> popIntoTemp: 1 \\
+		& 	        25 <10> pushLit: FileStream & 	20 <51> pushConstant: 1 \\
+		& 	        26 <81> send: stdout & 	21 <D2> popIntoTemp: 2 \\
+		& 	        27 <40> pushTemp: 0 & 	22 <42> pushTemp: 2 \\
+		& 	        28 <82> send: printString & 	23 <41> pushTemp: 1 \\
+		& 	        29 <93> send: nextPutAll: & 	24 <64> send: <= \\
+		& 	        30 <5E> blockReturn & 	25 <EF 0E> jumpFalse: 41 \\
+		& 	21 <7B> send: do: & 	27 <40> pushTemp: 0 \\
+		& 	22 <D8> pop & 	28 <4C> self \\
+		& 	23 <58> returnSelf & 	29 <42> pushTemp: 2 \\
+		&  & 	30 <70> send: at: \\
+		&  & 	31 <7A> send: value: \\
+		&  & 	32 <D8> pop \\
+		&  & 	33 <42> pushTemp: 2 \\
+		&  & 	34 <51> pushConstant: 1 \\
+		&  & 	35 <60> send: + \\
+		&  & 	36 <D2> popIntoTemp: 2 \\
+		&  & 	37 <E1 FF ED ED> jumpTo: 22 \\
+		&  & 	41 <58> returnSelf \\
+		\end{tabular}
+	\caption{Example code}
+    \label{fig:ExampleCode}
     \end{center}
 \end{figure}
 
@@ -221,19 +241,15 @@ Scorch's optimiser performs Smalltalk specific optimisations, very similar to th
 
 Once the inlining phasis is finished, Scorch's optimiser performs standard optimisations such as array-bounds check elimination with the ABCD algorithm~\cite{Bodi00a} or global value numbering. Scorch's optimiser also postpones the allocation of objects not escaping the optimised v-function from runtime to deoptimisation time (or completely removes the allocation if the object is never required for deoptimisation)~\footnote{Objects used only inside optimised functions are not allocated unless deoptimisation is triggered. The state of such objects is moved from a heap location to the stack to allow to optimise read-write using the single-static assignment property.}.
 
-+ FIX NEXT paragraph
-
-The back-end is the only non conventional part of the optimiser. Scorch needs to generate an optimised v-function and not an optimised n-function. Most intermediate representation instructions map one to one to the extended bytecode set instructions. However, as the bytecode set is stack-based, the back-end needs to map each used intermediate representation instruction value either to a value on stack or a temporary variable. The deoptimisation metadata needs to be updated accordingly.
+The back-end is the only non conventional part of the optimiser. Scorch needs to generate an optimised v-function and not an optimised n-function. Most intermediate representation instructions are translated to a single bytecode instruction (from the extended bytecode set). However, as the bytecode set is stack-based, Scorch back-end needs to map each used intermediate representation instruction value either to a value on stack or a temporary variable. The deoptimisation metadata needs to be updated accordingly.
 
 Lastly, the back-end generates an optimised v-function. For each point where deoptimisation could be requested (typically, failing guards, but also each virtual call for debugger support), the optimised v-function has metadata attached to reconstruct the stack with unoptimised v-functions.
 
 \paragraph{Installation.}
 
-+ EXAMPLE OR EXPLANATION OF DEPENDENCY MANAGER
-
 If the optimisation has been done in time in critical mode or has simply been done in background mode, the optimised v-function is installed. It is installed in the method dictionary of a class if this is a method, or in a method if it's a closure. If an optimised method is installed, the installation explicitely requests the VM to flush the caches dependent of this installation so it can be used at next call (the global look-up cache for the interpreter and the inline caches).
 
-In addition, the dependencies are installed in the dependency manager so that if new code is loaded, code that may be dependent is discarded.
+In addition, the dependencies are installed in the dependency manager so that if new code is loaded, code that may be dependent is discarded. Indeed, if a new version of a v-function is installed while the previous version was inlined in optimised v-functions, all optimised v-functions having inlined the previous version of the function need to be discarded. Frames on stack using discarded functions are lazily deoptimised when the execution flow returns to them.
 
 Once installed, conceptually, the VM runs the optimised v-function as a normal v-function. The first few runs can be interpreted and the subsequent runs use the n-function produced by Cogit. The only difference is that optimised v-functions have access to additional operations, but those operations are supported both by the interpreter and by Cogit. The first version we had running was working exactly this way.
 
@@ -286,7 +302,7 @@ During deoptimisation, the bottom frames are used by the deoptimiser. Just above
 \paragraph{Smalltalk code deoptimisation.}The Smalltalk code can request deoptimisation of specific frames to perform specific operations such as debugging. In this case, the situation is different because:
 \begin{enumerate}
 	\item The frame to deoptimise is in the middle of the application frames. Instead of having the call-back and deoptimiser frames below the frame to deoptimise on stack, other application frames are present.
-	\item READ AGAIN AND PATCH: The instruction pointer is not on a guard instruction. Although, all instructions where deoptimisation can happen are annotated with deoptimisation metadata, so having the instruction pointer on a non guard instruction does not really change much.
+	\item The instruction pointer is not on a guard instruction. This does not really matter as any instruction where deoptimisation can happen are annotated with deoptimisation metadata.
 \end{enumerate}
 
 \subsection{Scorch deoptimiser}

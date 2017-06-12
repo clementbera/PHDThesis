@@ -46,8 +46,6 @@ aspects:
 	%\item \emph{Virtual function instruction set:} Most VMs are either only able to execute code from a specific programming language or from a specific virtual function representation. Several modern VMs are able to execute code in other form, for example
 \end{itemize}
 
-WE NEED AN OUTLINE.
-
 %what do we discuss
 \paragraph{Closed-source VMs.} This chapter tries to discuss the main production and research open-source VMs. Specific closed-source VMs are described as they are relevant in the context the thesis. However, many closed-source VMs are ignored as it is difficult to get reliable and free-to-share information about them, especially if no publications exist on a specific aspect of the VM. 
 
@@ -158,7 +156,7 @@ The baseline JIT is typically implemented as a template-based engine~\cite{Deut8
 
 \begin{figure}[h!]
     \begin{center}
-        \includegraphics[width=0.50\linewidth]{OptJITFig}
+        \includegraphics[width=0.49\linewidth]{OptJITFig}
         \caption{Optimising JIT classical architecture}
         \label{fig:OptJITFig}
     \end{center}
@@ -175,6 +173,14 @@ The second case is related to VM extensions. The Javascript VMs are now attempti
 The first optimising JIT, designed and implemented in Self~\cite{UrsPHD}, was done in single-threaded environment. In this case, the optimising JIT had a limited time period to produce optimised code, and if the time period was not enough, the function was not optimised. Since the early 2000s, multi-threaded environment has become more common and many optimising JITs now perform optimisations concurrently to the application native thread(s)~\cite{Arn00,Stad12a}.
 
 In most cases, not all the runtime compilations are however done concurrently. The baseline JIT is typically executed in the same native thread than the application. As it has very small compilation time, the compilation time overhead is usually not significant enough to justify concurrent compilation. When a frequently used portion of code is detected, the optimising JIT has to choose a function to optimise based on the current stack. This cannot be done concurrently as the stack needs to be introspected. Once the function to optimise is chosen, the optimisation of the function can be done concurrently. The optimising JIT has usually access to a pool of native threads which take functions to optimise in a compilation queue, optimises them and installs them. Further calls on such functions can use the optimised version installed. However, the optimising JIT may insert guards to ensure assumptions speculated at compile-time (such as the type of a specific variable) are valid at runtime. If one of the guard fails, the stack needs to be deoptimised to resume with non-optimised code. Deoptimisation of the stack is not done concurrently as the application requires the deoptimisation to be finished to resume execution. 
+
+\subsection{Aosta technical report}
+
+Normally technical reports are not relevant enough to be mentioned, but as Sista is based on the Aosta technical report\cite{Mira02c}, it is definitely worth talking about it.
+
+Aosta is a design sketch for an adaptive optimiser implemented in Smalltalk above a conventional Smalltalk virtual machine (a virtual machine featuring a baseline JIT) with \emph{minor} extensions. Adaptive optimisation are discussed in the sense of Urs H\"olzle \cite{UrsPHD}. The sketch is far from complete, focusing instead on the interface between the optimiser and the virtual machine, hence outlining a potentially portable architecture where an optimiser written in Smalltalk can be hosted above a range of specific virtual machines. This portability is intended to allow the Smalltalk community to collaborate on the project without having to define and implement a common VM, with all the difficulties of migrating current systems to a new VM, allowing the community to apply the optimiser within the existing systems.  Of course, this architecture still requires significant extensions to the execution machinery of existant VMs but these extensions amount to something far from a rewrite.
+
+The sketch is then detailled in the context of HPS, the VisualWorks VM, which is a second generation implementation of Peter Deutsch's PS Smalltalk~\cite{Deut84a}. The author chose to describe the architecture with this VM as he is familiar with it and the sketch needed (according to the author) to be based on an existing VM to make it as real as possible. The sketch is expected to apply more broadly than just HPS but this is yet to prove. The sketch was, in 2002, functioning as a specification for the HPS implementation. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
