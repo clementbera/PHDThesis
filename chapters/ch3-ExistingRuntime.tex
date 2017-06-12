@@ -38,7 +38,7 @@ In addition to providing some abstractions over machine-specific-details, the sl
 	\item \emph{Simulation:} As Slang is a subset of Smalltalk, it can be executed as normal Smalltalk code. This is used to simulate the interpreter and garbage collector behavior. The JIT runtime is simulated using both Slang execution and external processor simulators. Simulation is very convenient to debug the VM as all the Smalltalk debugging tools are available. In addition, the simulator state can be saved and duplicated, which is very convenient to reproduce quickly and many times the same bug happening from a specific runtime state.
 \end{itemize}
 
-The executable is generated in two steps as shown on figure \ref{fig:VMCompilation}, similarly to the RPython toolchain~\cite{Rigo06a}. The first step is to generate the two C files representing the whole execution engine written in Slang using the Slang-to-C compiler. During the second step, a C compiler is called to compile the execution engine and the platform-specific code written directly in C to the executable VM.
+The executable is generated in two steps as shown on Figure \ref{fig:VMCompilation}, similarly to the RPython toolchain~\cite{Rigo06a}. The first step is to generate the two C files representing the whole execution engine written in Slang using the Slang-to-C compiler. During the second step, a C compiler is called to compile the execution engine and the platform-specific code written directly in C to the executable VM.
 
 \begin{figure}[h!]
     \begin{center}
@@ -87,8 +87,8 @@ However, both v-frames and contexts use the virtual instruction pointer and neve
 
 To read and write contexts, the VM intercepts all the accesses to the context objects. To do so, contexts can be in two forms. They can be "married" to a v-frame or n-frame, in which case they act as proxies to the frame. The VM then maps reads and writes to read and write the correct field in the frame representation. Alternatively, they can be "single" (for example when instantiated from Smalltalk), which means there is no stack frame on stack representing the context. In this case, the VM can modify the context as a normal object. Upon activation, the VM lazily recreates a v-frame for a single context to execute it. Returns to single contexts are necessarily across stack page boundaries, hence the overhead to test if the caller is a context on heap or a stack frame on stack is required only in the uncommon case of return across stack pages. 
 
-Aggressive stack manipulation (instruction pointer modification, caller modification) may lead the VM to crash. The program performing such operations needs to guarantee it won't happen, this is not the VM responsibility. In addition, such operations can require a married context to "divorce" the frame, killing the frame in the process. Upon divorce, the stack page is split in two parts and one part if copied to another stack page. One stack page returns to the single divorced context while the context returns to the other stack page, as shown on figure \ref{fig:Divorce}. In normal execution the stack is composed exclusively of stack pages, but after stack manipulation from Smalltalk, the stack can be a linkedlist of stack pages and contexts. 
-%as shown on figure \ref{fig:StackRepresentation2}.
+Aggressive stack manipulation (instruction pointer modification, caller modification) may lead the VM to crash. The program performing such operations needs to guarantee it won't happen, this is not the VM responsibility. In addition, such operations can require a married context to "divorce" the frame, killing the frame in the process. Upon divorce, the stack page is split in two parts and one part if copied to another stack page. One stack page returns to the single divorced context while the context returns to the other stack page, as shown on Figure \ref{fig:Divorce}. In normal execution the stack is composed exclusively of stack pages, but after stack manipulation from Smalltalk, the stack can be a linkedlist of stack pages and contexts. 
+%as shown on Figure \ref{fig:StackRepresentation2}.
 
 \begin{figure}[h!]
     \begin{center}
@@ -121,7 +121,7 @@ Pharo interfaces with its VM in two different ways:
 
 \paragraph{Virtual function representation.}
 
-As everything is an object in Pharo, virtual functions are objects. A v-function is composed of a function's header, a list of literals, a list of bytecodes and a reference to its source code as shown on figure \ref{fig:CompiledCode}. The function's header contains information required for the function's execution such as the number of temporary variables or the size of the frame required.
+As everything is an object in Pharo, virtual functions are objects. A v-function is composed of a function's header, a list of literals, a list of bytecodes and a reference to its source code as shown on Figure \ref{fig:CompiledCode}. The function's header contains information required for the function's execution such as the number of temporary variables or the size of the frame required.
 
 \begin{figure}[h!]
     \begin{center}

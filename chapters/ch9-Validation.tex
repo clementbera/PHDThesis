@@ -17,7 +17,7 @@
 \minitoc
 
 
-To validate the Sista architecture, we evaluated in section \ref{sec:bench} the execution time of a set of benchmarks on the Pharo VM with and without the Sista architecture. The VM was also evaluated in different configuration to show the overhead of profiling counters and the persistance of optimisations across multiple start-ups. Section \ref{sec:otherValid} discusses other strategies we implemented to validate our architecture.
+To validate the Sista architecture, we evaluated in Section \ref{sec:bench} the execution time of a set of benchmarks on the Pharo VM with and without the Sista architecture. The VM was also evaluated in different configuration to show the overhead of profiling counters and the persistance of optimisations across multiple start-ups. Section \ref{sec:otherValid} discusses other strategies we implemented to validate our architecture.
 
 \section{Benchmarks}
 \label{sec:bench}
@@ -36,7 +36,7 @@ We consider the results on the Pharo VM with four different configurations:
 
 We iterated each benchmark for 100 iterations or 60 seconds, whichever came last, and measured the last 10 iterations. For Sista Warm, we start with an already optimised snapshot. For Sista Cold, we only enable the optimising compiler before the last 10 iterations (this way, the warm-up from Cog's baseline JIT is not included in measuring the warm-up of Sista Cold). The benchmarks were run on an otherwise idle Mac mini 7,1 with a Dual-Core Intel Core i7 running at 3GHz and 16 GB of RAM. We report the average milliseconds taken per iteration, with the confidence interval given for the 90$^{th}$ percentile. For these measurements, we configured the VM to detect hot spots when a profiling counter reaches 65535 iterations (they are encoded as \emph{int16}, so this is currently the maximum) and we allow the optimiser up to 0.4 seconds to produce an optimised method in critical mode (the benchmarks are run consecutively without any idle time so optimisation in background mode is not considered). We use a high counter value and allow for a long optimisation time, because as the optimisations are saved across start-ups we believe it does not matter that much if the VM takes a long time to reach peak performance. We have found these values to produce good performance across a variety of benchmarks. Because Scorch is written in Smalltalk itself, it is possible to configure various other optimisation options depending on the application, for example, to emphasize inlining, to produce larger or smaller methods, or to spend more or less time in various optimisation steps. 
 
-Figure \ref{fig:measure} shows all the measurements in the form of graphs. The exact values of the measurements are reported in figure \ref{tbl:benchmark}. The following paragraphs describe each a benchmark and its corresponding performance measurements. 
+Figure \ref{fig:measure} shows all the measurements in the form of graphs. The exact values of the measurements are reported in Figure \ref{tbl:benchmark}. The following paragraphs describe each a benchmark and its corresponding performance measurements. 
 
 \begin{figure}[h!]
     \begin{center}
