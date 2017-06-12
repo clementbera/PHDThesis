@@ -66,23 +66,25 @@ Web pages sometimes execute just a bit of Javascript code at start-up, or use ex
 \section{Persistance of optimised virtual functions}
 \label{sec:persistanceSol}
 
-- Solution snapshot optimised v-functions - work the same way.
-platform independent, moving from v-func interpretation to n-function.
-Discussion on reg alloc and Cogit compilation time.
-
 TO CHECK
-
-
-Our architecture, \emph{Sista} (Speculative Inlining SmallTalk Architecture) works as follows. Our optimizing compiler, after doing language-specific optimizations such as speculative inlining or array bounds check elimination, generates an optimized version of the function using a bytecode representation and does not directly generate machine code. This optimized version has access to an extended bytecode set to encode unchecked operations such as array access without bounds checks similar to the work of B\'era et al.\cite{Bera14a}. Optimized bytecoded functions are reifed as objects the same as normal bytecoded functions, hence they can be saved without any additional work as part of the snapshot. Then, the VM uses the baseline Just-in-Time compiler (JIT) as a back-end to generate machine code from the optimized bytecoded function. The optimized functions are marked, so the VM can decide to handle differently optimized bytecoded functions. 
-
-Dynamic deoptimization is also split in two steps. Firstly, Sista asks the baseline JIT to reify the stack frame from machine state to bytecode interpreter state of the optimized bytecoded function, mapping correctly the register to stack entries and converting object representations from unboxed versions to boxed versions, as it would do for any unoptimized version of the function. Secondly, a separate deoptimizer maps the bytecode interpreter state of the optimized bytecoded function to multiple stack frame corresponding to the bytecode interpreter state of multiple unoptimized functions, rematerializing objects from constants and stack values.
 
 With this architecture, the Sista VM can reach peak performance almost immediately after start-up if it starts from a snapshot where optimized code was persisted.
 
 TO CHECK
 
 
-We solve this warm-up time problem by saving runtime optimizations across start-ups. This way, we are able to start the virtual machine in a pre-heated state. With this approach, we reuse and take advantage of techniques reaching peak performance but with the advantage of being effective without warm-up time. 
+
+Solution to the problem is to persist opt code, but we want to keep it platform-independent and not too complicated.
+
+- Solution snapshot optimised v-functions - work the same way.
+platform independent, moving from v-func interpretation to n-function.
+Discussion on reg alloc and Cogit compila
+
+
+Next PARAGRAPH IS FIXED
+The Sista architecture solves this warm-up time problem by persisting optimised v-functions across start-ups. This way, the virtual machine can start in a pre-heated state. The architecture allows to reuse and take advantages of all the existing runtime compilation techiniques to have a very good peak performance, but with the advantage of being effective with limited warm-up time. 
+
+
 
 \paragraph{Platform-independent.}We save optimizations across start-ups in a platform-independent way: this implies that we cannot save directly machine code. As our technique depends on snapshots, the platform-dependency depends on the snapshot being dependent on a platform or not. 
 
