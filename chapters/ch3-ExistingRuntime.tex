@@ -34,11 +34,11 @@ Most of the existing VM, inheriting from the original Squeak VM~\cite{Inga97a}, 
 
 In addition to providing some abstractions over machine-specific-details, the slang code has two main advantages over plain C:
 \begin{itemize}
-	\item \emph{Specifying inlining and code duplication:} To keep the interpreter code efficient, one has to be very careful on what code is inlined in the main interpreter loop and what code is not. In addition, for performance, specific code may need to be duplicated. For example, the interpreter code to push a temporary variable on stack is duplicated 17 times. The 16 first versions are dedicated versions for temporary numbers 0 to 15, the most common cases, and are more efficient because of the use of constants. The 17th version is the generic version, which could be used on any temporary variable but is used in practice for temporary variable 16 and over. Slang allows to annotate functions to direct Slang to C compilation, by duplicating or inlining specific functions. This feature is very important for uncommon processors where available C compilers are often not as good at optimising C code as on mainstream processors.
-	\item \emph{Simulation:} As Slang is a subset of Smalltalk, it can be executed as normal Smalltalk code. This is used to simulate the interpreter and garbage collector behavior. The JIT runtime is simulated using both Slang execution and external processor simulators. Simulation is very convenient to debug the VM as all the Smalltalk debugging tools are available. In addition, the simulator state can be saved and duplicated, which is very convenient to reproduce quickly and many times the same bug happing from a specific runtime state.
+	\item \emph{Specifying inlining and code duplication:} To keep the interpreter code efficient, one has to be very careful on what code is inlined in the main interpreter loop and what code is not. In addition, for performance, specific code may need to be duplicated. For example, the interpreter code to push a temporary variable on stack is duplicated 17 times. The 16 first versions are dedicated versions for temporary numbers 0 to 15, the most common cases, and are more efficient because of the use of constants. The 17th version is the generic version, which could be used on any temporary variable but is used in practice for temporary variable 16 and over. Slang allows one to annotate functions to direct Slang to C compilation, by duplicating or inlining specific functions. This feature is very important for uncommon processors where available C compilers are often not as good at optimising C code as on mainstream processors.
+	\item \emph{Simulation:} As Slang is a subset of Smalltalk, it can be executed as normal Smalltalk code. This is used to simulate the interpreter and garbage collector behavior. The JIT runtime is simulated using both Slang execution and external processor simulators. Simulation is very convenient to debug the VM as all the Smalltalk debugging tools are available. In addition, the simulator state can be saved and duplicated, which is very convenient to reproduce quickly and many times the same bug happening from a specific runtime state.
 \end{itemize}
 
-The executable is generated in two steps as shown on figure \ref{fig:VMCompilation}. The first step is to generate the two C files representing the whole execution engine written in Slang using the Slang-to-C compiler. During the second step, a C compiler is called to compile the execution engine and the platform-specific code written directly in C to the executable VM.
+The executable is generated in two steps as shown on figure \ref{fig:VMCompilation}, similarly to the RPython toolchain~\cite{Rigo06a}. The first step is to generate the two C files representing the whole execution engine written in Slang using the Slang-to-C compiler. During the second step, a C compiler is called to compile the execution engine and the platform-specific code written directly in C to the executable VM.
 
 \begin{figure}[h!]
     \begin{center}
@@ -49,9 +49,9 @@ The executable is generated in two steps as shown on figure \ref{fig:VMCompilati
 \end{figure}
 
 \paragraph{Baseline JIT.}
-Cogit is currently used as the baseline JIT. It takes a v-function as input, generates a n-function and installs it. Cogit performs three main kind of optimisations:
+Cogit is currently used as the baseline JIT. It takes a v-function as input, generates a n-function and installs it. Cogit performs three main kinds of optimisation:
 \begin{enumerate}
-	\item \emph{Stack-to-register mapping:} As the v-functions are encoded using a stack-based bytecode set, values are constantly pushed and popped off the stack. To avoid this behavior, Cogit simulates the stack state during compilation. When reaching an instruction using values on stack, Cogit uses a dynamic template scheme to generate the native instructions. The simulated stack provides information such as which values are constants or already in registers. Based on this information, Cogit picks one of the available template for the instruction, use a linear scan algorithm to allocate registers that do not need to be fixed into specific concrete registers and generate the native instructions.
+	\item \emph{Stack-to-register mapping:} As the v-functions are encoded using a stack-based bytecode set, values are constantly pushed and popped off the stack. To avoid this behavior, Cogit simulates the stack state during compilation. When reaching an instruction using values on stack, Cogit uses a dynamic template scheme to generate the native instructions. The simulated stack provides information such as which values are constants or already in registers. Based on this information, Cogit picks one of the available templates for the instruction, uses a linear scan algorithm to allocate registers that do not need to be fixed into specific concrete registers and generates the native instructions.
 	\item \emph{Inline caches:} Each virtual call is compiled to an unlinked inline cache. During execution, the inline cache is relinked to a monomorphic, polymorphic or megamorphic inline cache~\cite{Deut84a,Holz91a} when new receiver types are met. The inline caches improve performance but also allows, through n-function introspection, to determine which types were met during previous runs of each virtual call site.
 	\item \emph{Calling convention:} Cogit defines specific calling conventions for calls in-between n-functions. Typically, the receiver of the virtual call is always passed by register, and the arguments may or may not be passed by registers depending on how many there are. This is especially efficient to speed-up the inline cache logic and for primitive methods that have an assembly template available as they can directly use the values in registers.
 \end{enumerate}
@@ -77,9 +77,9 @@ The reification of the stack is used in three main places: the debugger, excepti
 
 Contexts abstract away from low-level details. A context is exactly the same if the VM is started with the interpreter only or with the hybrid interpreter plus baseline JIT runtime. Conceptually, for the Smalltalk developer, the code is interpreted and the contexts always look identical. The VM is responsible to intercept context accesses to read and write concrete v-frames and n-frames.
 
-In the thesis, we will suppose that a context is the same thing as a v-frame as the mapping between both has no impact in the design and brings no interesting additionnal concepts or side-effects. In practice, there are three differences:
+In the thesis, we suppose that a context is the same thing as a v-frame as the mapping between both has no impact in the design and brings no interesting additionnal concepts or side-effects. In practice, there are three differences:
 \begin{enumerate}
-	\item A context is an object while a v-frame use a low-level representation compliant with the stack.
+	\item A context is an object while a v-frame uses a low-level representation compliant with the stack.
 	\item V-frames have to care about some low-level details, such as calls and returns from v-frames to n-frames and n-frames to v-frames, or the access to the v-function arguments by reading values in the caller frame. 
 	\item Contexts have a reference to the caller, as conceptually there is a linked list of contexts, while v-frames are below the caller on stack.
 \end{enumerate}
@@ -93,7 +93,7 @@ Aggressive stack manipulation (instruction pointer modification, caller modifica
 \begin{figure}[h!]
     \begin{center}
         \includegraphics[width=0.55\linewidth]{Divorce}
-        \caption{Stack frame divorce}
+        \caption{Divorce of stack frame D to context D}
         \label{fig:Divorce}
     \end{center}
 \end{figure}
@@ -106,7 +106,7 @@ Aggressive stack manipulation (instruction pointer modification, caller modifica
 %    \end{center}
 %\end{figure}
 
-Marriage and divorces between stack frames and contexts are not specific to aggressive stack manipulations. They are also used for other features such as snapshots and stack page overflow. In the latter case, as there is a limited number of stack pages (currently 50 in production environments), when a stack page is required and none is available, the VM needs to free a page. To do so, the VM marries then divorces all frames on the least recently used stack page to persist the page in the form of single contexts and re-use the stack page for the execution of new code. 
+Marriages and divorces between stack frames and contexts are not specific to aggressive stack manipulations. They are also used for other features such as snapshots and stack page overflow. In the latter case, as there is a limited number of stack pages (currently 50 in production environments), when a stack page is required and none is available, the VM needs to free a page. To do so, the VM marries then divorces all frames on the least recently used stack page to persist the page in the form of single contexts and re-uses the stack page for the execution of new code. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -168,7 +168,7 @@ The bytecode set is stack-based. Most operations are pushing and popping values 
 
 \subparagraph{Virtual function installation.}
 
-Classes and method dictionaries are normal objects in Pharo. Hence, the installation of a method uses the normal dictionary API, inserting the selector as the key and the method as a value. Method dictionaries, upon modification, request the VM to flush look-up caches for the installed selector. As Pharo is dynamically typed and through uncommon behavior (stack frame modification, exotic primitives) any method can be called by any object, flushing all the methods matching the selector is easier to implement and safer. Closure's functions are installed inside the method that instantiate them as a literal. Changing the literal (hence the closure's function) is normally not done in the current runtime.
+Classes and method dictionaries are normal objects in Pharo. Hence, the installation of a method uses the normal dictionary API, inserting the selector as the key and the method as a value. Method dictionaries, upon modification, request the VM to flush look-up caches for the installed selector. As Pharo is dynamically-typed and through uncommon behavior (stack frame modification, exotic primitives) any method can be called by any object, flushing all the methods matching the selector is easier to implement and safer. Closure's functions are installed inside the method that instantiate them as a literal. Changing the literal (hence the closure's function) is normally not done in the current runtime.
 
 \subparagraph{Primitive methods.}
 \label{par:become}
@@ -177,7 +177,7 @@ Virtual methods can be annotated with a primitive number at creation time. A pri
 
 Although primitive methods can be used for performance, most of them provides essential features that could not be implemented otherwise. For example, the addition between two integers is implemented as a primitive, forwarding the operation to the processor's implementation of the addition.
 
-Smalltalk features its set of exotic primitives, non present in most other programming languages. A notable example is \ct{become:}, a primitive which swaps the references of two objects. If \ct{a become: b}, then all references to \ct{a} now refer to \ct{b}, and all the references to \ct{b} now refer to \ct{a}. This primitive is implemented efficiently based on specific strategies~\cite{Mir15a}.
+Smalltalk features its set of unconventional primitives, non present in most other programming languages. A notable example is \ct{become:}, a primitive which swaps the references of two objects. If \ct{a become: b}, then all references to \ct{a} now refer to \ct{b}, and all the references to \ct{b} now refer to \ct{a}. This primitive is implemented efficiently based on specific strategies~\cite{Mir15a}.
 
 \paragraph{Registered objects.} An array of registered objects~\footnote{Smalltalk developers use the term special object array for this array} can be accessed in the Pharo runtime. This array contains multiple objects that need to be accessed directly by the VM, for example the objects \ct{nil, true} and \ct{false}. Any new object can be registered in the array and the array can grow on demand.
 
@@ -185,24 +185,23 @@ Among registered objects are specific selectors. For example, the \ct{\#doesNotU
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Pharo programming language}
+\section{Language relevant features}
 
 This section details two main aspects of the programming language: native thread management and snapshots.
 
 \paragraph{Native threads management.}
 
-Pharo features a global interpreter lock, similarly to python. Only calls to external libraries through the foreign function interface and specific virtual machine extensions have access to the other native threads. Smalltalk execution, including bytecode interpretation, machine code execution, just-in-time compilation and garbage collection are not done concurrently. Being single-threaded has a impact on design decisions because several other VMs implement the optimising JIT in concurrent native threads to the application (CITE Adaptive Optimization in the Jalapeno JVM: The Controller's Analytical Model or maybe somethign with truffle graal).
-
+Pharo features a global interpreter lock, similarly to Python. Only calls to external libraries through the foreign function interface and specific virtual machine extensions have access to the other native threads. Smalltalk execution, including bytecode interpretation, machine code execution, just-in-time compilation and garbage collection are not done concurrently. Being single-threaded has a impact on design decisions because several other VMs implement the optimising JIT in concurrent native threads to the application~\cite{Arn00}.
 
 %TODO, closures and NLR?
 
 \paragraph{Snapshots.}
 
-In the context of Smalltalk, a snapshot~\footnote{Smalltalk developers use the term \emph{image} instead of snapshot.} is a sequence of bytes that represents a serialized form of all the objects present at a precise moment in the runtime. As everything is an object in Smalltalk, including green threads, the virtual machine can, at start-up, load all the objects from a snapshot and resume the execution based on the green thread that was active at snapshot time. In fact, this is the normal way of launching a Smalltalk runtime. 
+In the context of Smalltalk, a snapshot~\footnote{Smalltalk developers use the term \emph{image} instead of snapshot.} is a sequence of bytes that represents a serialized form of all the objects present at a precise moment in the runtime. As everything is an object in Smalltalk, including green threads, the virtual machine, at start-up, loads all the objects from a snapshot and resumes the execution based on the green thread that was active at snapshot time. In fact, this is the normal way of launching a Smalltalk runtime. 
 
 One interesting problem in snapshots is how to save the execution stack, \ie the green threads. To perform a snapshot, each stack frame is reified into a context and only objects are saved in the snapshot. When the snapshot is restarted, the VM recreates a stack frame for each context lazily. 
 
-In any case, snapshots cannot save n-frames because they are platform-independent. In the Pharo VM for example, a snapshot can be taken on a laptop using a x86 processor and restarted on a raspberry pie using a ARMv6 processor.
+In any case, snapshots are platform-indepedent so they cannot save n-frames. In the Pharo VM for example, a snapshot can be taken on a laptop using a x86 processor and restarted on a raspberry pi using a ARMv6 processor.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -210,7 +209,6 @@ In any case, snapshots cannot save n-frames because they are platform-independen
 \section*{Conclusion} 
 
 The chapter described the aspects and features of Pharo relevant for the thesis. The following chapter describes the overall Sista architecture.
-
 
 \ifx\wholebook\relax\else
     \end{document}

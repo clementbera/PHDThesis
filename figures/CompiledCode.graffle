@@ -26,7 +26,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2017-02-07 10:16:51 +0000</string>
+	<string>2017-06-12 13:27:08 +0000</string>
 	<key>Modifier</key>
 	<string>Clement Bera</string>
 	<key>NotesVisible</key>
@@ -55,7 +55,7 @@
 		<key>NSPaperSize</key>
 		<array>
 			<string>size</string>
-			<string>{594.99997329711914, 842}</string>
+			<string>{595, 842}</string>
 		</array>
 		<key>NSPrintReverseOrientation</key>
 		<array>
@@ -85,7 +85,7 @@
 			<key>BackgroundGraphic</key>
 			<dict>
 				<key>Bounds</key>
-				<string>{{0, 0}, {558.99997329711914, 783}}</string>
+				<string>{{0, 0}, {559, 783}}</string>
 				<key>Class</key>
 				<string>SolidGraphic</string>
 				<key>ID</key>
@@ -208,11 +208,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -252,11 +247,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -298,11 +288,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -342,11 +327,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -388,11 +368,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -432,11 +407,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -478,11 +448,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -522,11 +487,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -568,11 +528,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -612,11 +567,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -658,11 +608,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -702,11 +647,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -748,11 +688,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -792,11 +727,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -838,11 +768,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -882,11 +807,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -928,11 +848,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -972,11 +887,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -1018,11 +928,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -1062,11 +967,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -1108,11 +1008,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -1152,11 +1047,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -1198,11 +1088,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -1242,11 +1127,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -1288,11 +1168,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -1332,11 +1207,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -1378,11 +1248,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -1422,11 +1287,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -1468,11 +1328,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -1512,11 +1367,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -1558,11 +1408,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -1602,11 +1447,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -1648,11 +1488,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -1693,11 +1528,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -1737,11 +1567,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -1785,11 +1610,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -1831,11 +1651,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -1879,11 +1694,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -1925,11 +1735,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -1973,11 +1778,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -2020,11 +1820,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -2066,11 +1861,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -3718,7 +3508,7 @@
 			<key>BackgroundGraphic</key>
 			<dict>
 				<key>Bounds</key>
-				<string>{{0, 0}, {558.99997329711914, 783}}</string>
+				<string>{{0, 0}, {559, 783}}</string>
 				<key>Class</key>
 				<string>SolidGraphic</string>
 				<key>ID</key>
