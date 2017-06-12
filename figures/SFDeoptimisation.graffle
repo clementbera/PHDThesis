@@ -14,7 +14,7 @@
 	<key>BackgroundGraphic</key>
 	<dict>
 		<key>Bounds</key>
-		<string>{{0, 0}, {558.99997329711914, 783}}</string>
+		<string>{{0, 0}, {559, 783}}</string>
 		<key>Class</key>
 		<string>SolidGraphic</string>
 		<key>FontInfo</key>
@@ -53,14 +53,14 @@
 	<key>Creator</key>
 	<string>Clement Bera</string>
 	<key>DisplayScale</key>
-	<string>1 0/72 in = 1 0/72 in</string>
+	<string>1 0/72 in = 1.0000 in</string>
 	<key>GraphDocumentVersion</key>
 	<integer>8</integer>
 	<key>GraphicsList</key>
 	<array>
 		<dict>
 			<key>Bounds</key>
-			<string>{{342.5, 118}, {44, 17}}</string>
+			<string>{{342.5, 107}, {44, 17}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -169,48 +169,6 @@
 			<string>NO</string>
 		</dict>
 		<dict>
-			<key>AllowConnections</key>
-			<string>NO</string>
-			<key>AllowLabelDrop</key>
-			<false/>
-			<key>AllowToConnect</key>
-			<false/>
-			<key>Class</key>
-			<string>LineGraphic</string>
-			<key>ID</key>
-			<integer>12</integer>
-			<key>Points</key>
-			<array>
-				<string>{311.45633374673758, 145.28852655998688}</string>
-				<string>{418, 193}</string>
-			</array>
-			<key>Style</key>
-			<dict>
-				<key>stroke</key>
-				<dict>
-					<key>HeadArrow</key>
-					<string>FilledArrow</string>
-					<key>Legacy</key>
-					<true/>
-					<key>LineType</key>
-					<integer>1</integer>
-					<key>TailArrow</key>
-					<string>0</string>
-				</dict>
-			</dict>
-			<key>Tail</key>
-			<dict>
-				<key>ID</key>
-				<integer>4</integer>
-			</dict>
-		</dict>
-		<dict>
-			<key>AllowConnections</key>
-			<string>NO</string>
-			<key>AllowLabelDrop</key>
-			<false/>
-			<key>AllowToConnect</key>
-			<false/>
 			<key>Class</key>
 			<string>LineGraphic</string>
 			<key>Head</key>
@@ -222,39 +180,8 @@
 			<integer>11</integer>
 			<key>Points</key>
 			<array>
-				<string>{311, 135}</string>
-				<string>{417.50030459794317, 138.71905861610807}</string>
-			</array>
-			<key>Style</key>
-			<dict>
-				<key>stroke</key>
-				<dict>
-					<key>HeadArrow</key>
-					<string>FilledArrow</string>
-					<key>Legacy</key>
-					<true/>
-					<key>LineType</key>
-					<integer>1</integer>
-					<key>TailArrow</key>
-					<string>0</string>
-				</dict>
-			</dict>
-		</dict>
-		<dict>
-			<key>AllowConnections</key>
-			<string>NO</string>
-			<key>AllowLabelDrop</key>
-			<false/>
-			<key>AllowToConnect</key>
-			<false/>
-			<key>Class</key>
-			<string>LineGraphic</string>
-			<key>ID</key>
-			<integer>10</integer>
-			<key>Points</key>
-			<array>
-				<string>{311.47983681440479, 114.20287608466931}</string>
-				<string>{418, 83}</string>
+				<string>{311.49999467247693, 126.30600982423275}</string>
+				<string>{417.50000963457239, 125.81641543989575}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -313,7 +240,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{418, 174}, {100.99996948242188, 37}}</string>
+			<string>{{418, 159}, {100.99996948242188, 37}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
@@ -341,7 +268,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{418, 107}, {100.99996948242188, 67}}</string>
+			<string>{{418, 92}, {100.99996948242188, 67}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
@@ -369,7 +296,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{418, 58}, {100.99996948242188, 49}}</string>
+			<string>{{418, 43}, {100.99996948242188, 49}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
@@ -499,7 +426,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2017-02-06 11:57:08 +0000</string>
+	<string>2017-06-12 14:04:31 +0000</string>
 	<key>Modifier</key>
 	<string>Clement Bera</string>
 	<key>NotesVisible</key>
@@ -530,7 +457,7 @@
 		<key>NSPaperSize</key>
 		<array>
 			<string>size</string>
-			<string>{594.99997329711914, 842}</string>
+			<string>{595, 842}</string>
 		</array>
 		<key>NSPrintReverseOrientation</key>
 		<array>
