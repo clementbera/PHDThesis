@@ -180,6 +180,7 @@ To solve these issues, we designed a new closure implementation. In the new impl
 
 Figure \ref{fig:CompiledBlock} shows on the left the old closure function representation and on the right the new representation. In the old representation, the closure function literals and bytecodes are present inside the enclosing function. The creation of a closure in the v-function interpreter requires to jump over the closure instructions. All the function metadata, normally present in the function header, can be computed by disassembling the closure creation instruction or the closure bytecodes. Any change on the closure function impacts the enclosing function and any change on the enclosing function impacts the closure function. When Cogit compiles the v-function to n-function, it compiles both the function and all the inner closure functions at the same time. In the new representation, the two functions are independent. Each function has its own function header. Both functions can be changed independently. Cogit compiles separatedly each v-function to n-function. The closure function has no source pointer as it can be fetched from the enclosing function.
 
++ CONCLUSION
 
 \ifx\wholebook\relax\else
     \end{document}

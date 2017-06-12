@@ -58,16 +58,6 @@ Scorch is written in Pharo and runs in the same runtime as the optimised applica
 
 For the low-level part, the existing baseline JIT Cogit is reused. Cogit may perform machine-specific optimisations. To be used as a back-end for the optimised v-functions, Cogit was extended to support the new unsafe instructions, including a specific VM call-back to trigger deoptimisation when an assumption speculated at optimisation time is invalid at runtime.
 
-\subsection{Terminology}
-\label{sec:terminologyI}
-\emph{Sista} is the named of the overall architecture detailled in the thesis. As the architecture has notable differences from the standard tiered architecture, the two runtime compilers are not really a baseline JIT and an optimising JIT. We call them by their project name in the thesis. The first runtime compiler is called \emph{Scorch} and compiles v-functions to optimised v-functions using speculative optimisations. Scorch is written in plain Smalltalk. The second runtime compiler is called \emph{Cogit} and compiles v-functions to n-functions. Cogit can be used alone as the baseline JIT, or as a back-end for Scorch. In the later case, the pair of Scorch and Cogit forms an optimising JIT. Cogit is written in a restrictive Smalltalk compiled ahead-of-time to an executable as part of the VM. 
-
-In this context, both v-functions and n-functions can have an optimised version. We therefore used the term v-function to discuss all v-functions (optimised or not), and specify optimised v-function and unoptimised v-function when needed. Similarly, for frames, we say v-frame to discuss v-frames in general, and specify optimised v-frame and unoptimised v-frame when discussing a v-frame respectively representing the execution state of an optimised v-function or a unoptimised v-function. The same terminology is used with native (\emph{n-}) than with virtual (\emph{v-}).
-
-Both runtime compilers can deoptimise stack frames. Cogit can deoptimise any n-frame to a single v-frame. 
-%Cogit also provides proxies to introspect a n-frame as a v-frame, though certain operations such as instruction pointer mutation do not work with proxies but require deoptimisation from a n-frame to a v-frame. 
-Scorch can deoptimise an optimised v-frame to multiple unoptimised v-frames. 
-
 \subsection{Optimisation and deoptimisation}
 \label{sec:further}
 
@@ -321,6 +311,7 @@ This section compares our architecture against existing work. The first section 
 The two research subproblems and their related work are detailed later in the thesis. Chapter \ref{chap:metacircular} discusses how Scorch is able, under specific constraints, to optimise its own code. Chapter \ref{chap:persistance} details how the runtime state, including optimised v-functions, can be persisted across multiple start-ups.
 
 \subsection{Architecture}
+\label{sec:relWArch}
 
 Compared to the classical three tier function based architecture described in chapter \ref{chap:stateOfTheArt}, the existing Pharo runtime featured only the first two tiers. The Sista architecture is an implementation of the third tier, the optimising JIT tier. The implementation is however quite different from other VMs. One of the main difference is the split between the high and low level part of the optimising JIT as well as the optimised v-function representation used to communicate between both parts. As far as we know, no other VM splits its optimising JIT this way. The other main difference is Cogit, which in one code base, can be used both as a baseline JIT and as a back-end for the optimising JIT.
 
@@ -371,7 +362,8 @@ In this case, the back-end is shared between two optimising runtime compilers. T
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\paragraph{Conclusion.}
+\section*{Conclusion}
+
 The chapter provided an overview of the Sista architecture and detailed the optimisation of functions and deoptimisation of stack frames. The following chapter discusses the evolutions of the Pharo runtime implemented in the context of the thesis.
 
 \ifx\wholebook\relax\else
