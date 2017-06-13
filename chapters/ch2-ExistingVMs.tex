@@ -291,7 +291,7 @@ To reach quickly peak performance, one way is to save the runtime information, e
 
 \paragraph{Persisting machine code.}
 
-In the Azul VM Zing \cite{Azul}, available for Java, the official web site claims that "operations teams can save accumulated optimizations from one day or set of market conditions for later reuse" thanks to the technology called \emph{Ready Now!}. In addition, the website precises that the Azul VM provides an API for the developer to help the JIT to make the right optimisation decisions. 
+In the Azul VM Zing~\cite{Azul}, available for Java, the official web site claims that "operations teams can save accumulated optimizations from one day or set of market conditions for later reuse" thanks to the technology called \emph{Ready Now!}. In addition, the website precises that the Azul VM provides an API for the developer to help the JIT to make the right optimisation decisions. 
 
 As Azul is closed source, implementation details are not entirely known. However, word has been that the Azul VM reduces the warm-up time by saving machine code across multiple start-ups. If the application is started on another processor, then the saved machine code is simply discarded. It is very difficult to persist optimised native code across multiple start-ups due to position dependent code and low-level details, but with the example of Azul, we know it is possible.
 
