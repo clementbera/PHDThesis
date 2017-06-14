@@ -271,7 +271,7 @@ Because of these constraints, some object-oriented languages are compiled with a
 
 Most object-languages still choose to run on top of a VM with an optimising JIT. The section describes four existing techniques to improve start-up performance, including techniques related to optimised code persistance across start-ups.
 
-\paragraph{Many tier architecture.}
+\paragraph{Many tiers architecture.}
 One solution to decrease warm-up time is to have many tiers in the function based architecture. The idea is that code would be executed slowly the few first iterations, a bit faster the next iterations, faster after an certain number of optimisations, and so on. Instead of being slow for many iterations before being fast, the VM can this way have a very good trade off between compilation time, runtime information quality and code performance.
 
 The best example is the Javascript Webkit VM~\cite{Webkit15}. A code snippet is:
@@ -284,10 +284,15 @@ The best example is the Javascript Webkit VM~\cite{Webkit15}. A code snippet is:
 
 At each step, the compilation time is greater but the execution time decreases. The many tiers approach (four tiers in the case of Webkit), allows the VM to have decent performance during start-up, while reaching high performance for long running code. However, this technique has a severe drawback: the VM team needs to maintain and evolve many different tiers.
 
-\paragraph{Persisting metadata.}
+\paragraph{Persisting runtime information.}
 
 To reach quickly peak performance, one way is to save the runtime information, especially inlining decisions made by the optimising JIT. In 
  \cite{Sun06}, it is possible to save the inlining decision of the optimising compiler in a separate file. The optimising compiler can then reuse this file to take the right inlining decision in subsequent start-ups.
+
+
+ADD
+profiling information
+Importing VM perf using cross-run prof repository \cite{Arno05c}
 
 \paragraph{Persisting machine code.}
 
@@ -295,13 +300,26 @@ In the Azul VM Zing~\cite{Azul}, available for Java, the official web site claim
 
 As Azul is closed source, implementation details are not entirely known. However, word has been that the Azul VM reduces the warm-up time by saving machine code across multiple start-ups. If the application is started on another processor, then the saved machine code is simply discarded. It is very difficult to persist optimised native code across multiple start-ups due to position dependent code and low-level details, but with the example of Azul, we know it is possible.
 
-\paragraph{Preheating through snapshots in Dart}
+ADD 
+JRockit\cite{JRockit}
+ADD
+Persistent code caching: exploiting code reuse across executions and applications
+\cite{Redd07a}
 
+\paragraph{Preheating through snapshots}
+
+\paragraph{Dart snapshots.}
 The Dart programming language features snapshots for fast application start-up. In Dart, the programmer can generate different kind of snapshots \cite{Anna13a}. The Dart team added in 2016 two new kind of snapshots, specialized for iOS and Android application deployment.
 
 \subparagraph{Android.} A Dart snapshot for an Android application is a complete representation of the application code and the heap once the application code has been loaded but before the execution of the application. The Android snapshots are taken after a warm-up phase to be able to record call site caches in the snapshot. The call site cache is a regular heap object accessed from machine code, and its presence in the snapshot allows one to persist type feedback and call site frequency.
 
 \subparagraph{iOS.} For iOS, the Dart snapshot is slightly different as iOS does not allow JIT compilers. All reachable functions from the iOS application are compiled ahead of time, using only the features of the Dart optimising compiler that don't require dynamic deoptimisation. A shared library is generated, including all the instructions, and a snapshot that includes all the classes, functions, literal pools, call site caches, etc.
+
+\paragraph{Cloneable VMs.}
+
+ADD
+Cloneable JVM
+\cite{Kawa07a}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
