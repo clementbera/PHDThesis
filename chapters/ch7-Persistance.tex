@@ -45,7 +45,7 @@ Modern large distributed applications run on hundreds, if not thousands, of mach
 The problem is that to reduce the cost to the minimum, the best would be to rent a slave when needed, and at the second where the slave is not used, to free it not to pay anymore for it. Doing that implies having very short lived slaves, with an order of 30 seconds life-time for example. To be worth it, the time between the slave start-up and the peak performance of the language used has to be as small as possible. A good VM for such kind of scenario should reach peak performance very fast.
 
 \paragraph{Mobile application.}
-In the case of mobile applications, the start-up performance matters because of  battery consumption. During warm-up time, the optimizing compiler recompiles frequently used code. All this compilation process requires time and energy, whereas the application is not run. In the example of the Android runtime, the implementation used JIT compilation with the Dalvik VM \cite{Born08a}, then switched to client-side ahead of time compilation (ART) to avoid that energy consumption at start-up, and is now switching back to JIT compilation because of the AOT (Ahead of Time compiler) constraints \cite{Geof15a}. These different attempts show the difficulty to build a system that requires JIT compilation for high performance but can't afford an energy consuming start-up time.
+In the case of mobile applications, the start-up performance matters because of  battery consumption. During warm-up time, the optimising compiler recompiles frequently used code. All this compilation process requires time and energy, whereas the application is not run. In the example of the Android runtime, the implementation used JIT compilation with the Dalvik VM \cite{Born08a}, then switched to client-side ahead of time compilation (ART) to avoid that energy consumption at start-up, and is now switching back to JIT compilation because of the AOT (Ahead of Time compiler) constraints \cite{Geof15a}. These different attempts show the difficulty to build a system that requires JIT compilation for high performance but can't afford an energy consuming start-up time.
 
 \paragraph{Web pages.}
 Web pages sometimes execute just a bit of Javascript code at start-up, or use extensively Javascript in their lifetime (in this latter case, one usually talk about web application). A Javascript virtual machine has to reach peak performance as quickly as possible to perform well on web pages where only a bit of Javascript code is executed at start-up, while it has also to perform well on long running web applications.
@@ -63,63 +63,54 @@ The Dart programming languages features snapshots for fast application start-up.
 
 \subparagraph{Android.} A Dart snapshot for an Android application is a complete representation of the application code and the heap once the application code has been loaded but before the execution of the application. The Android snapshots are taken after a warm-up phase to be able to record call site caches in the snapshot. The call site cache is a regular heap object accessed from machine code, and its presence in the snapshot allows to persist type feedback and call site frequency.
 
-In this case, the code is loaded pre-optimized with inline caches prefilled values. However, optimized functions are not loaded as our architecture allows to do. Only unoptimized code with precomputed runtime information is loaded.
+In this case, the code is loaded pre-optimised with inline caches prefilled values. However, optimised functions are not loaded as our architecture allows to do. Only unoptimised code with precomputed runtime information is loaded.
 
-\subparagraph{iOS.} For iOS, the Dart snapshot is slightly different as iOS does not allow JIT compilers. All reachable functions from the iOS application are compiled ahead of time, using only the features of the Dart optimizing compiler that don't require dynamic deoptimization. A shared library is generated, including all the instructions, and a snapshot that includes all the classes, functions, literal pools, call site caches, etc.
+\subparagraph{iOS.} For iOS, the Dart snapshot is slightly different as iOS does not allow JIT compilers. All reachable functions from the iOS application are compiled ahead of time, using only the features of the Dart optimising compiler that don't require dynamic deoptimisation. A shared library is generated, including all the instructions, and a snapshot that includes all the classes, functions, literal pools, call site caches, etc.
 
 This second case is difficult to compare to our architecture: iOS forbids machine code generation, which is currently required by our architecture. A good application of our architecture to iOS is future work.
 
 \paragraph{Cloneable VMs.}
 
-ADD
-Cloneable JVM
-\cite{Kawa07a}
+In the work of Kawachiya and all~\cite{Kawa07a}, extensions of a Java VM allows to clone a running VM to quicken the start-up. The heap is cloned, in a similar way to our snapshot, but the n-functions are also cloned. Cloning n-functions improves start-up performance over our approach, but the clone is processor-dependent: there is no way of cloning with their approach a Java runtime from an x86 machine to an ARMv6 machine. Our approach requires slightly more warm-up time to quickly compile our optimised n-functions to n-functions, but our approach is platform-independent.
 
 \subsection{Fast warm-up}
 
-An alternative to snapshots is to improve the JIT compiler so the peak performance can be reached as early as possible. The improvements would consists of decreasing the JIT compilation time by improving the efficiency of the JIT code, or have better heuristic so the JIT can generate optimized code with the correct speculations with little runtime information.
+An alternative to snapshots is to improve the JIT compiler so the peak performance can be reached as early as possible. The improvements would consists of decreasing the JIT compilation time by improving the efficiency of the JIT code, or have better heuristic so the JIT can generate optimised code with the correct speculations with little runtime information.
 
 \paragraph{Tiered architecture}
 One solution, used the Webkit VM\cite{Webkit15}, is to have a tiered architecture with many tiers. In the version of Webkit in production from March 2015 to February 2016 \cite{Webkit15}, the code is:
 \begin{itemize}
 \item interpreted by a bytecode interpreter the first 6 executions.
-\item compiled to machine code at 7th execution, with a non optimizing compiler, and executed as machine code up to 66 executions.
-\item recompiled to more optimized machine code at 67th execution, with an optimizing compiler doing some but not all optimizations, up to 666 executions.
-\item recompiled to heavily optimized machine code at 667th execution, with an optimizing compiler using LLVM as a backend.
+\item compiled to machine code at 7th execution, with a non-optimising compiler, and executed as machine code up to 66 executions.
+\item recompiled to more optimised machine code at 67th execution, with an optimising compiler doing some but not all optimisations, up to 666 executions.
+\item recompiled to heavily optimised machine code at 667th execution, with an optimising compiler using LLVM as a backend.
 \end{itemize}
 
 At each step, the compilation time is greater but the execution time decreases. This tiered approach (4 tiers in the case of Webkit), allows to have good performance from start-up, while reaching high performance for long running code. This kind of approaches has also draw-backs: the VM development team needs to maintain and evolve four different tiers.
 
 \paragraph{Saving runtime information.}
 
-To reach quickly peak performance, an alternative of saving optimized code is to save the runtime information. The Dart snapshot saves already the call site information in its Android snapshots. Other techniques are available.
+To reach quickly peak performance, an alternative of saving optimised code is to save the runtime information. The Dart snapshot saves already the call site information in its Android snapshots. Other techniques are available.
 
-In Strongtalk \cite{Sun06}, a high-performance Smalltalk, it is possible to save the inlining decision of the optimizing compiler in a separate file. The optimizing compiler can then reuse this file to make the right inlining decision the first time a hot spot is detected.
+In Strongtalk \cite{Sun06}, a high-performance Smalltalk that has never reached production, it is possible to save the inlining decision of the optimising compiler in a separate file. The optimising compiler can then reuse this file to make the right inlining decision the first time a hot spot is detected.
 
-ADD
-profiling information
-Importing VM perf using cross-run prof repository \cite{Arno05c}
+In the work of Arnold and all~\cite{Arno05c}, the profiling information of unoptimised runs is persisted in a repository shared by multiple VMs. This allows new VM starting-up to re-use the information of other and previous VM runs to direct compiler optimisations.
 
 \paragraph{Saving machine code.}
 
-In the Azul VM Zing \cite{Azul}, available for Java, the official web site claims that "operations teams can save accumulated optimizations from one day or set of market conditions for later reuse" thanks to the technology called \emph{Ready Now!}. In addition, the website precises that the Azul VM provides an API for the developer to help the JIT to make the right optimization decisions. As Azul is closed source, implementation details are not entirely known. 
+In the Azul VM Zing \cite{Azul}, available for Java, the official web site claims that "operations teams can save accumulated optimisations from one day or set of market conditions for later reuse" thanks to the technology called \emph{Ready Now!}. In addition, the website precises that the Azul VM provides an API for the developer to help the JIT to make the right optimisation decisions. As Azul is closed source, implementation details are not entirely known. 
 
-However, word has been that the Azul VM reduces the warm-up time by saving machine code across multiple start-ups. If the application is started on another processor, then the saved machine code is simply discarded. We did not go in this direction to persist the optimization in a platform-independent way (in our architecture, starting the application on x86 instead of ARMv5 does not require the saved optimized code to be discarded), but we have a small overhead due to the bytecode to machine code translation at each start-up. In addition, we believe it's very difficult to persist correctly machine code compared to persisting bytecodes.
+However, word has been that the Azul VM reduces the warm-up time by saving machine code across multiple start-ups. If the application is started on another processor, then the saved machine code is simply discarded. We did not go in this direction to persist the optimisation in a platform-independent way (in our architecture, starting the application on x86 instead of ARMv5 does not require the saved optimised code to be discarded), but we have a small overhead due to the bytecode to machine code translation at each start-up. In addition, we believe it's very difficult to persist correctly machine code compared to persisting bytecodes.
 
-ADD 
-JRockit\cite{JRockit}
-ADD
-Persistent code caching: exploiting code reuse across executions and applications
-\cite{Redd07a}
+Aside from Azul, the work of Reddi and all~\cite{Redd07a} details how they persist the machine code generated by the optimising JIT across multiple start-ups of the VM. JRockit~\cite{JRockit}, an Oracle product, is a production Java VM allowing to persist the machine code generated by the optimising JIT across multiple start-ups.
 
 \paragraph{Ahead-of-time analysis.}
 
-ADD
-Static ahead of time analysis (Using annotations to reduce dynamic optimisation time) \cite{Krin01a}
+In the work of Krintz and Calder, static analysis done ahead of time on Java code generate annotations that are used by the optimising JIT to reduce compilation time (and hence, the warm-up time).
 
 \paragraph{Ahead-of-time compilation.}
 
-The last alternative is to pre-optimize the code ahead of time. This can be done by doing static analysis over the code to try to infer types. Applications for the iPhone are a good example where static analysis is used to pre-optimize the Objective-C application. The peak performance is lower than with a JIT compiler if the program uses a lot of virtual calls, as static analysis are not as precised as runtime information on highly dynamic language. 
+The last alternative is to pre-optimise the code ahead of time. This can be done by doing static analysis over the code to try to infer types. Applications for the iPhone are a good example where static analysis is used to pre-optimise the Objective-C application. The peak performance is lower than with a JIT compiler if the program uses a lot of virtual calls, as static analysis are not as precised as runtime information on highly dynamic language. 
 However, if the program uses few dynamic features (for example most of the calls are not virtual) and is running on top of a high-performance language kernel like the Objective-C kernel, the result can be satisfying.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

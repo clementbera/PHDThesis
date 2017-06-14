@@ -30,7 +30,7 @@ Originally VMs were built in performance oriented low-level programming language
 
 \paragraph{Existing design: Aosta.}
 
-An optimising JIT design~\cite{Mira02c} for Smalltalk~\cite{Gold83a}, called Aosta (Adaptive Optimisations SmallTalk Architecture), emerged in the early 2000s. The design is the convergence of multiple ideas to ease the development of the optimising JIT, to ensure that the maintainance and evolution cost of the resulting implementation is going to be reasonnable and to attract contributors from the community.
+An optimising JIT design~\cite{Mira02c} for Smalltalk~\cite{Gold83a}, called Aosta (\textbf{A}daptive \textbf{O}ptimisations \textbf{S}mall\textbf{T}alk \textbf{A}rchitecture), emerged in the early 2000s. The design is the convergence of multiple ideas to ease the development of the optimising JIT, to ensure that the maintainance and evolution cost of the resulting implementation is going to be reasonnable and to attract contributors from the community.
 
 One of the key ideas of Aosta is to split the optimising JIT in two parts, as shown on Figure \ref{fig:ExistingDesign}. The first part, the high level part, may deal with Smalltalk-specific optimisation and compiles to well-specified platform independent instructions (bytecodes). The second part, the low-level part, can translate such instructions into machine code, performing machine-specific optimisations.
 
@@ -126,12 +126,13 @@ The thesis introduces Sista (\textbf{S}peculative \textbf{I}nlining \textbf{S}ma
 
 \begin{itemize}
 	\item Chapter \ref{chap:stateOfTheArt} defines the terminology and presents existing production and research virtual machines relevant in the context of the thesis. 
-	\item Chapter \ref{chap:existing} detail the existing Pharo runtime as Sista is built on top of it.
-	\item Chapter \ref{chap:architecture} details the Sista architecture and Chapter \ref{chap:runtimeEvolution} discuss the evolutions done on the Pharo runtime to have the Sista architecture working.
+	\item Chapter \ref{chap:existing} discusses the existing Pharo runtime as Sista is built on top of it.
+	\item Chapter \ref{chap:architecture} details Sista and Chapter \ref{chap:runtimeEvolution} discuss the evolutions done on the Pharo runtime to have the Sista architecture working.
 	\item Chapters \ref{chap:metacircular} and \ref{chap:persistance} 
 	%and \ref{chap:interface} 
 	discuss the architecture in the context of the two subproblems of the thesis. 
-	\item Chapter \ref{chap:validation} evaluates the Sista architecture by comparing the performance of the runtime in multiple contexts.
+	\item Chapter \ref{chap:validation} evaluates Sista by comparing the performance of the runtime in multiple contexts.
+	\item Chapter \ref{chap:futureWork} details the future work that could be relevant based on this dissertation.
 \end{itemize}
 
 

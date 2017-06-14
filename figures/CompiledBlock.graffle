@@ -26,7 +26,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2017-02-27 13:20:11 +0000</string>
+	<string>2017-06-14 13:41:10 +0000</string>
 	<key>Modifier</key>
 	<string>Clement Bera</string>
 	<key>NotesVisible</key>
@@ -55,7 +55,7 @@
 		<key>NSPaperSize</key>
 		<array>
 			<string>size</string>
-			<string>{594.99997329711914, 842}</string>
+			<string>{595, 842}</string>
 		</array>
 		<key>NSPrintReverseOrientation</key>
 		<array>
@@ -85,7 +85,7 @@
 			<key>BackgroundGraphic</key>
 			<dict>
 				<key>Bounds</key>
-				<string>{{0, 0}, {558.99997329711914, 783}}</string>
+				<string>{{0, 0}, {559, 783}}</string>
 				<key>Class</key>
 				<string>SolidGraphic</string>
 				<key>ID</key>
@@ -189,11 +189,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -233,11 +228,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -279,11 +269,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -323,11 +308,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -491,11 +471,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -658,11 +633,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -702,11 +672,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -748,11 +713,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -792,11 +752,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -838,11 +793,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -882,11 +832,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -928,11 +873,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -972,11 +912,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -1018,11 +953,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -1062,11 +992,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -1110,11 +1035,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -1157,11 +1077,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -1203,11 +1118,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -2037,11 +1947,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -2083,11 +1988,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -2371,11 +2271,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -2415,11 +2310,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -2461,11 +2351,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -2505,11 +2390,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -2551,11 +2431,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -2595,11 +2470,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -2641,11 +2511,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -2685,11 +2550,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -2731,11 +2591,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -2775,11 +2630,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -2821,11 +2671,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -2865,11 +2710,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -2911,11 +2751,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -2955,11 +2790,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -3001,11 +2831,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -3045,11 +2870,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -3091,11 +2911,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -3135,11 +2950,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -3181,11 +2991,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -3225,11 +3030,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -3271,11 +3071,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -3315,11 +3110,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -3361,11 +3151,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -3405,11 +3190,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -3451,11 +3231,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -3495,11 +3270,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -3543,11 +3313,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -3590,11 +3355,6 @@
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -3636,11 +3396,6 @@
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -4581,11 +4336,6 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -4625,11 +4375,6 @@ N = Byte encoding there is no source pointer}</string>
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -4671,11 +4416,6 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -4715,11 +4455,6 @@ N = Byte encoding there is no source pointer}</string>
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -4761,11 +4496,6 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -4805,11 +4535,6 @@ N = Byte encoding there is no source pointer}</string>
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -4851,11 +4576,6 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -4895,11 +4615,6 @@ N = Byte encoding there is no source pointer}</string>
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -4941,11 +4656,6 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -4985,11 +4695,6 @@ N = Byte encoding there is no source pointer}</string>
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -5031,11 +4736,6 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -5075,11 +4775,6 @@ N = Byte encoding there is no source pointer}</string>
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -5121,11 +4816,6 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -5165,11 +4855,6 @@ N = Byte encoding there is no source pointer}</string>
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -5211,11 +4896,6 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -5255,11 +4935,6 @@ N = Byte encoding there is no source pointer}</string>
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -5301,11 +4976,6 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -5345,11 +5015,6 @@ N = Byte encoding there is no source pointer}</string>
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -5391,11 +5056,6 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -5435,11 +5095,6 @@ N = Byte encoding there is no source pointer}</string>
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -5493,21 +5148,16 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
 						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
 \cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;\red255\green255\blue255;}
+{\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf2 B}</string>
+\f0\fs24 \cf1 B}</string>
 					</dict>
 				</dict>
 				<dict>
@@ -5550,21 +5200,16 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
 						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
 \cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;\red255\green255\blue255;}
+{\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf2 B}</string>
+\f0\fs24 \cf1 B}</string>
 					</dict>
 				</dict>
 				<dict>
@@ -5607,21 +5252,16 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
 						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
 \cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;\red255\green255\blue255;}
+{\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf2 B}</string>
+\f0\fs24 \cf1 B}</string>
 					</dict>
 				</dict>
 				<dict>
@@ -5664,21 +5304,16 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
 						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
 \cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;\red255\green255\blue255;}
+{\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf2 B}</string>
+\f0\fs24 \cf1 B}</string>
 					</dict>
 				</dict>
 				<dict>
@@ -5721,21 +5356,16 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
 						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
 \cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;\red255\green255\blue255;}
+{\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf2 B}</string>
+\f0\fs24 \cf1 B}</string>
 					</dict>
 				</dict>
 				<dict>
@@ -5765,11 +5395,6 @@ N = Byte encoding there is no source pointer}</string>
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -5811,11 +5436,6 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -5855,11 +5475,6 @@ N = Byte encoding there is no source pointer}</string>
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -5901,11 +5516,6 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -5945,11 +5555,6 @@ N = Byte encoding there is no source pointer}</string>
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -5991,11 +5596,6 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -6035,11 +5635,6 @@ N = Byte encoding there is no source pointer}</string>
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -6081,11 +5676,6 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -6126,11 +5716,6 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -6170,11 +5755,6 @@ N = Byte encoding there is no source pointer}</string>
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -6218,11 +5798,6 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -6264,11 +5839,6 @@ N = Byte encoding there is no source pointer}</string>
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -6322,21 +5892,16 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
 						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
 \cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;\red255\green255\blue255;}
+{\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf2 Literal}</string>
+\f0\fs24 \cf1 Literal}</string>
 					</dict>
 				</dict>
 				<dict>
@@ -6368,11 +5933,6 @@ N = Byte encoding there is no source pointer}</string>
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -6416,11 +5976,6 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -6463,11 +6018,6 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
-						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
@@ -6509,11 +6059,6 @@ N = Byte encoding there is no source pointer}</string>
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Width</key>
-							<real>3</real>
 						</dict>
 					</dict>
 					<key>Text</key>
@@ -8071,7 +7616,7 @@ N = Byte encoding there is no source pointer}</string>
 			<key>BackgroundGraphic</key>
 			<dict>
 				<key>Bounds</key>
-				<string>{{0, 0}, {558.99997329711914, 783}}</string>
+				<string>{{0, 0}, {559, 783}}</string>
 				<key>Class</key>
 				<string>SolidGraphic</string>
 				<key>ID</key>
