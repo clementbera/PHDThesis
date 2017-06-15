@@ -42,7 +42,7 @@ two
 aspects:
 \begin{itemize}
 	\item \emph{Metacircular optimising JITs: } Optimising JITs can be written in different programming languages, including the language they optimise. In the latter case, it may be possible for the JIT to optimise its own code. Such aspects are discussed in Section \ref{sec:implLang}.
-	\item \emph{Runtime state persistance:} Most modern VMs always start-up an application with only unoptimised code. The application then needs a certain amount of time, called \emph{warm-up time}, to reach peak performance. Warm-up time is a problem if the application needs high-performance immediately. Existing solutions for this problem are detailled in Section \ref{sec:persistance}.
+	\item \emph{Runtime state persistence:} Most modern VMs always start-up an application with only unoptimised code. The application then needs a certain amount of time, called \emph{warm-up time}, to reach peak performance. Warm-up time is a problem if the application needs high-performance immediately. Existing solutions for this problem are detailled in Section \ref{sec:persistence}.
 	%\item \emph{Virtual function instruction set:} Most VMs are either only able to execute code from a specific programming language or from a specific virtual function representation. Several modern VMs are able to execute code in other form, for example
 \end{itemize}
 
@@ -259,17 +259,17 @@ When a frequently used portion of code is detected, the Hotspot VM chooses a fun
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Runtime state persistance}
-\label{sec:persistance}
+\section{Runtime state persistence}
+\label{sec:persistence}
 
-In Sista, we persist the runtime state across multiple start-ups, including the optimised code but also the running green threads using optimised code. Persistance of running green thread with optimised code has not been done before. In our case, we need to persist green threads as the normal Smalltalk developer workflow requires it. It seems no other programming language with an optimising JIT have the same requirement so the running green threads are not persisted across start-ups. For this reason, we focus in this section on the persistance of optimised code between multiple start-ups.
+In Sista, we persist the runtime state across multiple start-ups, including the optimised code but also the running green threads using optimised code. persistence of running green thread with optimised code has not been done before. In our case, we need to persist green threads as the normal Smalltalk developer workflow requires it. It seems no other programming language with an optimising JIT have the same requirement so the running green threads are not persisted across start-ups. For this reason, we focus in this section on the persistence of optimised code between multiple start-ups.
 
 One of the main problems with optimising JITs, compared to ahead-of-time compiler, is the start-up performance. As the optimising JIT needs runtime information to optimise code, usually thousands of unoptimised runs of a code snippet are required before reaching peak performance. This warm-up time can cause significant problems in specific short-lived applications, where most of the execution time is spent before reaching peal performance. 
 %In addition, the warm-up time implies additional energy consumption (the processor needs to optimise code, consuming energy) at each application start-up, which is a problem in specific use-cases such as mobiles where battery consumption is critical.
 
 Because of these constraints, some object-oriented languages are compiled with an ahead-of-time compiler. Static analysis is performed over the code to guess what function is called at each virtual call. Applications for the iPhone are a good example where static analysis is used to pre-optimise the Objective-C application. The peak performance is lower than with a JIT compiler if the program uses a lot of virtual calls, as static analysis is not as precised as runtime information on highly dynamic language. However, if the program uses few dynamic features (for example most of the calls are not virtual) and is running on top of a high-performance language kernel like the Objective-C kernel, the result can be satisfying.
 
-Most object-languages still choose to run on top of a VM with an optimising JIT. The section describes four existing techniques to improve start-up performance, including techniques related to optimised code persistance across start-ups.
+Most object-languages still choose to run on top of a VM with an optimising JIT. The section describes four existing techniques to improve start-up performance, including techniques related to optimised code persistence across start-ups.
 
 \paragraph{Many tiers architecture.}
 One solution to decrease warm-up time is to have many tiers in the function based architecture. The idea is that code would be executed slowly the few first iterations, a bit faster the next iterations, faster after an certain number of optimisations, and so on. Instead of being slow for many iterations before being fast, the VM can this way have a very good trade off between compilation time, runtime information quality and code performance.

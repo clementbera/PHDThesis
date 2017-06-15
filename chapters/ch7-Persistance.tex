@@ -12,13 +12,13 @@
 	\begin{document}
 \fi
 
-\chapter{Runtime state persistance across start-ups}
-\label{chap:persistance}
+\chapter{Runtime state persistence across start-ups}
+\label{chap:persistence}
 \minitoc
 
 This chapter describes how the Sista VM persists the runtime state across multiple VM start-ups, including the running green threads and the optimised code. The first Section discusses how snapshots are implemented in Smalltalk, including how the code and the running green threads are persisted across start-ups. The Section then details how snapshots interact with Sista. Section \ref{sec:warmup} focuses on the main issue: the start-up performance of many VMs today is far worse than the peak performance. Several cases where the start-up performance is a problem are described.  Section \ref{sec:relWork} compares our approach to existing VMs. Few VMs attempts to persist the runtime state across multiple start-ups, but some VMs include solutions to improve start-up performance, solving the same problem of poor start-up performance.
 
-\section{Snapshots and persistance}
+\section{Snapshots and persistence}
 
 Snapshots are available in multiple object-oriented languages such as Smalltalk \cite{Gold83a} and later Dart \cite{Anna13a}. As discussed in Section \ref{par:snapshot}, in our case we use Pharo which features snapshots. A snapshot is a serialized form of all the objects present at a precise moment in the runtime. Everything is an object in Pharo, including green threads or v-functions. To start-up Pharo, the virtual machine loads all the objects from a snapshot and resumes the execution based on the green thread that was active at snapshot time. This is how Pharo is normally launched.
 

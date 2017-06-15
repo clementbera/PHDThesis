@@ -20,7 +20,7 @@ In this Chapter we summarize this dissertation. We list the contributions, the p
 
 \section{Summary}
 
-\paragraph{Chapter \ref{chap:stateOfTheArt}} defined the terminology used in the Ph.D. The Chapter then described the two most common architectures for optimising JITs, with examples of VM using one architecture or the other. Then, related work to metacircular VMs and the persistance of the runtime state across start-ups were listed.
+\paragraph{Chapter \ref{chap:stateOfTheArt}} defined the terminology used in the Ph.D. The Chapter then described the two most common architectures for optimising JITs, with examples of VM using one architecture or the other. Then, related work to metacircular VMs and the persistence of the runtime state across start-ups were listed.
 
 \paragraph{Chapter \ref{chap:existing}} detailled the existing Pharo runtime. The focus was on the features not present in most other VMs or relevant in the context of the dissertation. Sista is built on top of the existing runtime described in this Chapter.
 
@@ -30,7 +30,7 @@ In this Chapter we summarize this dissertation. We list the contributions, the p
 
 \paragraph{Chapter \ref{chap:metacircular}} was articulated around a problem happening in metacircular optimising JIT such as Scorch: Scorch may end up in an infinite recursion, calling itself repeatedly and slowing down code execution drastically. The problem happens both during function optimisation and frame deoptimisation. The problem is solved by disabling the optimiser in specific circumstances and by making the deoptimisation code completely independent from the rest of the system.
 
-\paragraph{Chapter \ref{chap:persistance}} detailled how the runtime state is persisted across multiple start-ups in the context of Sista, including optimised v-functions, allowing to decrease warm-up time. 
+\paragraph{Chapter \ref{chap:persistence}} detailled how the runtime state is persisted across multiple start-ups in the context of Sista, including optimised v-functions, allowing to decrease warm-up time. 
 
 \paragraph{Chapter \ref{chap:validation}} showed benchmarks run on the existing Pharo runtime and the Sista runtime. The Sista VM is 1.5x to 5x faster at peak performance than the current production runtime and peak performance is reached almost immediately after start-up if optimised v-functions are persisted as part of the snapshot.
 
