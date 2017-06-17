@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.9.22)  2 MAR 2017 11:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.9.22)  17 JUN 2017 14:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1708,7 +1708,14 @@ Package: relsize 2013/03/29 ver 4.1
 LaTeX Warning: Unused global option(s):
     [preprint].
 
-No file Bench.aux.
+(./Bench.aux
+
+LaTeX Warning: Label `fig:meteor' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:meteor' multiply defined.
+
+)
 \openout1 = `Bench.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 63.
@@ -1725,7 +1732,7 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 63.
 LaTeX Font Info:    ... okay on input line 63.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 63.
 LaTeX Font Info:    Try loading font information for TS1+cmr on input line 63.
-(/usr/local/texlive/2016/texmf-dist/tex/latex/base/ts1cmr.fd
+ (/usr/local/texlive/2016/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 63.
@@ -1782,14 +1789,15 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 63.
 LaTeX Info: Redefining \pageref on input line 63.
 LaTeX Info: Redefining \nameref on input line 63.
+
+(./Bench.out) (./Bench.out)
 \@outlinefile=\write5
 \openout5 = `Bench.out'.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: rotating package is loaded.
 Package caption Info: End \AtBeginDocument code.
-
-ABD: EveryShipout initializing macros
+ ABD: EveryShipout initializing macros
 Package pgfplots notification 'compat/show suggested version=true': you might b
 enefit from \pgfplotsset{compat=1.13} (current compat level: 1.8).
 
@@ -1892,560 +1900,258 @@ LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <9.5> not available
 
 PGFPlots: reading {benchmarks.data}
 
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 174
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 174
-.
-
-NOTE: coordinate (2,71.83) has been dropped because it is unbounded (in x). (se
+NOTE: coordinate (2,72.833) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (3,36.13) has been dropped because it is unbounded (in x). (se
 e also unbounded coords=jump). 
-NOTE: coordinate (3,59.8) has been dropped because it is unbounded (in x). (see
- also unbounded coords=jump). 
-NOTE: coordinate (4,45.001) has been dropped because it is unbounded (in x). (s
+NOTE: coordinate (4,35.252) has been dropped because it is unbounded (in x). (s
 ee also unbounded coords=jump). 
 PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 175
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 175
-.
-
-NOTE: coordinate (1,65.63) has been dropped because it is unbounded (in x). (se
+NOTE: coordinate (1,68.39) has been dropped because it is unbounded (in x). (se
 e also unbounded coords=jump). 
-NOTE: coordinate (3,59.8) has been dropped because it is unbounded (in x). (see
- also unbounded coords=jump). 
-NOTE: coordinate (4,45.001) has been dropped because it is unbounded (in x). (s
+NOTE: coordinate (3,36.13) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+NOTE: coordinate (4,35.252) has been dropped because it is unbounded (in x). (s
 ee also unbounded coords=jump). 
 PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 176
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 176
-.
-
-NOTE: coordinate (1,65.63) has been dropped because it is unbounded (in x). (se
+NOTE: coordinate (1,68.39) has been dropped because it is unbounded (in x). (se
 e also unbounded coords=jump). 
-NOTE: coordinate (2,71.83) has been dropped because it is unbounded (in x). (se
-e also unbounded coords=jump). 
-NOTE: coordinate (4,45.001) has been dropped because it is unbounded (in x). (s
+NOTE: coordinate (2,72.833) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (4,35.252) has been dropped because it is unbounded (in x). (s
 ee also unbounded coords=jump). 
 PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 177
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 177
-.
-
-NOTE: coordinate (1,65.63) has been dropped because it is unbounded (in x). (se
+NOTE: coordinate (1,68.39) has been dropped because it is unbounded (in x). (se
 e also unbounded coords=jump). 
-NOTE: coordinate (2,71.83) has been dropped because it is unbounded (in x). (se
+NOTE: coordinate (2,72.833) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (3,36.13) has been dropped because it is unbounded (in x). (se
 e also unbounded coords=jump). 
-NOTE: coordinate (3,59.8) has been dropped because it is unbounded (in x). (see
- also unbounded coords=jump). 
 PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 203
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 203
-.
-
-NOTE: coordinate (2,8.718) has been dropped because it is unbounded (in x). (se
+NOTE: coordinate (2,9.694) has been dropped because it is unbounded (in x). (se
 e also unbounded coords=jump). 
-NOTE: coordinate (3,6.298) has been dropped because it is unbounded (in x). (se
+NOTE: coordinate (3,4.505) has been dropped because it is unbounded (in x). (se
 e also unbounded coords=jump). 
-NOTE: coordinate (4,5.9623) has been dropped because it is unbounded (in x). (s
+NOTE: coordinate (4,4.278) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+PGFPlots: reading {benchmarks.data}
+NOTE: coordinate (1,9.301) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+NOTE: coordinate (3,4.505) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+NOTE: coordinate (4,4.278) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+PGFPlots: reading {benchmarks.data}
+NOTE: coordinate (1,9.301) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+NOTE: coordinate (2,9.694) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+NOTE: coordinate (4,4.278) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+PGFPlots: reading {benchmarks.data}
+NOTE: coordinate (1,9.301) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+NOTE: coordinate (2,9.694) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+NOTE: coordinate (3,4.505) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+PGFPlots: reading {benchmarks.data}
+NOTE: coordinate (2,10.826) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (3,2.185) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+NOTE: coordinate (4,2.121) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+PGFPlots: reading {benchmarks.data}
+NOTE: coordinate (1,10.545) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (3,2.185) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+NOTE: coordinate (4,2.121) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+PGFPlots: reading {benchmarks.data}
+NOTE: coordinate (1,10.545) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (2,10.826) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (4,2.121) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+PGFPlots: reading {benchmarks.data}
+NOTE: coordinate (1,10.545) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (2,10.826) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (3,2.185) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+PGFPlots: reading {benchmarks.data}
+NOTE: coordinate (2,6.388) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+NOTE: coordinate (3,4.375) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+NOTE: coordinate (4,4.3217) has been dropped because it is unbounded (in x). (s
 ee also unbounded coords=jump). 
 PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 204
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 204
-.
-
-NOTE: coordinate (1,9.313) has been dropped because it is unbounded (in x). (se
+NOTE: coordinate (1,5.7419) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (3,4.375) has been dropped because it is unbounded (in x). (se
 e also unbounded coords=jump). 
-NOTE: coordinate (3,6.298) has been dropped because it is unbounded (in x). (se
-e also unbounded coords=jump). 
-NOTE: coordinate (4,5.9623) has been dropped because it is unbounded (in x). (s
+NOTE: coordinate (4,4.3217) has been dropped because it is unbounded (in x). (s
 ee also unbounded coords=jump). 
 PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 205
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 205
-.
-
-NOTE: coordinate (1,9.313) has been dropped because it is unbounded (in x). (se
+NOTE: coordinate (1,5.7419) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (2,6.388) has been dropped because it is unbounded (in x). (se
 e also unbounded coords=jump). 
-NOTE: coordinate (2,8.718) has been dropped because it is unbounded (in x). (se
-e also unbounded coords=jump). 
-NOTE: coordinate (4,5.9623) has been dropped because it is unbounded (in x). (s
+NOTE: coordinate (4,4.3217) has been dropped because it is unbounded (in x). (s
 ee also unbounded coords=jump). 
 PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 206
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 206
-.
-
-NOTE: coordinate (1,9.313) has been dropped because it is unbounded (in x). (se
+NOTE: coordinate (1,5.7419) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (2,6.388) has been dropped because it is unbounded (in x). (se
 e also unbounded coords=jump). 
-NOTE: coordinate (2,8.718) has been dropped because it is unbounded (in x). (se
-e also unbounded coords=jump). 
-NOTE: coordinate (3,6.298) has been dropped because it is unbounded (in x). (se
+NOTE: coordinate (3,4.375) has been dropped because it is unbounded (in x). (se
 e also unbounded coords=jump). 
 PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 232
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 232
-.
-
-NOTE: coordinate (2,10.4068) has been dropped because it is unbounded (in x). (
+NOTE: coordinate (2,1244.93) has been dropped because it is unbounded (in x). (
 see also unbounded coords=jump). 
-NOTE: coordinate (3,9.1896) has been dropped because it is unbounded (in x). (s
-ee also unbounded coords=jump). 
-NOTE: coordinate (4,7.93) has been dropped because it is unbounded (in x). (see
- also unbounded coords=jump). 
-PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 233
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 233
-.
-
-NOTE: coordinate (1,10.3859) has been dropped because it is unbounded (in x). (
-see also unbounded coords=jump). 
-NOTE: coordinate (3,9.1896) has been dropped because it is unbounded (in x). (s
-ee also unbounded coords=jump). 
-NOTE: coordinate (4,7.93) has been dropped because it is unbounded (in x). (see
- also unbounded coords=jump). 
-PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 234
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 234
-.
-
-NOTE: coordinate (1,10.3859) has been dropped because it is unbounded (in x). (
-see also unbounded coords=jump). 
-NOTE: coordinate (2,10.4068) has been dropped because it is unbounded (in x). (
-see also unbounded coords=jump). 
-NOTE: coordinate (4,7.93) has been dropped because it is unbounded (in x). (see
- also unbounded coords=jump). 
-PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 235
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 235
-.
-
-NOTE: coordinate (1,10.3859) has been dropped because it is unbounded (in x). (
-see also unbounded coords=jump). 
-NOTE: coordinate (2,10.4068) has been dropped because it is unbounded (in x). (
-see also unbounded coords=jump). 
-NOTE: coordinate (3,9.1896) has been dropped because it is unbounded (in x). (s
+NOTE: coordinate (3,756) has been dropped because it is unbounded (in x). (see 
+also unbounded coords=jump). 
+NOTE: coordinate (4,686.27) has been dropped because it is unbounded (in x). (s
 ee also unbounded coords=jump). 
 PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 261
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 261
-.
-
-NOTE: coordinate (2,6.5047) has been dropped because it is unbounded (in x). (s
+NOTE: coordinate (1,1237.70) has been dropped because it is unbounded (in x). (
+see also unbounded coords=jump). 
+NOTE: coordinate (3,756) has been dropped because it is unbounded (in x). (see 
+also unbounded coords=jump). 
+NOTE: coordinate (4,686.27) has been dropped because it is unbounded (in x). (s
 ee also unbounded coords=jump). 
-NOTE: coordinate (3,4.9656) has been dropped because it is unbounded (in x). (s
+PGFPlots: reading {benchmarks.data}
+NOTE: coordinate (1,1237.70) has been dropped because it is unbounded (in x). (
+see also unbounded coords=jump). 
+NOTE: coordinate (2,1244.93) has been dropped because it is unbounded (in x). (
+see also unbounded coords=jump). 
+NOTE: coordinate (4,686.27) has been dropped because it is unbounded (in x). (s
 ee also unbounded coords=jump). 
-NOTE: coordinate (4,4.99391) has been dropped because it is unbounded (in x). (
+PGFPlots: reading {benchmarks.data}
+NOTE: coordinate (1,1237.70) has been dropped because it is unbounded (in x). (
+see also unbounded coords=jump). 
+NOTE: coordinate (2,1244.93) has been dropped because it is unbounded (in x). (
+see also unbounded coords=jump). 
+NOTE: coordinate (3,756) has been dropped because it is unbounded (in x). (see 
+also unbounded coords=jump). 
+PGFPlots: reading {benchmarks.data}
+NOTE: coordinate (2,47.892) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (3,36.86) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+NOTE: coordinate (4,31.315) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+PGFPlots: reading {benchmarks.data}
+NOTE: coordinate (1,44.33) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+NOTE: coordinate (3,36.86) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+NOTE: coordinate (4,31.315) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+PGFPlots: reading {benchmarks.data}
+NOTE: coordinate (1,44.33) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+NOTE: coordinate (2,47.892) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (4,31.315) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+PGFPlots: reading {benchmarks.data}
+NOTE: coordinate (1,44.33) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+NOTE: coordinate (2,47.892) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (3,36.86) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+PGFPlots: reading {benchmarks.data}
+NOTE: coordinate (2,439.25) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (3,329.5) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+NOTE: coordinate (4,281.883) has been dropped because it is unbounded (in x). (
 see also unbounded coords=jump). 
 PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 262
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 262
-.
-
-NOTE: coordinate (1,5.64036) has been dropped because it is unbounded (in x). (
-see also unbounded coords=jump). 
-NOTE: coordinate (3,4.9656) has been dropped because it is unbounded (in x). (s
+NOTE: coordinate (1,358.42) has been dropped because it is unbounded (in x). (s
 ee also unbounded coords=jump). 
-NOTE: coordinate (4,4.99391) has been dropped because it is unbounded (in x). (
+NOTE: coordinate (3,329.5) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+NOTE: coordinate (4,281.883) has been dropped because it is unbounded (in x). (
 see also unbounded coords=jump). 
 PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 263
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 263
-.
-
-NOTE: coordinate (1,5.64036) has been dropped because it is unbounded (in x). (
-see also unbounded coords=jump). 
-NOTE: coordinate (2,6.5047) has been dropped because it is unbounded (in x). (s
+NOTE: coordinate (1,358.42) has been dropped because it is unbounded (in x). (s
 ee also unbounded coords=jump). 
-NOTE: coordinate (4,4.99391) has been dropped because it is unbounded (in x). (
+NOTE: coordinate (2,439.25) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (4,281.883) has been dropped because it is unbounded (in x). (
 see also unbounded coords=jump). 
 PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 264
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 264
-.
-
-NOTE: coordinate (1,5.64036) has been dropped because it is unbounded (in x). (
+NOTE: coordinate (1,358.42) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (2,439.25) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (3,329.5) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+PGFPlots: reading {benchmarks.data}
+NOTE: coordinate (2,301.60) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (3,229.5) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+NOTE: coordinate (4,202.07) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+PGFPlots: reading {benchmarks.data}
+NOTE: coordinate (1,282.858) has been dropped because it is unbounded (in x). (
 see also unbounded coords=jump). 
-NOTE: coordinate (2,6.5047) has been dropped because it is unbounded (in x). (s
-ee also unbounded coords=jump). 
-NOTE: coordinate (3,4.9656) has been dropped because it is unbounded (in x). (s
-ee also unbounded coords=jump). 
-PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 290
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 290
-.
-
-NOTE: coordinate (2,3672.9) has been dropped because it is unbounded (in x). (s
-ee also unbounded coords=jump). 
-NOTE: coordinate (3,3439.2) has been dropped because it is unbounded (in x). (s
-ee also unbounded coords=jump). 
-NOTE: coordinate (4,3329.6) has been dropped because it is unbounded (in x). (s
-ee also unbounded coords=jump). 
-PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 291
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 291
-.
-
-NOTE: coordinate (1,3667.9) has been dropped because it is unbounded (in x). (s
-ee also unbounded coords=jump). 
-NOTE: coordinate (3,3439.2) has been dropped because it is unbounded (in x). (s
-ee also unbounded coords=jump). 
-NOTE: coordinate (4,3329.6) has been dropped because it is unbounded (in x). (s
-ee also unbounded coords=jump). 
-PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 292
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 292
-.
-
-NOTE: coordinate (1,3667.9) has been dropped because it is unbounded (in x). (s
-ee also unbounded coords=jump). 
-NOTE: coordinate (2,3672.9) has been dropped because it is unbounded (in x). (s
-ee also unbounded coords=jump). 
-NOTE: coordinate (4,3329.6) has been dropped because it is unbounded (in x). (s
-ee also unbounded coords=jump). 
-PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 293
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 293
-.
-
-NOTE: coordinate (1,3667.9) has been dropped because it is unbounded (in x). (s
-ee also unbounded coords=jump). 
-NOTE: coordinate (2,3672.9) has been dropped because it is unbounded (in x). (s
-ee also unbounded coords=jump). 
-NOTE: coordinate (3,3439.2) has been dropped because it is unbounded (in x). (s
-ee also unbounded coords=jump). 
-PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 319
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 319
-.
-
-NOTE: coordinate (2,1167.8) has been dropped because it is unbounded (in x). (s
-ee also unbounded coords=jump). 
-NOTE: coordinate (3,730.2) has been dropped because it is unbounded (in x). (se
+NOTE: coordinate (3,229.5) has been dropped because it is unbounded (in x). (se
 e also unbounded coords=jump). 
-NOTE: coordinate (4,676.16) has been dropped because it is unbounded (in x). (s
+NOTE: coordinate (4,202.07) has been dropped because it is unbounded (in x). (s
 ee also unbounded coords=jump). 
 PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 320
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 320
-.
-
-NOTE: coordinate (1,1157.33) has been dropped because it is unbounded (in x). (
+NOTE: coordinate (1,282.858) has been dropped because it is unbounded (in x). (
 see also unbounded coords=jump). 
-NOTE: coordinate (3,730.2) has been dropped because it is unbounded (in x). (se
-e also unbounded coords=jump). 
-NOTE: coordinate (4,676.16) has been dropped because it is unbounded (in x). (s
+NOTE: coordinate (2,301.60) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (4,202.07) has been dropped because it is unbounded (in x). (s
 ee also unbounded coords=jump). 
 PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 321
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 321
-.
-
-NOTE: coordinate (1,1157.33) has been dropped because it is unbounded (in x). (
+NOTE: coordinate (1,282.858) has been dropped because it is unbounded (in x). (
 see also unbounded coords=jump). 
-NOTE: coordinate (2,1167.8) has been dropped because it is unbounded (in x). (s
+NOTE: coordinate (2,301.60) has been dropped because it is unbounded (in x). (s
 ee also unbounded coords=jump). 
-NOTE: coordinate (4,676.16) has been dropped because it is unbounded (in x). (s
+NOTE: coordinate (3,229.5) has been dropped because it is unbounded (in x). (se
+e also unbounded coords=jump). 
+PGFPlots: reading {benchmarks.data}
+NOTE: coordinate (2,3634.4) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (3,3298.6) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (4,3306.8) has been dropped because it is unbounded (in x). (s
 ee also unbounded coords=jump). 
 PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 322
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 322
-.
-
-NOTE: coordinate (1,1157.33) has been dropped because it is unbounded (in x). (
-see also unbounded coords=jump). 
-NOTE: coordinate (2,1167.8) has been dropped because it is unbounded (in x). (s
+NOTE: coordinate (1,3563.1) has been dropped because it is unbounded (in x). (s
 ee also unbounded coords=jump). 
-NOTE: coordinate (3,730.2) has been dropped because it is unbounded (in x). (se
-e also unbounded coords=jump). 
-PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 348
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 348
-.
-
-NOTE: coordinate (2,257.2) has been dropped because it is unbounded (in x). (se
-e also unbounded coords=jump). 
-NOTE: coordinate (3,336.3) has been dropped because it is unbounded (in x). (se
-e also unbounded coords=jump). 
-NOTE: coordinate (4,256.893) has been dropped because it is unbounded (in x). (
-see also unbounded coords=jump). 
-PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 349
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 349
-.
-
-NOTE: coordinate (1,255.225) has been dropped because it is unbounded (in x). (
-see also unbounded coords=jump). 
-NOTE: coordinate (3,336.3) has been dropped because it is unbounded (in x). (se
-e also unbounded coords=jump). 
-NOTE: coordinate (4,256.893) has been dropped because it is unbounded (in x). (
-see also unbounded coords=jump). 
-PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 350
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 350
-.
-
-NOTE: coordinate (1,255.225) has been dropped because it is unbounded (in x). (
-see also unbounded coords=jump). 
-NOTE: coordinate (2,257.2) has been dropped because it is unbounded (in x). (se
-e also unbounded coords=jump). 
-NOTE: coordinate (4,256.893) has been dropped because it is unbounded (in x). (
-see also unbounded coords=jump). 
-PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 351
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 351
-.
-
-NOTE: coordinate (1,255.225) has been dropped because it is unbounded (in x). (
-see also unbounded coords=jump). 
-NOTE: coordinate (2,257.2) has been dropped because it is unbounded (in x). (se
-e also unbounded coords=jump). 
-NOTE: coordinate (3,336.3) has been dropped because it is unbounded (in x). (se
-e also unbounded coords=jump). 
-PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 377
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 377
-.
-
-NOTE: coordinate (2,49.44) has been dropped because it is unbounded (in x). (se
-e also unbounded coords=jump). 
-NOTE: coordinate (3,184.6) has been dropped because it is unbounded (in x). (se
-e also unbounded coords=jump). 
-NOTE: coordinate (4,52.4) has been dropped because it is unbounded (in x). (see
- also unbounded coords=jump). 
-PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 378
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 378
-.
-
-NOTE: coordinate (1,57.431) has been dropped because it is unbounded (in x). (s
+NOTE: coordinate (3,3298.6) has been dropped because it is unbounded (in x). (s
 ee also unbounded coords=jump). 
-NOTE: coordinate (3,184.6) has been dropped because it is unbounded (in x). (se
-e also unbounded coords=jump). 
-NOTE: coordinate (4,52.4) has been dropped because it is unbounded (in x). (see
- also unbounded coords=jump). 
-PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 379
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 379
-.
-
-NOTE: coordinate (1,57.431) has been dropped because it is unbounded (in x). (s
+NOTE: coordinate (4,3306.8) has been dropped because it is unbounded (in x). (s
 ee also unbounded coords=jump). 
-NOTE: coordinate (2,49.44) has been dropped because it is unbounded (in x). (se
-e also unbounded coords=jump). 
-NOTE: coordinate (4,52.4) has been dropped because it is unbounded (in x). (see
- also unbounded coords=jump). 
 PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 380
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 380
-.
-
-NOTE: coordinate (1,57.431) has been dropped because it is unbounded (in x). (s
+NOTE: coordinate (1,3563.1) has been dropped because it is unbounded (in x). (s
 ee also unbounded coords=jump). 
-NOTE: coordinate (2,49.44) has been dropped because it is unbounded (in x). (se
-e also unbounded coords=jump). 
-NOTE: coordinate (3,184.6) has been dropped because it is unbounded (in x). (se
-e also unbounded coords=jump). 
+NOTE: coordinate (2,3634.4) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (4,3306.8) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
 PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 404
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 404
-.
-
+NOTE: coordinate (1,3563.1) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (2,3634.4) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+NOTE: coordinate (3,3298.6) has been dropped because it is unbounded (in x). (s
+ee also unbounded coords=jump). 
+PGFPlots: reading {benchmarks.data}
 NOTE: coordinate (1,2) has been dropped because it is unbounded (in x). (see al
 so unbounded coords=jump). 
 NOTE: coordinate (1,3) has been dropped because it is unbounded (in x). (see al
@@ -2453,16 +2159,6 @@ so unbounded coords=jump).
 NOTE: coordinate (1,4) has been dropped because it is unbounded (in x). (see al
 so unbounded coords=jump). 
 PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 405
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 405
-.
-
 NOTE: coordinate (1,1) has been dropped because it is unbounded (in x). (see al
 so unbounded coords=jump). 
 NOTE: coordinate (1,3) has been dropped because it is unbounded (in x). (see al
@@ -2470,16 +2166,6 @@ so unbounded coords=jump).
 NOTE: coordinate (1,4) has been dropped because it is unbounded (in x). (see al
 so unbounded coords=jump). 
 PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 406
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 406
-.
-
 NOTE: coordinate (1,1) has been dropped because it is unbounded (in x). (see al
 so unbounded coords=jump). 
 NOTE: coordinate (1,2) has been dropped because it is unbounded (in x). (see al
@@ -2487,16 +2173,6 @@ so unbounded coords=jump).
 NOTE: coordinate (1,4) has been dropped because it is unbounded (in x). (see al
 so unbounded coords=jump). 
 PGFPlots: reading {benchmarks.data}
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 407
-.
-
-
-Package pgfplots Warning: Table 'benchmarks.data' has non-unique column name 'd
-'. Only the first occurence can be accessed via column names. on input line 407
-.
-
 NOTE: coordinate (1,1) has been dropped because it is unbounded (in x). (see al
 so unbounded coords=jump). 
 NOTE: coordinate (1,2) has been dropped because it is unbounded (in x). (see al
@@ -2504,75 +2180,63 @@ so unbounded coords=jump).
 NOTE: coordinate (1,3) has been dropped because it is unbounded (in x). (see al
 so unbounded coords=jump). 
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 419.
-LaTeX Font Info:    Calculating math sizes for size <8.5> on input line 426.
+(Font)              <9> on input line 488.
+LaTeX Font Info:    Calculating math sizes for size <8.5> on input line 495.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8.5> on input line 426.
+(Font)              <8.5> on input line 495.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5.94997> on input line 426.
+(Font)              <5.94997> on input line 495.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <4.25> on input line 426.
+(Font)              <4.25> on input line 495.
 
 LaTeX Font Warning: Font shape `U/lasy/m/n' in size <8.5> not available
-(Font)              size <8> substituted on input line 426.
+(Font)              size <8> substituted on input line 495.
 
 
 LaTeX Font Warning: Font shape `U/lasy/m/n' in size <4.25> not available
-(Font)              size <5> substituted on input line 426.
+(Font)              size <5> substituted on input line 495.
 
 
 LaTeX Font Warning: Font shape `U/stmry/m/n' in size <8.5> not available
-(Font)              size <8> substituted on input line 426.
+(Font)              size <8> substituted on input line 495.
 
 
 LaTeX Font Warning: Font shape `U/stmry/m/n' in size <4.25> not available
-(Font)              size <5> substituted on input line 426.
+(Font)              size <5> substituted on input line 495.
 
 No file Bench.bbl.
-
-Package lastpage Warning: Rerun to get the references right on input line 465.
-
 
 AED: lastpage setting LastPage
 <cc-by.pdf, id=11, 88.33pt x 31.11626pt>
 File: cc-by.pdf Graphic file (type pdf)
  <use cc-by.pdf>
-Package pdftex.def Info: cc-by.pdf used on input line 465.
+Package pdftex.def Info: cc-by.pdf used on input line 535.
 (pdftex.def)             Requested size: 39.74274pt x 14.0pt.
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 465.
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 535.
 
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-
-LaTeX Warning: Reference `LastPage' on page 1 undefined on input line 465.
-
-<lipics-logo-bw.pdf, id=14, 591.44762pt x 144.42657pt>
+<lipics-logo-bw.pdf, id=15, 591.44762pt x 144.42657pt>
 File: lipics-logo-bw.pdf Graphic file (type pdf)
 
 <use lipics-logo-bw.pdf>
-Package pdftex.def Info: lipics-logo-bw.pdf used on input line 465.
+Package pdftex.def Info: lipics-logo-bw.pdf used on input line 535.
 (pdftex.def)             Requested size: 64.00354pt x 14.0pt.
  [1
 
 
 Non-PDF special ignored!{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/upd
 map/pdftex.map} <./cc-by.pdf> <./lipics-logo-bw.pdf>] [2]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 465.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 465.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 535.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 535.
  (./Bench.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 465.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 465.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 535.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 535.
+Package rerunfilecheck Info: File `Bench.out' has not changed.
+(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
-
-Package rerunfilecheck Warning: File `Bench.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `Bench.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.75pt have occurred.
@@ -2581,42 +2245,35 @@ LaTeX Font Warning: Size substitutions with differences
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 
-LaTeX Warning: There were undefined references.
+LaTeX Warning: There were multiply-defined labels.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 465.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 535.
  ) 
 Here is how much of TeX's memory you used:
- 41185 strings out of 493014
- 942834 string characters out of 6133351
- 1147512 words of memory out of 5000000
- 44014 multiletter control sequences out of 15000+600000
- 147286 words of font info for 133 fonts, out of 8000000 for 9000
+ 41194 strings out of 493014
+ 942998 string characters out of 6133351
+ 1154143 words of memory out of 5000000
+ 44018 multiletter control sequences out of 15000+600000
+ 144292 words of font info for 132 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 69i,14n,100p,10377b,2871s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/lo
-cal/texlive/2016/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texliv
-e/2016/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2016/texmf-d
-ist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/texlive/2016/texmf-dist/fonts/enc/
-dvips/lm/lm-ts1.enc}</usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm/l
-mbx10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm/lmbx12.pfb>
-</usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm/lmbx7.pfb></usr/local
-/texlive/2016/texmf-dist/fonts/type1/public/lm/lmbx8.pfb></usr/local/texlive/20
-16/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></usr/local/texlive/2016/texmf-d
-ist/fonts/type1/public/lm/lmmi9.pfb></usr/local/texlive/2016/texmf-dist/fonts/t
-ype1/public/lm/lmr10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public
-/lm/lmr12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm/lmr7.pf
-b></usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/loca
-l/texlive/2016/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></usr/local/texliv
-e/2016/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2016/tex
-mf-dist/fonts/type1/public/lm/lmsy9.pfb></usr/local/texlive/2016/texmf-dist/fon
-ts/type1/public/lm/lmtk10.pfb>
-Output written on Bench.pdf (2 pages, 308144 bytes).
+ 69i,13n,100p,10377b,2871s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/lo
+cal/texlive/2016/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/20
+16/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/texlive/2016/texmf-dist/
+fonts/enc/dvips/lm/lm-ts1.enc}</usr/local/texlive/2016/texmf-dist/fonts/type1/p
+ublic/lm/lmbx10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm/l
+mbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm/lmbx8.pfb><
+/usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></usr/local
+/texlive/2016/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/20
+16/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2016/texmf-di
+st/fonts/type1/public/lm/lmr7.pfb></usr/local/texlive/2016/texmf-dist/fonts/typ
+e1/public/lm/lmr9.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm
+/lmssbx10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm/lmtk10.
+pfb>
+Output written on Bench.pdf (2 pages, 280787 bytes).
 PDF statistics:
- 109 PDF objects out of 1000 (max. 8388607)
- 79 compressed objects within 1 object stream
+ 93 PDF objects out of 1000 (max. 8388607)
+ 67 compressed objects within 1 object stream
  5 named destinations out of 1000 (max. 500000)
  41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

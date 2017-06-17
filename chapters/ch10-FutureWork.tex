@@ -23,7 +23,7 @@ Section \ref{sec:archEvo} describes the evolution planned or considered for the 
 \section{Architecture evolution}
 \label{sec:archEvo}
 
-This section details the evolution of the Sista architecture that could be considered in the future. Section \ref{ss:FWInterface} describes the potential evolution of the interface VM-language: Sista is currently using an extended bytecode set to communicate between Scorch and Cogit, another representation may be more efficient. Section \ref{ss:FWIDE} explains the on-going work to integrate Sista with the development tools. The evaluation of the memory footprint required by Sista is precised in Section \ref{ss:FWMemFootprint}. Section \ref{ss:FWPlatDep} discusses the current platform-dependencies of the persistance of optimisations across start-ups and how these dependencies could be avoided. Section \ref{ss:FWProduct} briefly states the on-going work to move Sista to production.
+This section details the evolution of the Sista architecture that could be considered in the future. Section \ref{ss:FWInterface} describes the potential evolution of the interface VM-language: Sista is currently using an extended bytecode set to communicate between Scorch and Cogit, another representation may be more efficient. Section \ref{ss:FWIDE} explains the on-going work to integrate Sista with the development tools. The evaluation of the memory footprint required by Sista is precised in Section \ref{ss:FWMemFootprint}. Section \ref{ss:FWPlatDep} discusses the current platform-dependencies of the persistence of optimisations across start-ups and how these dependencies could be avoided. Section \ref{ss:FWProduct} briefly states the on-going work to move Sista to production.
 
 \subsection{Interface VM-language}
 \label{ss:FWInterface}
@@ -129,13 +129,13 @@ One point that is a bit unclear is how to use the Sista for quick start-up in a 
 
 An example is the case of Azul~\cite{Azul}: a trading bank claims that they are able to use the optimised functions generated the day N-1 to improve the start-up performance of the day N. 
 
-It seems that depending on the use-case where start-up performance matters (distributed application with short-lived slaves, such as the ones on Amazon lambda, Android application or Web pages), the solution is different. It would be very valuable to foxus on one of those use-cases and build a solid framework showing how to use the persistance of optimisations to reduce warm-up time and evaluate what is the cost for the application programmer (Does one have to do something specific to persist the optimisations or is it done automatically as part of a framework ?)
+It seems that depending on the use-case where start-up performance matters (distributed application with short-lived slaves, such as the ones on Amazon lambda, Android application or Web pages), the solution is different. It would be very valuable to foxus on one of those use-cases and build a solid framework showing how to use the persistence of optimisations to reduce warm-up time and evaluate what is the cost for the application programmer (Does one have to do something specific to persist the optimisations or is it done automatically as part of a framework ?)
 
 In the case of distributed application on Amazon lambda, slaves may live down to a couple seconds in case of a high-variant demand, so that there are very few slaves rent when the application is unused and a lot of slaves when the application is heavily used. Is it possible to build a fraework that automatically learn from the life of previous slaves what optimised functions are worth keeping, so when a new short-lived slaved is instantiated, it can reach peak performance very quickly ?
 
 In the case of web pages, is it possible to build a global cache so all frequently used web pages would have pre-optimised code available from the runs of the previous users ?
 
-All these applications of the persistance of optimisations across start-ups of Sista are very interesting and could be analysed in future work.
+All these applications of the persistence of optimisations across start-ups of Sista are very interesting and could be analysed in future work.
 
 \section{Energy consumption evaluation}
 \label{sec:energy}

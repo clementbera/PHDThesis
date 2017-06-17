@@ -148,8 +148,11 @@ Modern virtual machines for object-oriented languages such as Java HotSpot, Java
   }
 }
 
+
+
 \begin{figure*}
   \centering
+  
   \begin{subfigure}[b]{.32\textwidth}
     \subcaption{A*}
     \begin{tikzpicture}[scale=.6]
@@ -265,38 +268,9 @@ Modern virtual machines for object-oriented languages such as Java HotSpot, Java
       \end{axis}
     \end{tikzpicture}
     \label{fig:richards}
-  \end{subfigure}
+  \end{subfigure}  
   \begin{subfigure}[b]{.32\textwidth}
-    \subcaption{k-Nucleotide}
-    \begin{tikzpicture}[scale=.6]
-      \begin{axis}[%
-        ymin=0,ymax=4000,
-        minor tick num=5,
-        ybar,
-        x=30pt,
-        xmin=0.5,xmax=4.5,
-        xticklabel={\relax},
-        axis x line=bottom,
-        axis y line=left,
-        ymajorgrids=true,
-        yminorgrids=true,
-        xtick=\empty,
-        error bars/error bar style={black},
-        tick style={major tick length=0pt,minor tick length=0pt},
-        axis line style={-},
-        grid style={line width=.1pt, draw=gray!10},
-        major grid style={line width=.2pt, draw=gray!50},
-        ylabel={avg ms per iteration}, ylabel near ticks]
-        \addplot+[bar shift=0pt,discard if not={vm}{Cog},line width=0.5pt,fill=white,draw=black,error bars/.cd,y dir=both,y explicit] table [x=position,y=knucleotide, y error=dknuc] {benchmarks.data};
-        \addplot+[bar shift=0pt,discard if not={vm}{Cog+Counters},line width=0.5pt,fill=white,draw=black,pattern=dots,error bars/.cd,y dir=both,y explicit] table [x=position,y=knucleotide, y error=dknuc] {benchmarks.data};
-        \addplot+[bar shift=0pt,discard if not={vm}{Sista (Cold)},line width=0.5pt,fill=white,draw=black,pattern=north west lines,error bars/.cd,y dir=both,y explicit] table [x=position,y=knucleotide, y error=dknuc] {benchmarks.data};
-        \addplot+[bar shift=0pt,discard if not={vm}{Sista (Warm)},line width=0.5pt,fill=white,draw=black,pattern=north east lines,error bars/.cd,y dir=both,y explicit] table [x=position,y=knucleotide, y error=dknuc] {benchmarks.data};
-      \end{axis}
-    \end{tikzpicture}
-    \label{fig:knucleotide}
-  \end{subfigure}
-  \begin{subfigure}[b]{.32\textwidth}
-    \subcaption{Thread ring}
+    \subcaption{Thread Ring}
     \begin{tikzpicture}[scale=.6]
       \begin{axis}[%
         ymin=0,ymax=1250,
@@ -325,39 +299,10 @@ Modern virtual machines for object-oriented languages such as Java HotSpot, Java
     \label{fig:threadring}
   \end{subfigure}
   \begin{subfigure}[b]{.32\textwidth}
-    \subcaption{Blowfish}
-    \begin{tikzpicture}[scale=.6]
-      \begin{axis}[%
-        ymin=0,ymax=390,
-        minor tick num=5,
-        ybar,
-        x=30pt,
-        xmin=0.5,xmax=4.5,
-        xticklabel={\relax},
-        axis x line=bottom,
-        axis y line=left,
-        ymajorgrids=true,
-        yminorgrids=true,
-        xtick=\empty,
-        error bars/error bar style={black},
-        tick style={major tick length=0pt,minor tick length=0pt},
-        axis line style={-},
-        grid style={line width=.1pt, draw=gray!10},
-        major grid style={line width=.2pt, draw=gray!50},
-        ylabel={avg ms per iteration}, ylabel near ticks]
-        \addplot+[bar shift=0pt,discard if not={vm}{Cog},line width=0.5pt,fill=white,draw=black,error bars/.cd,y dir=both,y explicit] table [x=position,y=blowfish, y error=dblow] {benchmarks.data};
-        \addplot+[bar shift=0pt,discard if not={vm}{Cog+Counters},line width=0.5pt,fill=white,draw=black,pattern=dots,error bars/.cd,y dir=both,y explicit] table [x=position,y=blowfish, y error=dblow] {benchmarks.data};
-        \addplot+[bar shift=0pt,discard if not={vm}{Sista (Cold)},line width=0.5pt,fill=white,draw=black,pattern=north west lines,error bars/.cd,y dir=both,y explicit] table [x=position,y=blowfish, y error=dblow] {benchmarks.data};
-        \addplot+[bar shift=0pt,discard if not={vm}{Sista (Warm)},line width=0.5pt,fill=white,draw=black,pattern=north east lines,error bars/.cd,y dir=both,y explicit] table [x=position,y=blowfish, y error=dblow] {benchmarks.data};
-      \end{axis}
-    \end{tikzpicture}
-    \label{fig:blowfish}
-  \end{subfigure}
-  \begin{subfigure}[b]{.32\textwidth}
     \subcaption{DeltaBlue}
     \begin{tikzpicture}[scale=.6]
       \begin{axis}[%
-        ymin=0,ymax=100,
+        ymin=0,ymax=55,
         minor tick num=5,
         ybar,
         x=30pt,
@@ -378,10 +323,100 @@ Modern virtual machines for object-oriented languages such as Java HotSpot, Java
         \addplot+[bar shift=0pt,discard if not={vm}{Cog+Counters},line width=0.5pt,fill=white,draw=black,pattern=dots,error bars/.cd,y dir=both,y explicit] table [x=position,y=deltablue, y error=dblue] {benchmarks.data};
         \addplot+[bar shift=0pt,discard if not={vm}{Sista (Cold)},line width=0.5pt,fill=white,draw=black,pattern=north west lines,error bars/.cd,y dir=both,y explicit] table [x=position,y=deltablue, y error=dblue] {benchmarks.data};
         \addplot+[bar shift=0pt,discard if not={vm}{Sista (Warm)},line width=0.5pt,fill=white,draw=black,pattern=north east lines,error bars/.cd,y dir=both,y explicit] table [x=position,y=deltablue, y error=dblue] {benchmarks.data};
-        \node[label={180:{184 $\pm$ 50 $\uparrow$}},fill,inner sep=0pt] at (axis cs:2.9,95) {};        
+       % \node[label={180:{184 $\pm$ 50 $\uparrow$}},fill,inner sep=0pt] at (axis cs:2.9,95) {};        
       \end{axis}
     \end{tikzpicture}
     \label{fig:deltablue}
+  \end{subfigure}
+    \begin{subfigure}[b]{.32\textwidth}
+    \subcaption{NBody}
+    \begin{tikzpicture}[scale=.6]
+      \begin{axis}[%
+        ymin=0,ymax=500,
+        minor tick num=5,
+        ybar,
+        x=30pt,
+        xmin=0.5,xmax=4.5,
+        xticklabel={\relax},
+        axis x line=bottom,
+        axis y line=left,
+        ymajorgrids=true,
+        yminorgrids=true,
+        xtick=\empty,
+        error bars/error bar style={black},
+        tick style={major tick length=0pt,minor tick length=0pt},
+        axis line style={-},
+        grid style={line width=.1pt, draw=gray!10},
+        major grid style={line width=.2pt, draw=gray!50},
+        ylabel={avg ms per iteration}, ylabel near ticks]
+        \addplot+[bar shift=0pt,discard if not={vm}{Cog},line width=0.5pt,fill=white,draw=black,error bars/.cd,y dir=both,y explicit] table [x=position,y=nbody, y error=dnbody] {benchmarks.data};
+        \addplot+[bar shift=0pt,discard if not={vm}{Cog+Counters},line width=0.5pt,fill=white,draw=black,pattern=dots,error bars/.cd,y dir=both,y explicit] table [x=position,y=nbody, y error=dnbody] {benchmarks.data};
+        \addplot+[bar shift=0pt,discard if not={vm}{Sista (Cold)},line width=0.5pt,fill=white,draw=black,pattern=north west lines,error bars/.cd,y dir=both,y explicit] table [x=position,y=nbody, y error=dnbody] {benchmarks.data};
+        \addplot+[bar shift=0pt,discard if not={vm}{Sista (Warm)},line width=0.5pt,fill=white,draw=black,pattern=north east lines,error bars/.cd,y dir=both,y explicit] table [x=position,y=nbody, y error=dnbody] {benchmarks.data};
+        %\node[label={180:{184 $\pm$ 50 $\uparrow$}},fill,inner sep=0pt] at (axis cs:2.9,95) {};        
+      \end{axis}
+    \end{tikzpicture}
+    \label{fig:nbody}
+  \end{subfigure}
+  \begin{subfigure}[b]{.32\textwidth}
+    \subcaption{Meteor}
+    \begin{tikzpicture}[scale=.6]
+      \begin{axis}[%
+        ymin=0,ymax=350,
+        minor tick num=5,
+        ybar,
+        x=30pt,
+        xmin=0.5,xmax=4.5,
+        xticklabel={\relax},
+        axis x line=bottom,
+        axis y line=left,
+        ymajorgrids=true,
+        yminorgrids=true,
+        xtick=\empty,
+        error bars/error bar style={black},
+        tick style={major tick length=0pt,minor tick length=0pt},
+        axis line style={-},
+        grid style={line width=.1pt, draw=gray!10},
+        major grid style={line width=.2pt, draw=gray!50},
+        ylabel={avg ms per iteration}, ylabel near ticks]
+        \addplot+[bar shift=0pt,discard if not={vm}{Cog},line width=0.5pt,fill=white,draw=black,error bars/.cd,y dir=both,y explicit] table [x=position,y=meteor, y error=dmeteor] {benchmarks.data};
+        \addplot+[bar shift=0pt,discard if not={vm}{Cog+Counters},line width=0.5pt,fill=white,draw=black,pattern=dots,error bars/.cd,y dir=both,y explicit] table [x=position,y=meteor, y error=dmeteor] {benchmarks.data};
+        \addplot+[bar shift=0pt,discard if not={vm}{Sista (Cold)},line width=0.5pt,fill=white,draw=black,pattern=north west lines,error bars/.cd,y dir=both,y explicit] table [x=position,y=meteor, y error=dmeteor] {benchmarks.data};
+        \addplot+[bar shift=0pt,discard if not={vm}{Sista (Warm)},line width=0.5pt,fill=white,draw=black,pattern=north east lines,error bars/.cd,y dir=both,y explicit] table [x=position,y=meteor, y error=dmeteor] {benchmarks.data};
+       % \node[label={180:{184 $\pm$ 50 $\uparrow$}},fill,inner sep=0pt] at (axis cs:2.9,95) {};        
+      \end{axis}
+    \end{tikzpicture}
+    \label{fig:meteor}
+  \end{subfigure}
+    \begin{subfigure}[b]{.32\textwidth}
+    \subcaption{K-Nucleotide}
+    \begin{tikzpicture}[scale=.6]
+      \begin{axis}[%
+        ymin=0,ymax=4000,
+        minor tick num=5,
+        ybar,
+        x=30pt,
+        xmin=0.5,xmax=4.5,
+        xticklabel={\relax},
+        axis x line=bottom,
+        axis y line=left,
+        ymajorgrids=true,
+        yminorgrids=true,
+        xtick=\empty,
+        error bars/error bar style={black},
+        tick style={major tick length=0pt,minor tick length=0pt},
+        axis line style={-},
+        grid style={line width=.1pt, draw=gray!10},
+        major grid style={line width=.2pt, draw=gray!50},
+        ylabel={avg ms per iteration}, ylabel near ticks]
+        \addplot+[bar shift=0pt,discard if not={vm}{Cog},line width=0.5pt,fill=white,draw=black,error bars/.cd,y dir=both,y explicit] table [x=position,y=knucleotide, y error=dknuc] {benchmarks.data};
+        \addplot+[bar shift=0pt,discard if not={vm}{Cog+Counters},line width=0.5pt,fill=white,draw=black,pattern=dots,error bars/.cd,y dir=both,y explicit] table [x=position,y=knucleotide, y error=dknuc] {benchmarks.data};
+        \addplot+[bar shift=0pt,discard if not={vm}{Sista (Cold)},line width=0.5pt,fill=white,draw=black,pattern=north west lines,error bars/.cd,y dir=both,y explicit] table [x=position,y=knucleotide, y error=dknuc] {benchmarks.data};
+        \addplot+[bar shift=0pt,discard if not={vm}{Sista (Warm)},line width=0.5pt,fill=white,draw=black,pattern=north east lines,error bars/.cd,y dir=both,y explicit] table [x=position,y=knucleotide, y error=dknuc] {benchmarks.data};
+       % \node[label={180:{184 $\pm$ 50 $\uparrow$}},fill,inner sep=0pt] at (axis cs:2.9,95) {};        
+      \end{axis}
+    \end{tikzpicture}
+    \label{fig:meteor}
   \end{subfigure}
   \begin{subfigure}[b]{.32\textwidth}
     \subcaption*{Legend}
@@ -412,8 +447,42 @@ Modern virtual machines for object-oriented languages such as Java HotSpot, Java
       \end{axis}
     \end{tikzpicture}
   \end{subfigure}
+  
   \label{fig:graph}
 \end{figure*}
+
+
+%names := ' A* & 65.63 +- 1.04 & 71.83 +- 1.13 & 59.8 +- 15.30 & 45 +- 0.35 \\
+%    Binary tree & 9.31 +- 0.09 & 8.72 +- 0.08 & 6.3 +- 0.26 & 5.96 +- 0.04 \\
+%    Delta Blue & 5.64 +- 0.01 & 6.5 +- 0.02 & 4.96 +- 0.03 & 4.99 +- 0.01 \\
+%    JSON parsing & 255.23 +- 0.34 & 257.2 +- 0.46 & 336.3 +- 35.90 & 256.89 +- 0.38 \\
+%    Mandelbrot & 10.39 +- 0.02 & 10.41 +- 0.02 & 9.19 +- 0.05 & 7.93 +- 0.03 \\
+%    Richards & 57.43 +- 0.17 & 49.44 +- 1.07 & 184.6 +- 50.20 & 52.4 +- 6.36 \\
+%    K-Nucleotide & 57.43 +- 0.17 & 49.44 +- 1.07 & 184.6 +- 50.20 & 52.4 +- 6.36 \\
+%    Spectral Norm & 5.64 +- 0.01 & 6.5 +- 0.02 & 4.96 +- 0.03 & 4.99 +- 0.01 \\
+%    Thread Ring & 5.64 +- 0.01 & 6.5 +- 0.02 & 4.96 +- 0.03 & 4.99 +- 0.01 \\
+%    NBody & 5.64 +- 0.01 & 6.5 +- 0.02 & 4.96 +- 0.03 & 4.99 +- 0.01 \\
+%    Meteor & 5.64 +- 0.01 & 6.5 +- 0.02 & 4.96 +- 0.03 & 4.99 +- 0.01 \\' splitOn: String cr.
+%names := names collect: [ :each | (each splitOn: '&') first trim ].
+%
+%data := 'Cog      	68.39	0.485	9.301   	0.0811	44.33   	1.08	10.545	0.0174	1035.17  	4.99 	5.7419  	0.0119	3563.1  	28.6	305.983 	0.494	1237.70 	5.73	358.42	2.74  	282.858	0.658	1       	 1
+%{Cog+Counters}	72.833	0.129	9.694     	0.0865	47.892  	0.638	10.826 	0.0089	1429.93 	1.2	6.388   	0.0045	3634.4  	21.8	332.983 	0.485	1244.93   	3.89	439.25	0.484	301.60	0.132	2       	 1
+%{Sista (Cold)}	36.13	1.12	4.505   	0.13	36.86   	6.42	1.725	0.140	1876.4  	53.4	4.375   	0.115	3298.6  	71.8	347.15  	3.54	756     	106	329.5	22.9	229.5	24.8	3       	 1
+%{Sista (Warm)}	35.252	0.0479	4.278     	0.0031	31.315   	0.601	2.181  	0.00826	1038.867  	0.604	4.3217  	0.0174 	3326.8     	20.0 	276.517     	0.347	686.27    	1.56 	281.883	0.836	202.07	1.480	4       	 1' splitOn: String cr.
+%data := data collect: [ :each | (each splitOn: String tab) collect: #trim ].
+%
+%s := '' writeStream.
+%names withIndexDo: [ :name :index |
+%	s << name.
+%	1 to: 4 do: [ :j |
+%		s << ' & '.
+%		s << ((data at: j) at: index + 1) asString.
+%		s << ' +- '.
+%		s << ((data at: j) at: index + 2) asString ].
+%	s << ' \\'.
+%	s cr
+%	 ].
+%s contents
 
 \begin{table}
   \caption{Benchmark results with standard errors in avg ms per iteration with \SI{90}{\percent} confidence interval}
@@ -423,18 +492,11 @@ Modern virtual machines for object-oriented languages such as Java HotSpot, Java
     separate-uncertainty = true}
   \smaller[1]
   \centering
-  \begin{tabular}{@{}lS@{}S@{}S@{}S@{}}
+  \begin{tabular}{@{}lllll@{}}
     \toprule
     Benchmark & {Cog} & {Cog+Counters} & {Sista (Cold)} & {Sista (Warm)} \\
     \midrule
-    A* & 65.63 +- 1.04 & 71.83 +- 1.13 & 59.8 +- 15.30 & 45 +- 0.35 \\
-    Binary tree & 9.31 +- 0.09 & 8.72 +- 0.08 & 6.3 +- 0.26 & 5.96 +- 0.04 \\
-    Blowfish & 255.23 +- 0.34 & 257.2 +- 0.46 & 336.3 +- 35.90 & 256.89 +- 0.38 \\
-    DeltaBlue & 57.43 +- 0.17 & 49.44 +- 1.07 & 184.6 +- 50.20 & 52.4 +- 6.36 \\
-    JSON & 10.39 +- 0.02 & 10.41 +- 0.02 & 9.19 +- 0.05 & 7.93 +- 0.03 \\
-    Richards & 5.64 +- 0.01 & 6.5 +- 0.02 & 4.96 +- 0.03 & 4.99 +- 0.01 \\
-    k-Nucleotide & 3667 +- 26.40 & 3672 +- 22.20 & 3439 +- 56.00 & 3329.00 +- 14.8 \\
-    Threadring & 1157 +- 2.56 & 1167 +- 3.09 & 730.2 +- 52.80 & 676.2 +- 1.66 \\
+A* & 68.39 +- 0.485 & 72.833 +- 0.129 & 36.13 +- 1.12 & 35.252 +- 0.0479 \\Binary tree & 9.301 +- 0.0811 & 9.694 +- 0.0865 & 4.505 +- 0.13 & 4.278 +- 0.0031 \\Delta Blue & 44.33 +- 1.08 & 47.892 +- 0.638 & 36.86 +- 6.42 & 31.315 +- 0.601 \\JSON parsing & 10.545 +- 0.0174 & 10.826 +- 0.0089 & 2.185 +- 0.140 & 2.121 +- 0.00826 \\Richards & 5.7419 +- 0.0119 & 6.388 +- 0.0045 & 4.375 +- 0.115 & 4.3217 +- 0.0174 \\K-Nucleotide & 3563.1 +- 28.6 & 3634.4 +- 21.8 & 3298.6 +- 71.8 & 3306.8 +- 20.0 \\Thread Ring & 1237.70 +- 5.73 & 1244.93 +- 3.89 & 756 +- 106 & 686.27 +- 1.56 \\NBody & 358.42 +- 2.74 & 439.25 +- 0.484 & 329.5 +- 22.9 & 281.883 +- 0.836 \\Meteor & 282.858 +- 0.658 & 301.60 +- 0.132 & 229.5 +- 24.8 & 202.07 +- 1.480 \\
     \bottomrule
   \end{tabular}
   \label{tbl:benchmark}

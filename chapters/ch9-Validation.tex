@@ -46,58 +46,6 @@ Figure \ref{fig:measure} shows all the measurements in the form of graphs. The e
     \end{center}
 \end{figure}
 
-\subparagraph{A*.}
-
-The A* benchmark is a good approximation for applications where many objects collaborate. It measures parsing of large strings that define the layout of the nodes, message sending between each node, arithmetic to calculate costs, and collection operations. In the benchmark, we alternately parse and traverse two different graphs with 2,500 and 10,000 nodes, respectively. It is also a good benchmark for inlining block closures that are used in iterations.
-
-Figure~\ref{fig:measure}(a) shows that adding counters to the VM comes with a slight overhead. A cold start for the benchmarks manages to improve the performance, but due to the ongoing optimisations in the beginning of the measurments, the error is extremely large and thus the run is not significantly faster. Measuring the warmed up image, we see a significant improvement being about 30\% faster.                          
-
-\subparagraph{Binary tree.}
-
-The binary tree benchmark allocates, walks and deallocates binary trees. The benchmark is parameterized with  the maximum tree depth, which we have set to 10.
-
-In this benchmark, peak performance of Sista is about 25\% faster than the standard VM, with very little error (Figure~\ref{fig:measure}(b)). The overhead of optimisation during a cold start leaves it around 5\% behind warm start.
-
-\subparagraph{JSON parsing.}
-
-We test a JSON parser written in Smalltalk as it parses a constant, minified, well-formed JSON string of 25 Kilobytes. This benchmark is heavy on nested loops and string operations, as well as a lot of parsing rules that call each other.
-
-We can see a peak-performance is about 20\% faster (Figure~\ref{fig:measure}(c)). Even from a cold start Sista quickly improves performance to about 10\% faster than Cog.
-
-\subparagraph{Richards.}
-
-Richards is an OS kernel simulation benchmark that focuses on message sending between objects and block invocation. We ran this benchmark with the customary idle task, two devices, two handler tasks, and a worker, and filled the work queue of the latter three.
-
-Figure \ref{fig:measure}(d) again shows a clear decrease in performance after adding counters to the VM. For this benchmark, warm-up is very quick even with our additional optimisations. The top-level benchmarking method is optimised very quickly, and only six optimised methods are installed in total. This quick warm-up means there is no significant difference between the cold start Sista and the warmed up image. Both cases are a little over 10\% faster than the Cog VM without counters.
-
-\subparagraph{k-Nucleotide.}
-
-This benchmark reads a 2.4 MB DNA sequence string and counts all occurrences of nucleotides of lengths 1 and 2, as well as a number of specific sequences. It is a benchmark meant to test the performance of dictionaries in different languages, but serves well to test our inlining of small methods into loops.
-
-The benchmark runs much slower than the others due to the large input, taking over 4 minutes to complete. Sista manages to optimise it to be about 10\% faster, with the cold start showing that the optimisation takes a while to amortize (Figure~\ref{fig:measure}(e)).
-
-\subparagraph{Thread ring benchmark.}
-
-The Thread ring benchmark switches from thread to thread (green threads) passing one token between threads. Each iteration, 503 green threads are created and the token is passed around 5,000,000 times.
-
-From an unoptimised snapshot, the first iteration of this benchmark is bound to be slow with our architecture, because multiple threads exist with the same code on the stack, each asking the profiler to optimise the same methods, while the optimiser refuses to do so because an optimised function already exists for the frequently used code. This might be a reason for the large error (Figure~\ref{fig:measure}(f)). Started again after warm-up, the optimised code runs over 40\% faster than the standard VM.
-
-\subparagraph{Blowfish.}
-
-Blowfish tests the performance of bit operations by encrypting and decrypting messages. Each iteration encrypts and decrypts 20 messages with 20 different keys.
-
-Figure~\ref{fig:measure}(g) shows no significant differences between Cog, Cog with counters and Sista after warm-up. We explain this with the fact that most time here is spent in bit operations and very little message sending takes place in comparison. The inlining does not significantly improve the performance in this case, and bit shift, logical AND and OR operations are already treated specially in the default bytecode set so there is not much performance to gain.
-
-\subparagraph{DeltaBlue.}
-
-DeltaBlue is a constraint solver, it tests polymorphic message sending and graph traversal. Each iteration tests updating a chain of 5000 connected variables once with equality constraints and once with a simple arithmetic scale constraint.
-
-For our default parameters, the benchmark shows no significant differences between Cog, Cog with counters and Sista -- all errors overlap (\ref{fig:measure}(h)). We have found that increasing the maximum allowed inlining depth to 14 levels (rather than 12, as used for the other benchmarks), allows the optimiser to produce code that is 20\% faster, but it has caused performance problems other benchmarks, so we chosen not to change the variable for the time being.
-
-\subparagraph{Comments.}
-
-We ran our VM profiler to profile the VM C code, but as for real world application, the time spent in the baseline JIT compiler generating machine code from bytecode is less than 1\% of the total execution time. As the runtime switches from interpreted code to machine code at second invocation for most functions and at first invocation for optimised functions, the time lost here is too small to be shown on our graphics. In fact, the time lost here is not significant compared to the variation so it is difficult to evaluate in our current setting. We believe that using a back-end doing many more machine low-level optimisations would increase the machine code compilation time and in this case we would be able to see a difference between the first run of pre-heated snapshot and second run as the VM still needs to produce the machine code for the optimised bytecoded functions.
-
 \begin{figure}[h!]
     \begin{center}
         \includegraphics[width=\linewidth]{BenchTable}
@@ -106,7 +54,63 @@ We ran our VM profiler to profile the VM C code, but as for real world applicati
     \end{center}
 \end{figure}
 
-Our optimiser is controlled by a number of variables that have been heuristically chosen to give good performance in a variety of cases. These include, among others, global settings for inlining depth, the allowed maximum size of optimised methods as well as methods to be inlined, as well as the time allowed for the optimiser to create an optimised method before it is aborted. We have found that for certain benchmarks (such as DeltaBlue), these variables can have a great impact. We are working on fine-tuning these default values, as well as enabling heuristics to dynamically adapt these values depending on the application.
+\subparagraph{A*.}
+
+The A* benchmark is a good approximation for applications where many objects collaborate. It measures parsing of large strings that define the layout of the nodes, message sending between each node, arithmetic to calculate costs, and collection operations. In the benchmark, we alternately parse and traverse two different graphs with 2,500 and 10,000 nodes, respectively. It is also a good benchmark for inlining block closures that are used in iterations.
+
+Figure~\ref{fig:measure}(a) shows that adding counters to the VM comes with a slight overhead. A cold start for the benchmarks manages to improve the performance, with slight overhead due to the ongoing optimisations. Measuring the warmed up image, we see a significant improvement being about 50\% faster.                          
+
+\subparagraph{Binary tree.}
+
+The binary tree benchmark allocates, walks and deallocates binary trees. The benchmark is parameterized with  the maximum tree depth, which we have set to 10.
+
+In this benchmark, peak performance of Sista is about 50\% faster than the standard VM, with very little error (Figure~\ref{fig:measure}(b)). The overhead of optimisation during a cold start leaves it around 5\% behind warm start.
+
+\subparagraph{JSON parsing.}
+
+We test a JSON parser written in Smalltalk as it parses a constant, minified, well-formed JSON string of 25 Kilobytes. This benchmark is heavy on nested loops and string operations, as well as a lot of parsing rules that call each other.
+
+We can see a peak-performance is about 5 times faster (Figure~\ref{fig:measure}(c)). From a cold start, Sista improves performance with a bigger error margin due to the on-going optimisations.
+
+\subparagraph{Richards.}
+
+Richards is an OS kernel simulation benchmark that focuses on message sending between objects and block invocation. We ran this benchmark with the customary idle task, two devices, two handler tasks, and a worker, and filled the work queue of the latter three.
+
+Figure \ref{fig:measure}(d) again shows a clear decrease in performance after adding counters to the VM. In this benchmark, the top-level benchmarking method is optimised very quickly, and only six optimised methods are installed in total. There is again no significant difference between the cold start Sista and the warmed up image. Both cases are a little over 25\% faster than the Cog VM without counters.
+
+\subparagraph{Thread Ring benchmark.}
+
+The Thread ring benchmark switches from thread to thread (green threads) passing one token between threads. Each iteration, 503 green threads are created and the token is passed around 5,000,000 times.
+
+From an unoptimised snapshot, the first iteration of this benchmark is bound to be slow with our architecture, because multiple threads exist with the same code on the stack, each asking the profiler to optimise the same methods, while the optimiser refuses to do so because an optimised function already exists for the frequently used code. This induces a large error (Figure~\ref{fig:measure}(e)). Started again after warm-up, the optimised code runs over 40\% faster than the standard VM.
+
+\subparagraph{DeltaBlue.}
+
+DeltaBlue is a constraint solver, it tests polymorphic message sending and graph traversal. Each iteration tests updating a chain of 5000 connected variables once with equality constraints and once with a simple arithmetic scale constraint.
+
+In this case, the benchmark takes a while to warm-up as many functions are inlined to allow optimisations to be performed (Figure~\ref{fig:measure}(f)). From a cold start, a large error is present due to the on-going optimisations. Started again after warm-up, the benchmark is 30\% faster than the standard VM.
+
+\subparagraph{NBody.}
+
+NBody models the orbits of Jovian planets, using a simple symplectic-integrator. At each iteration, the gravity interaction between each planets is computed to determine the next position of the planet.
+
+NBody is a fairly large benchmark, taking enough time to warm-up to be seen from a cold start (Figure~\ref{fig:measure}(g)). Started after warm-up, the benchmark is 20\% faster than the standard VM.
+
+\subparagraph{Meteor.}
+
+Meteor is a puzzle-solver. Meteor takes a significant amount of time to warm-up, leading to a large error magin and sub-optimal performance when started on a cold VM (Figure~\ref{fig:measure}(h)). From a warmed-up snapshot, the benchmark is 30\% faster than the standard VM.
+
+\subparagraph{k-Nucleotide.}
+
+This benchmark reads a 2.4 MB DNA sequence string and counts all occurrences of nucleotides of lengths 1 and 2, as well as a number of specific sequences. It is a benchmark meant to test the performance of dictionaries in different languages, but serves well to test our inlining of small methods into loops.
+
+The benchmark runs much slower than the others due to the large input, taking over 4 minutes to complete. Sista manages to optimise it to be about 10\% faster, with the cold start showing that the optimisation takes a while to amortize (Figure~\ref{fig:measure}(i)).
+
+\subparagraph{Comments.}
+
+We ran our VM profiler to profile the VM C code, but as for real world application, the time spent in the baseline JIT compiler generating machine code from bytecode is less than 1\% of the total execution time. As the runtime switches from interpreted code to machine code at second invocation for most functions and at first invocation for optimised functions, the time lost here is too small to be shown on our graphics. In fact, the time lost here is not significant compared to the variation so it is difficult to evaluate in our current setting. We believe that using a back-end doing many more machine low-level optimisations would increase the machine code compilation time and in this case we would be able to see a difference between the first run of pre-heated snapshot and second run as the VM still needs to produce the machine code for the optimised bytecoded functions.
+
+Our optimiser is controlled by a number of variables that have been heuristically chosen to give good performance in a variety of cases. These include, among others, global settings for inlining depth, the allowed maximum size of optimised methods as well as methods to be inlined, as well as the time allowed for the optimiser to create an optimised method before it is aborted. We are working on fine-tuning these default values, as well as enabling heuristics to dynamically adapt these values depending on the application.
 
 \section{Other validations}
 \label{sec:otherValid}
