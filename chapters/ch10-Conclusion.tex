@@ -16,25 +16,26 @@
 \label{chap:conclusion}
 \minitoc
 
-In this Chapter we summarize this dissertation. We list the contributions, the published papers and their impact.
+In this Chapter we summarise the dissertation, then list the contributions, the published papers and their impact.
 
 \section{Summary}
 
-\paragraph{Chapter \ref{chap:stateOfTheArt}} defined the terminology used in the Ph.D. The Chapter then described the two most common architectures for optimising JITs, with examples of VM using one architecture or the other. Then, related work to metacircular VMs and the persistence of the runtime state across start-ups were listed.
+%hspace to simulate non working indent.
+\hspace{0.5cm} \textbf{Chapter \ref{chap:stateOfTheArt}} defined the terminology used in the thesis. The Chapter then described the two most common architectures for optimising JITs, the function-based and the meta-tracing architecture, with examples of VMs using one architecture or the other. Then, work related to Sista in the context of the two research subproblems, metacircular VMs and the persistence of the runtime state across start-ups, were listed.
 
-\paragraph{Chapter \ref{chap:existing}} detailled the existing Pharo runtime. The focus was on the features not present in most other VMs or relevant in the context of the dissertation. Sista is built on top of the existing runtime described in this Chapter.
+\textbf{Chapter \ref{chap:existing}} detailled the existing Pharo runtime. The focus was on the features not present in most other VMs or relevant in the context of the dissertation. Sista is built on top of the existing runtime described in this Chapter.
 
-\paragraph{Chapter \ref{chap:architecture}} explained Sista, including the inner details of the architecture. Especially, the split between Scorch and Cogit in the optimising JIT architecture was described. The Chapter compared Sista against existing architectures for optimising JITs.
+\textbf{Chapter \ref{chap:architecture}} explained Sista, including the inner details of the architecture. Especially, the split between Scorch and Cogit in the optimising JIT architecture was described. The Chapter compared Sista against existing architectures for optimising JITs.
 
-\paragraph{Chapter \ref{chap:runtimeEvolution}} discussed the evolutions required to the existing Pharo runtime to implement the Sista architecture on top of the existing runtime. This included all the core aspects of the system which needed to be changed to support Sista, such as the implementation of closures or the ability to mark an object as read-only.
+\textbf{Chapter \ref{chap:runtimeEvolution}} discussed the evolutions required to the existing Pharo runtime to implement the Sista architecture on top of the existing runtime. This included all the core aspects of the system which needed to be changed to support Sista, such as the implementation of closures or the ability to mark an object as read-only.
 
-\paragraph{Chapter \ref{chap:metacircular}} was articulated around a problem happening in metacircular optimising JIT such as Scorch: Scorch may end up in an infinite recursion, calling itself repeatedly and slowing down code execution drastically. The problem happens both during function optimisation and frame deoptimisation. The problem is solved by disabling the optimiser in specific circumstances and by making the deoptimisation code completely independent from the rest of the system.
+\textbf{Chapter \ref{chap:metacircular}} was articulated around a problem happening in metacircular optimising JIT such as Scorch: under specific circumstances, Scorch ends up in an infinite recursion where it calls itself repeatedly. The problem can happen both when Scorch attempts to optimise one of its own function or when it attempts to deoptimise one of its own frame. The problem is solved by disabling temporarily the optimiser when relevant and by making the deoptimisater code completely independent from the rest of Pharo.
 
-\paragraph{Chapter \ref{chap:persistence}} detailled how the runtime state is persisted across multiple start-ups in the context of Sista, including optimised v-functions, allowing to decrease warm-up time. 
+\textbf{Chapter \ref{chap:persistence}} detailled how the runtime state is persisted across multiple start-ups in the context of Sista, including optimised v-functions, allowing to decrease warm-up time. 
 
-\paragraph{Chapter \ref{chap:validation}} showed benchmarks run on the existing Pharo runtime and the Sista runtime. The Sista VM is 1.5x to 5x faster at peak performance than the current production runtime and peak performance is reached almost immediately after start-up if optimised v-functions are persisted as part of the snapshot.
+\textbf{Chapter \ref{chap:validation}} showed benchmarks run on the existing Pharo runtime and the Sista runtime. The Sista VM is 1.5x to 5x faster at peak performance than the current production runtime and peak performance is reached almost immediately after start-up if optimised v-functions are persisted as part of the snapshot.
 
-\paragraph{Chapter \ref{chap:futureWork}} discussed future work that may be interesting based on the contents of this thesis.
+\textbf{Chapter \ref{chap:futureWork}} discussed future work that are worth investigating based on the contents of this thesis.
 
 \section{Contributions}
 
@@ -63,12 +64,12 @@ Here is the list of my publications waiting for approval:
 
 \begin{enumerate}
 	\item Nevena Milojkovi\'c, Cl\'ement B\'era, Mohammad Ghafari and Oscar Nierstrasz. Mining Inline Cache Data to Order Inferred Types in Dynamic Languages. Accepted with minor revisions in Science of Computer programming, SCP'17, 2017.
-	\item Cl\'ement B\'era, Eliot Miranda, Tim Felgentreff, Marcus Denker and St\'ephane Ducasse. Sista: Saving Optimized Code in Snapshots for Fast Start-Up. Waiting to be resubmitted after last rejection, ECOOP'17, 2017.
+	\item Cl\'ement B\'era, Eliot Miranda, Tim Felgentreff, Marcus Denker and St\'ephane Ducasse. Sista: Saving Optimized Code in Snapshots for Fast Start-Up. Submitted to ManLang, ManLang'17, 2017.
 \end{enumerate}
 
 \section{Impact of the thesis}
 
-Multiple contributions of the thesis (the alternative bytecode set, the read-only objects and the alternative implementation of closures) are integrated and interested the user-base of Pharo. The main impact is Sista, which is currently being integrated in Pharo and will hopefully enable new research and industrial work to be done with Pharo.
+Multiple contributions of the thesis (the alternative bytecode set, the read-only objects and the alternative implementation of closures) are integrated in Pharo and got some attention from the user-base. The main impact is Sista, which is currently being integrated in Pharo and will hopefully enable new research and industrial work.
 
 \ifx\wholebook\relax\else
     \end{document}
