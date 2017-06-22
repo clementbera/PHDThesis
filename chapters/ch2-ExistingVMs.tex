@@ -106,7 +106,7 @@ The second VM built with this design was the Animorphic VM for the Strongtalk pr
 
 The Hotspot VM (CITE) was implemented from the Self and animorphic VM code base and has been the default Java VM provided by Sun then Oracle for more than a decade. In the first versions of the Hotspot VM, two executables were distributed. One was called the client VM, which included only the baseline JIT and was distributed for applications where start-up performance matters. The other one was called the server VM, which included both JIT tiers, and was distributed for application where peak performance matters. Later, the optimising JIT was introduced in the client VM with different optimisation policies than the server version to improve the client VM performance without decreasing too much start-up performance. In Java 6 and onwards, the server VM became the default VM as new strategies allowed the optimising JIT to improve performance with little impact on start-up performance. Lastly, a single binary is now distributed for the 64 bits release, including only the server VM. 
 
-More recently, multiple Javascript VMs were built with a similar design. A good example is the V8 Javascript engine~\cite{V8}, used to execute Javascript in Google Chrome and Node JS. Other VMs, less popular than the Java and Javascript VMs are also using similar architectures, such as the Dart VM (CITE). One research project, the Graal compiler~\cite{Oracle13,Dubo13c}, is a function-based optimising JIT for Java that can be used, among multiple use-cases, as an alternative optimising JIT in the Hotspot VM.
+More recently, multiple Javascript VMs were built with a similar design. A good example is the V8 Javascript engine~\cite{V8}, used to execute Javascript in Google Chrome and Node JS. Other VMs, less popular than the Java and Javascript VMs are also using similar architectures, such as the Dart VM. One research project, the Graal compiler~\cite{Oracle13,Dubo13c}, is a function-based optimising JIT for Java that can be used, among multiple use-cases, as an alternative optimising JIT in the Hotspot VM.
 
 \subsection{Just-in-time compiler tiers}
 
@@ -206,7 +206,7 @@ Being sequential, the trace represents only one of the many possible paths throu
 
 Tracing optimisations were initially explored by the Dynamo project~\cite{Bala00a} to dynamically optimise native code at runtime. Its techniques were then successfully used to implement a JIT compiler for a Java VM~\cite{Gal06a}. The technique was used in Mozilla's JavaScript VM from Firefox 3 to Firefox 11~\cite{Gal09a} until Mozilla removed it to replace it by a function-based JIT. 
 
-The most famous meta-tracing JITs in production are certainly the ones generated from the RPython toolchain~\cite{Rigo06a}. The RPython toolchain allows the generation of a meta-tracing JIT for free if one writes a virtual function interpreter in RPython. The most popular example is Pypy (CITE), a Python VM using a meta-tracing JIT through the RPython toolchain framework.
+The most famous meta-tracing JITs in production are certainly the ones generated from the RPython toolchain~\cite{Rigo06a}. The RPython toolchain allows the generation of a meta-tracing JIT for free if one writes a virtual function interpreter in RPython. The most popular example is Pypy~\cite{Rigo06a,PyPyTracing}, a Python VM using a meta-tracing JIT through the RPython toolchain framework.
 
 \subsection{Sista and metatracing JITs}
 
