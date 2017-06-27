@@ -17,9 +17,9 @@
 \minitoc
 
 %global intro
-This chapter describes the Smalltalk dialect Pharo~\cite{Blac09a} and part of its implementation. The Sista architecture was originally designed to improve the performance of the Pharo VM by adding an optimising JIT. Some existing features and implementation details already present in Pharo impacted design decisions. They are detailled in this chapter to help the reader understanding the design decisions explained in further chapters. The chapter is not meant to explain the whole existing implementation, but only the most relevant points for the thesis. 
+This chapter describes the Smalltalk dialect Pharo~\cite{Blac09a} and part of its implementation. The Sista architecture was originally designed to improve the performance of the Pharo VM by adding an optimising JIT. Some existing features and implementation details already present in Pharo impacted design decisions. They are detailed in this chapter to help the reader understanding the design decisions explained in further chapters. The chapter is not meant to explain the whole existing implementation, but only the most relevant points for the thesis. 
 
-Pharo is a pure object-oriented language. Everything is an object, including green threads, classes, method dictionaries or virtual functions. It is dynamically-typed and every call is a virtual call. The virtual machine relies on a virtual function interpreter and a baseline JIT named \emph{Cogit} to gain performance. Pharo directly inherits from Smalltalk-80~\cite{Gold83a} but has additionnal features such as real closures, exceptions or continuations.
+Pharo is a pure object-oriented language. Everything is an object, including green threads, classes, method dictionaries or virtual functions. It is dynamically-typed and every call is a virtual call. The virtual machine relies on a virtual function interpreter and a baseline JIT named \emph{Cogit} to gain performance. Pharo directly inherits from Smalltalk-80~\cite{Gold83a} but has additional features such as real closures, exceptions or continuations.
 
 The chapter successively describes some aspects of the Pharo VM, the interface with the language and the Pharo programming language.
 
@@ -78,7 +78,7 @@ The reification of the stack is used in three main places: the debugger, excepti
 
 Contexts abstract away from low-level details. A context is exactly the same if the VM is started with the interpreter only or with the hybrid interpreter plus baseline JIT runtime. Conceptually, for the Smalltalk developer, the code is interpreted and the contexts always look identical. The VM is responsible to intercept context accesses to read and write concrete v-frames and n-frames.
 
-In the thesis, we suppose that a context is the same thing as a v-frame as the mapping between both has no impact in the design and brings no interesting additionnal concepts or side-effects. In practice, there are three differences:
+In the thesis, we suppose that a context is the same thing as a v-frame as the mapping between both has no impact in the design and brings no interesting additional concepts or side-effects. In practice, there are three differences:
 \begin{enumerate}
 	\item A context is an object while a v-frame uses a low-level representation compliant with the stack.
 	\item V-frames have to care about some low-level details, such as calls and returns from v-frames to n-frames and n-frames to v-frames, or the access to the v-function arguments by reading values in the caller frame. 

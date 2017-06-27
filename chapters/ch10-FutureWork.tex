@@ -33,14 +33,14 @@ This section details the evolution of the Sista architecture that are worth inve
 The stack-based extended bytecode sets has two main issues:
 \begin{itemize}
 	\item \textbf{Lack of information:} Scorch IR has significant information about the instructions (liveness, uses) than the stack-based bytecode. This information is lost during the translation to the stack-based bytecode, while it may be valuable for Cogit to perform efficiently low-level optimisations.
-	\item \textbf{Redondant conversion:} When compiling using Sista's optimising JIT, unoptimised v-functions are compiled by Scorch to optimised v-functions and then by Cogit to optimised n-functions. It feels a bit redondant to take a stack-based IR (bytecode of the v-function), translate it to a register-based IR (Scorch IR), then translate it back to a stack-based IR (extended bytecode of the optimised v-function) and lastly translate it to a register-based IR (Cogit's IR), as shown in the left part of Figure \ref{fig:FutureWorkRedondant}. One could consider encoding optimised v-functions in a register-based IR, to avoid two translations.
+	\item \textbf{redundant conversion:} When compiling using Sista's optimising JIT, unoptimised v-functions are compiled by Scorch to optimised v-functions and then by Cogit to optimised n-functions. It feels a bit redundant to take a stack-based IR (bytecode of the v-function), translate it to a register-based IR (Scorch IR), then translate it back to a stack-based IR (extended bytecode of the optimised v-function) and lastly translate it to a register-based IR (Cogit's IR), as shown in the left part of Figure \ref{fig:FutureWorkredundant}. One could consider encoding optimised v-functions in a register-based IR, to avoid two translations.
 \end{itemize}
 
 \begin{figure}[h!]
     \begin{center}
-        \includegraphics[width=0.7\linewidth]{FutureWorkRedondant}
-        \caption{Redondant conversion}
-        \label{fig:FutureWorkRedondant}
+        \includegraphics[width=0.7\linewidth]{FutureWorkredondant}
+        \caption{redundant conversion}
+        \label{fig:FutureWorkredundant}
     \end{center}
 \end{figure}
 
@@ -50,15 +50,15 @@ However, the extended bytecode set was designed stack-based for two relevant rea
 	\item \textbf{Machine-independent:} A stack-based representation allows to abstract away from low-level details such as the exact number of register. To abstract away from the exact number of register, both a stack-based IR and a register-based IR with an infinite number of register are possible. Although at first look it seems the register-based solution is easier to deal with, experts such as the ones which designed WebAssembly~\cite{WebAssembly} chose to use a stack-based IR over a register-based IR. It is not clear which solution is better.
 \end{itemize}	 
 
-One future work is to design another extended bytecode set, register-based, and to evaluate the complexity of the representation in the back-end of Scorch and the front-end of Cogit, as shown on the right part of Figure \ref{fig:FutureWorkRedondant}.
+One future work is to design another extended bytecode set, register-based, and to evaluate the complexity of the representation in the back-end of Scorch and the front-end of Cogit, as shown on the right part of Figure \ref{fig:FutureWorkredundant}.
 
-\paragraph{Lower-level representation.}The optimised v-functions are encoded in a quite high-level representation. For example, instructions such as accesses in an array are present, which generate multiple native instructions. The extended bytecode set is quite high-level because it abstracts away from:
+\paragraph{Lower-level representation.}The optimised v-functions are encoded in a quite high-level representation. For example, instructions like array accesses generate multiple native instructions. The extended bytecode set is quite high-level because it abstracts away from:
 \begin{itemize}
 	\item the memory representation of objects.
 	\item the processor used.
 \end{itemize}
 
-We believe abstracting away from the processor used was a good idea as it allows to use snapshot to persist the optimised state across multiple start-ups. However, snapshots are already dependent on the memory representation of objeccts used, so one could implement a new representation of optimised v-functions with a lower-level representation, object representation dependent but still processor independent. This would allow Scorch to perform additional optimisations, such as better constant propagation (Some constants are currently hidden in high-level instructions), which are currently hard to support in Cogit.
+We believe abstracting away from the processor used was a good idea as it allows to use snapshot to persist the optimised state across multiple start-ups. However, snapshots are already dependent on the memory representation of objects used, so one could implement a new representation of optimised v-functions with a lower-level representation, object representation dependent but still processor independent. This would allow Scorch to perform additional optimisations, such as better constant propagation (Some constants are currently hidden in high-level instructions), which are currently hard to support in Cogit.
 
 Currently, only the VM code is aware of the memory representation of object. Hence, using such a lower-level representation would require to duplicate the knowledge about the memory representation of objects from the VM code-base to Pharo, so Scorch could be aware of it. 
 
@@ -69,7 +69,7 @@ Currently, only the VM code is aware of the memory representation of object. Hen
 \subsection{Development tools integration}
 \label{ss:FWIDE}
 
-In Sista, Scorch is an unoptimised v-functions to optimised v-functions compiler, running in the same runtime than the application. Although this design has several advantages, there is a major draw-back: when the programmer now accesses the reification of a stack frame, depending on the optimisation state, an optimised frame might be shown. 
+In Sista, Scorch is an unoptimised v-functions to optimised v-functions compiler, running in the same runtime as the application. Although this design has several advantages, there is a major draw-back: when the programmer accesses the reification of a stack frame, depending on the optimisation state, an optimised frame might be shown. 
 
 In some cases, for example when the programmer is working on Scorch itself, it is relevant to show in the development tools the optimised frames. In other cases, for example when the programmer is working in an end-user application on top of Pharo, development tools should show only unoptimised frames by transparently deoptimising stack frames.
 
@@ -125,11 +125,11 @@ Alternatively, one could describe how traditional optimisations are implemented 
 
 Lastly, and most interestingly, one could work on Smalltalk-specific optimisations that are not possible or not relevant in other programming languages because they do not usually support the unconventional features present in Smalltalk.
 
-Indeed, Smalltalk provides some unconventional operations that are not usually available in other object-oriented languages. These operations are problematic for the optimising JIT. The main operations we are talking about are become, described in Section \label{par:become} and heavy stack manipulation APIs on reified stack frames detailled in Section \ref{par:frameToContext}. 
+Indeed, Smalltalk provides some unconventional operations that are not usually available in other object-oriented languages. These operations are problematic for the optimising JIT. The main operations we are talking about are become, described in Section \label{par:become} and heavy stack manipulation APIs on reified stack frames detailed in Section \ref{par:frameToContext}. 
 
-In each case, the feature has implications in the context of an optimising JIT as at any interrupt point, there any of the temporary variable of the optimised stack frame, or worst, any internal state (sender frame, program counter, etc.) could be edited to any object in the heap. This would invalidate all assumptions taken at compilation time by Scorch.
+In each case, the feature has implications in the context of an optimising JIT as at any interrupt point, there any temporary variable of the optimised stack frame, or worst, any internal state (sender frame, program counter, etc.) could be edited to any object in the heap. This would invalidate all assumptions taken at compilation time by Scorch.
 
-Fortunately, all these operations are uncommon in a normal Smalltalk program at runtime. They are usually used for implementing the debugging functionalities of Pharo. Currently, profiling production applications does not show that we would earn noticeable performance if we would optimise such cases. The current solution is therefore to always deoptimise the stack frames involved when such unconventional operations happen. In the case of become, if a temporary variable in a stack frame executing an optimised method is edited, the frame is deoptimised. In the case of the stack manipulation, if the reification of the stack is mutated from the language, we deoptimise the corresponding mutated stack frames.
+Fortunately, all these operations are uncommon in a normal Smalltalk program at runtime. They are usually used for implementing the debugging functionalities of Pharo. Currently, profiling production applications does not show we could earn noticeable performance if we would optimise such cases. The current solution is therefore to always deoptimise the stack frames involved when such unconventional operations happen. In the case of become, if a temporary variable in a stack frame executing an optimised method is edited, the frame is deoptimised. In the case of the stack manipulation, if the reification of the stack is mutated from the language, we deoptimise the corresponding mutated stack frames.
 
 However, in specific libraries or workflow, such operations may be common enough to have some impact on performance. Especially, continuations and exceptions are built in Pharo in the language on top of the stack manipulation features, and a few libraries use them extensively. It could be possible to have Scorch aware of these features and to handle them specifically. Scorch would for example mark some temporary variables as being accessed frequently from the outside of the function: such temporaries would not be optimised and the deoptimisation metadata would include information on how to access those temporaries of inlined functions directly in the optimised frame. Optimising such features would allow to have efficient continuations and exceptions, in a similar way to the optimisation of exceptions described in \cite{Ogas01a}. 
 
@@ -146,7 +146,7 @@ It would be very valuable to focus on one of those use-cases and build a solid f
 
 In the case of distributed application on Amazon lambda, slaves may live down to a couple seconds in case of a high-variant demand, so that there are very few slaves rent when the application is unused and a lot of slaves when the application is heavily used. Is it possible to build a fraework that automatically learn from the life of previous slaves what optimised functions are worth keeping, so when a new short-lived slaved is instantiated, it can reach peak performance very quickly ?
 
-In the case of web pages, is it possible to build a global cache so all frequently used web pages would have pre-optimised code available from the runs of the previous users ?
+In the case of web pages, is it possible to build a global cache so all frequently used web pages would have pre-optimised code available from the runs of the previous users ? How would such a design work with modern security requirements ?
 
 All these applications of the persistence of optimisations across start-ups of Sista are very interesting and could be analysed in future work.
 
