@@ -17,7 +17,7 @@
 \minitoc
 
 %Generic intro + overview intro
-The overall thesis focuses on the design and implementation of an optimising JIT compiler for Pharo, written in Pharo itself, running in the same runtime than the optimised application on top of the existing runtime environment. The chapter explains the overall designed and implementedarchitecture, called Sista. The first section gives an overview of the architecture. Section \ref{sec:functionOptimisation} details how functions are optimised. Section \ref{sec:functionDeoptimisation} focuses on the deoptimisation of optimised stack frames when an assumption taken at optimisation time is not valid at runtime. Section \ref{sec:relatedWorkArch} compares the Sista architecture against related work.
+The overall thesis focuses on the design and implementation of an optimising JIT compiler for Pharo, written in Pharo itself, running in the same runtime than the optimised application on top of the existing runtime environment. The chapter explains the overall designed and implementedarchitecture, called Sista. The first section gives an overview of the architecture. Section \ref{sec:functionOptimisation} details how functions are optimised. Section \ref{sec:functionDeoptimisation} focuses on the deoptimisation of optimised stack frames when an assumption taken at optimisation time is not valid at runtime. Section \ref{sec:relatedWorkArch} compares Sista against related work.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -85,7 +85,7 @@ Cogit was extended to detect hot spots based on profiling counters. When a hot s
 \label{sec:optModes}
 
 %TimeBeforePostPoning: problem so it's required
-Scorch's optimiser may however require a significant amount of time to optimise a v-function. Optimising a v-function can take a long time in slow machines or when a pathological function~\footnote{Many compiler algorithms have a good average complexity based on heurisitics but poor worst complexity. A pathological function is a function not matching any heuristic leading to long optimisation time.} is optimised. This can lead to an interruption of the application for an amount time long enough to be noticed by the user. To experiment with the Sista architecture, we worked with the development environment of Pharo (which is written in Pharo). In the case of a user-interface application like this one, it is \emph{very} annoying to see the application interrupted during half a second or more when multiple v-functions long to optimise are optimised in a row. The user interface feels slow, lagging and unresponsive even though the overall code takes less time to execute.
+Scorch's optimiser may however require a significant amount of time to optimise a v-function. Optimising a v-function can take a long time in slow machines or when a pathological function~\footnote{Many compiler algorithms have a good average complexity based on heurisitics but poor worst complexity. A pathological function is a function not matching any heuristic leading to long optimisation time.} is optimised. This can lead to an interruption of the application for an amount time long enough to be noticed by the user. To experiment with Sista, we worked with the development environment of Pharo (which is written in Pharo). In the case of a user-interface application like this one, it is \emph{very} annoying to see the application interrupted during half a second or more when multiple v-functions long to optimise are optimised in a row. The user interface feels slow, lagging and unresponsive even though the overall code takes less time to execute.
 
 %First solution: timeBeforePostponing, with constraint for long methods
 To avoid the problem, we limited the optimisation time to a fixed small time period, configured from the language. For user interface application, we limit it to 40 ms. The limitation is enforced by a high-priority green thread, set to stop the optimiser after the given time period. As the current user interface is refreshing at 50Hz, the optimiser, in the worst case, forces the system not to refresh the screen twice. In practice, most v-functions are optimised in less than 40ms. However, some v-functions are still too long to optimise, so an alternative solution is required to optimise them.
@@ -337,21 +337,21 @@ If the deoptimisation happened due to a guard failure (or due to a return to a d
 \section{Related work}
 \label{sec:relatedWorkArch}
 
-This section compares our architecture against existing work. The first section compares the overall Sista architecture versus the meta-tracing and function based architecture. Section \ref{sec:interface} compares our optimised v-function representation against representations existing in other VMs. Section \ref{sec:codeSharing} discusses how different JIT tiers may or may not share portions of code.
+This section compares our architecture against existing work. The first section compares the overall architecture versus the meta-tracing and function based architecture. Section \ref{sec:interface} compares our optimised v-function representation against representations existing in other VMs. Section \ref{sec:codeSharing} discusses how different JIT tiers may or may not share portions of code.
 
 The two research subproblems and their related work are detailed later in the thesis. Chapter \ref{chap:metacircular} discusses how Scorch is able, under specific constraints, to optimise its own code. Chapter \ref{chap:persistence} details how the runtime state, including optimised v-functions, can be persisted across multiple start-ups.
 
 \subsection{Architecture}
 \label{sec:relWArch}
 
-Compared to the classical three tier function based architecture described in Chapter \ref{chap:stateOfTheArt}, the existing Pharo runtime featured only the first two tiers. The Sista architecture is an implementation of the third tier, the optimising JIT tier. The implementation is however quite different from other VMs. One of the main difference is the split between the high and low level part of the optimising JIT as well as the optimised v-function representation used to communicate between both parts. As far as we know, no other VM splits its optimising JIT this way. The other main difference is Cogit, which in one code base, can be used both as a baseline JIT and as a back-end for the optimising JIT.
+Compared to the classical three tier function based architecture described in Chapter \ref{chap:stateOfTheArt}, the existing Pharo runtime featured only the first two tiers. Sista is an implementation of the third tier, the optimising JIT tier. The implementation is however quite different from other VMs. One of the main difference is the split between the high and low level part of the optimising JIT as well as the optimised v-function representation used to communicate between both parts. As far as we know, no other VM splits its optimising JIT this way. The other main difference is Cogit, which in one code base, can be used both as a baseline JIT and as a back-end for the optimising JIT.
 
-The Sista architecture was not designed as a meta-tracing JIT. The main reason is that improving the performance of loop bodies did not seem the right thing to do in the case of Pharo. As explained in the example of Section \ref{ss:stackSearch}, if the Smalltalk code executed respects standard Smalltalk coding conventions, most loops just activates a closure. The optimiser needs to optimise code outside of the loop body to be able to inline the closure activation and improve performance. Hence, it is not clear how to implement an efficient meta-tracing JIT for Pharo.
+Sista was not designed as a meta-tracing JIT. The main reason is that improving the performance of loop bodies did not seem the right thing to do in the case of Pharo. As explained in the example of Section \ref{ss:stackSearch}, if the Smalltalk code executed respects standard Smalltalk coding conventions, most loops just activates a closure. The optimiser needs to optimise code outside of the loop body to be able to inline the closure activation and improve performance. Hence, it is not clear how to implement an efficient meta-tracing JIT for Pharo.
 
 \subsection{Optimised virtual function representation}
 \label{sec:interface}
 
-One important difference in the Sista architecture compared to most optimising JITs lies with the optimised v-function representation. Most optimising JIT do not generate optimised v-function but generate only optimised n-functions. As far as we know, no existing baseline JIT is used to compile v-functions optimised using runtime information to optimised n-functions.
+One important difference in Sista compared to most optimising JITs lies with the optimised v-function representation. Most optimising JIT do not generate optimised v-function but generate only optimised n-functions. As far as we know, no existing baseline JIT is used to compile v-functions optimised using runtime information to optimised n-functions.
 
 \paragraph{Threaded code.}
 (CITE ???)
@@ -395,7 +395,7 @@ In this case, the back-end is shared between two optimising runtime compilers. T
 
 \section*{Conclusion}
 
-The chapter provided an overview of the Sista architecture and detailed the optimisation of functions and deoptimisation of stack frames. The following chapter discusses the evolutions of the Pharo runtime implemented in the context of the thesis.
+The chapter provided an overview of our architecture and detailed the optimisation of functions and deoptimisation of stack frames. The following chapter discusses the evolutions of the Pharo runtime implemented in the context of the thesis.
 
 \ifx\wholebook\relax\else
     \end{document}

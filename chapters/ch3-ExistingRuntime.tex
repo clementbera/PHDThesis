@@ -122,7 +122,7 @@ Pharo interfaces with its VM in two different ways:
 
 \paragraph{Virtual function representation.}
 
-As everything is an object in Pharo, virtual functions are objects. A v-function is composed of a function's header, a list of literals, a list of bytecodes and a reference to its source code as shown on Figure \ref{fig:CompiledCode}. The function's header contains information required for the function's execution such as the number of temporary variables or the size of the frame required.
+As everything is an object in Pharo, virtual functions are objects. A v-function is composed of a function's header, a list of literals, a list of bytecodes and a reference to its source code as shown on Figure \ref{fig:CompiledCode}. The function's header contains information required for the function's execution such as the number of temporary variables or the size of the frame required. The last two literals, in the case of a method, are the selector and the method class, \emph{i.e.,} the class where the method is installed.
 
 \begin{figure}[h!]
     \begin{center}
@@ -210,7 +210,7 @@ In any case, snapshots are platform-independent so they cannot save n-frames. In
 %Maybe conclusion summary in 1 sentence of chapter + what comes next
 \section*{Conclusion} 
 
-The chapter described the aspects and features of Pharo relevant for the thesis. The following chapter describes the overall Sista architecture.
+The chapter described the aspects and features of Pharo relevant for the thesis. The following chapter describes the overall architecture discussed in the thesis.
 
 \ifx\wholebook\relax\else
     \end{document}

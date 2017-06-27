@@ -27,7 +27,7 @@ In this Chapter we summarise the dissertation, then list the contributions, the 
 
 \textbf{Chapter \ref{chap:architecture}} explained Sista, including the inner details of the architecture. Especially, the split between Scorch and Cogit in the optimising JIT architecture was described. The Chapter compared Sista against existing architectures for optimising JITs.
 
-\textbf{Chapter \ref{chap:runtimeEvolution}} discussed the evolutions required to the existing Pharo runtime to implement the Sista architecture on top of the existing runtime. This included all the core aspects of the system which needed to be changed to support Sista, such as the implementation of closures or the ability to mark an object as read-only.
+\textbf{Chapter \ref{chap:runtimeEvolution}} discussed the evolutions required to the existing Pharo runtime to implement Sista on top of the existing runtime. This included all the core aspects of the system which needed to be changed to support Sista, such as the implementation of closures or the ability to mark an object as read-only.
 
 \textbf{Chapter \ref{chap:metacircular}} was articulated around a problem happening in metacircular optimising JIT such as Scorch: under specific circumstances, Scorch ends up in an infinite recursion where it calls itself repeatedly. The problem can happen both when Scorch attempts to optimise one of its own function or when it attempts to deoptimise one of its own frame. The problem is solved by disabling temporarily the optimiser when relevant and by making the deoptimisater code completely independent from the rest of Pharo.
 

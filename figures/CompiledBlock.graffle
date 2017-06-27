@@ -26,7 +26,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2017-06-14 13:41:10 +0000</string>
+	<string>2017-06-27 12:22:38 +0000</string>
 	<key>Modifier</key>
 	<string>Clement Bera</string>
 	<key>NotesVisible</key>
@@ -88,6 +88,13 @@
 				<string>{{0, 0}, {559, 783}}</string>
 				<key>Class</key>
 				<string>SolidGraphic</string>
+				<key>FontInfo</key>
+				<dict>
+					<key>Font</key>
+					<string>Helvetica</string>
+					<key>Size</key>
+					<real>10</real>
+				</dict>
 				<key>ID</key>
 				<integer>2</integer>
 				<key>Style</key>
@@ -131,6 +138,366 @@
 			<key>GraphicsList</key>
 			<array>
 				<dict>
+					<key>Bounds</key>
+					<string>{{319.70022583007812, 277.625}, {90, 13}}</string>
+					<key>Class</key>
+					<string>ShapedGraphic</string>
+					<key>FitText</key>
+					<string>YES</string>
+					<key>Flow</key>
+					<string>Resize</string>
+					<key>ID</key>
+					<integer>546</integer>
+					<key>Shape</key>
+					<string>Rectangle</string>
+					<key>Style</key>
+					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Draws</key>
+							<string>NO</string>
+						</dict>
+						<key>shadow</key>
+						<dict>
+							<key>Draws</key>
+							<string>NO</string>
+						</dict>
+						<key>stroke</key>
+						<dict>
+							<key>Draws</key>
+							<string>NO</string>
+						</dict>
+					</dict>
+					<key>Text</key>
+					<dict>
+						<key>Pad</key>
+						<integer>0</integer>
+						<key>Text</key>
+						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
+\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
+
+\f0\fs22 \cf0 Enclosing function}</string>
+						<key>VerticalPad</key>
+						<integer>0</integer>
+					</dict>
+					<key>Wrap</key>
+					<string>NO</string>
+				</dict>
+				<dict>
+					<key>Bounds</key>
+					<string>{{316.20022583007812, 292.625}, {24.250000000000007, 17}}</string>
+					<key>Class</key>
+					<string>ShapedGraphic</string>
+					<key>FontInfo</key>
+					<dict>
+						<key>Color</key>
+						<dict>
+							<key>b</key>
+							<string>0</string>
+							<key>g</key>
+							<string>0</string>
+							<key>r</key>
+							<string>0</string>
+						</dict>
+					</dict>
+					<key>ID</key>
+					<integer>545</integer>
+					<key>Shape</key>
+					<string>Rectangle</string>
+					<key>Style</key>
+					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.84941</string>
+								<key>g</key>
+								<string>0.84941</string>
+								<key>r</key>
+								<string>0.84941</string>
+							</dict>
+						</dict>
+						<key>shadow</key>
+						<dict>
+							<key>Draws</key>
+							<string>NO</string>
+						</dict>
+					</dict>
+					<key>Text</key>
+					<dict>
+						<key>Text</key>
+						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
+\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
+
+\f0\fs24 \cf0 B}</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>Bounds</key>
+					<string>{{485.9501953125, 275.625}, {24.250000000000007, 17}}</string>
+					<key>Class</key>
+					<string>ShapedGraphic</string>
+					<key>FontInfo</key>
+					<dict>
+						<key>Color</key>
+						<dict>
+							<key>b</key>
+							<string>0</string>
+							<key>g</key>
+							<string>0</string>
+							<key>r</key>
+							<string>0</string>
+						</dict>
+					</dict>
+					<key>ID</key>
+					<integer>544</integer>
+					<key>Shape</key>
+					<string>Rectangle</string>
+					<key>Style</key>
+					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.84941</string>
+								<key>g</key>
+								<string>0.84941</string>
+								<key>r</key>
+								<string>0.84941</string>
+							</dict>
+						</dict>
+						<key>shadow</key>
+						<dict>
+							<key>Draws</key>
+							<string>NO</string>
+						</dict>
+					</dict>
+					<key>Text</key>
+					<dict>
+						<key>Text</key>
+						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
+\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
+
+\f0\fs24 \cf0 B}</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>Bounds</key>
+					<string>{{461.7001953125, 275.625}, {24.250000000000007, 17}}</string>
+					<key>Class</key>
+					<string>ShapedGraphic</string>
+					<key>FontInfo</key>
+					<dict>
+						<key>Color</key>
+						<dict>
+							<key>b</key>
+							<string>0</string>
+							<key>g</key>
+							<string>0</string>
+							<key>r</key>
+							<string>0</string>
+						</dict>
+					</dict>
+					<key>ID</key>
+					<integer>543</integer>
+					<key>Shape</key>
+					<string>Rectangle</string>
+					<key>Style</key>
+					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.84941</string>
+								<key>g</key>
+								<string>0.84941</string>
+								<key>r</key>
+								<string>0.84941</string>
+							</dict>
+						</dict>
+						<key>shadow</key>
+						<dict>
+							<key>Draws</key>
+							<string>NO</string>
+						</dict>
+					</dict>
+					<key>Text</key>
+					<dict>
+						<key>Text</key>
+						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
+\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
+
+\f0\fs24 \cf0 B}</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>Bounds</key>
+					<string>{{437.4501953125, 275.625}, {24.250000000000007, 17}}</string>
+					<key>Class</key>
+					<string>ShapedGraphic</string>
+					<key>FontInfo</key>
+					<dict>
+						<key>Color</key>
+						<dict>
+							<key>b</key>
+							<string>0</string>
+							<key>g</key>
+							<string>0</string>
+							<key>r</key>
+							<string>0</string>
+						</dict>
+					</dict>
+					<key>ID</key>
+					<integer>542</integer>
+					<key>Shape</key>
+					<string>Rectangle</string>
+					<key>Style</key>
+					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.84941</string>
+								<key>g</key>
+								<string>0.84941</string>
+								<key>r</key>
+								<string>0.84941</string>
+							</dict>
+						</dict>
+						<key>shadow</key>
+						<dict>
+							<key>Draws</key>
+							<string>NO</string>
+						</dict>
+					</dict>
+					<key>Text</key>
+					<dict>
+						<key>Text</key>
+						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
+\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
+
+\f0\fs24 \cf0 B}</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>Bounds</key>
+					<string>{{413.2001953125, 275.625}, {24.250000000000007, 17}}</string>
+					<key>Class</key>
+					<string>ShapedGraphic</string>
+					<key>FontInfo</key>
+					<dict>
+						<key>Color</key>
+						<dict>
+							<key>b</key>
+							<string>0</string>
+							<key>g</key>
+							<string>0</string>
+							<key>r</key>
+							<string>0</string>
+						</dict>
+					</dict>
+					<key>ID</key>
+					<integer>541</integer>
+					<key>Shape</key>
+					<string>Rectangle</string>
+					<key>Style</key>
+					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.84941</string>
+								<key>g</key>
+								<string>0.84941</string>
+								<key>r</key>
+								<string>0.84941</string>
+							</dict>
+						</dict>
+						<key>shadow</key>
+						<dict>
+							<key>Draws</key>
+							<string>NO</string>
+						</dict>
+					</dict>
+					<key>Text</key>
+					<dict>
+						<key>Text</key>
+						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
+\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
+
+\f0\fs24 \cf0 B}</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>Bounds</key>
+					<string>{{413.2001953125, 258.625}, {97.000000000000028, 17}}</string>
+					<key>Class</key>
+					<string>ShapedGraphic</string>
+					<key>FontInfo</key>
+					<dict>
+						<key>Color</key>
+						<dict>
+							<key>b</key>
+							<string>0</string>
+							<key>g</key>
+							<string>0</string>
+							<key>r</key>
+							<string>0</string>
+						</dict>
+					</dict>
+					<key>ID</key>
+					<integer>540</integer>
+					<key>Shape</key>
+					<string>Rectangle</string>
+					<key>Style</key>
+					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.84941</string>
+								<key>g</key>
+								<string>0.84941</string>
+								<key>r</key>
+								<string>0.84941</string>
+							</dict>
+						</dict>
+						<key>shadow</key>
+						<dict>
+							<key>Draws</key>
+							<string>NO</string>
+						</dict>
+					</dict>
+					<key>Text</key>
+					<dict>
+						<key>Text</key>
+						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
+\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
+
+\f0\fs24 \cf0 Literal}</string>
+					</dict>
+				</dict>
+				<dict>
 					<key>Class</key>
 					<string>LineGraphic</string>
 					<key>ID</key>
@@ -163,7 +530,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{485.95020294189453, 275.5}, {24.250000000000007, 17}}</string>
+					<string>{{485.95020294189453, 275}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -203,7 +570,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{461.70020294189453, 275.5}, {24.250000000000007, 17}}</string>
+					<string>{{461.70020294189453, 275}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -243,7 +610,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{437.45020294189453, 275.5}, {24.250000000000007, 17}}</string>
+					<string>{{437.45020294189453, 275}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -283,7 +650,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{413.20020294189453, 275.5}, {24.250000000000007, 17}}</string>
+					<string>{{413.20020294189453, 275}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -323,7 +690,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{461.70020294189453, 275.5}, {24.250000000000007, 17}}</string>
+					<string>{{461.70020294189453, 275}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -353,7 +720,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{413.20020294189453, 275.5}, {24.250000000000007, 17}}</string>
+					<string>{{413.20020294189453, 275}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -383,7 +750,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{413.20020294189453, 275.5}, {48.500000000000014, 17}}</string>
+					<string>{{413.20020294189453, 275}, {48.500000000000014, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -413,7 +780,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{413.20020294189453, 275.5}, {97.000000000000028, 17}}</string>
+					<string>{{413.20020294189453, 275}, {97.000000000000028, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -443,7 +810,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{316.20020294189453, 276.125}, {97.000000000000028, 17}}</string>
+					<string>{{316.20020294189453, 275.625}, {97.000000000000028, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -472,20 +839,10 @@
 							<string>NO</string>
 						</dict>
 					</dict>
-					<key>Text</key>
-					<dict>
-						<key>Text</key>
-						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
-\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
-
-\f0\fs24 \cf0 Literal}</string>
-					</dict>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{388.95020294189453, 275.625}, {24.250000000000007, 17.5}}</string>
+					<string>{{388.95020294189453, 275.125}, {24.250000000000007, 17.5}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -515,7 +872,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{364.70020294189453, 275.625}, {24.250000000000007, 17}}</string>
+					<string>{{364.70020294189453, 275.125}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -545,7 +902,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{316.20020294189453, 275.625}, {24.250000000000007, 17}}</string>
+					<string>{{316.20020294189453, 275.125}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -575,7 +932,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{316.20020294189453, 275.625}, {48.500000000000014, 17}}</string>
+					<string>{{316.20020294189453, 275.125}, {48.500000000000014, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -605,7 +962,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{340.4501953125, 309.875}, {23, 17}}</string>
+					<string>{{340.45022583007812, 292.125}, {24.250000000000007, 17.5}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -647,327 +1004,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{316.20020294189453, 309.875}, {24.250000000000007, 17}}</string>
-					<key>Class</key>
-					<string>ShapedGraphic</string>
-					<key>ID</key>
-					<integer>512</integer>
-					<key>Shape</key>
-					<string>Rectangle</string>
-					<key>Style</key>
-					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
-						<key>shadow</key>
-						<dict>
-							<key>Draws</key>
-							<string>NO</string>
-						</dict>
-					</dict>
-					<key>Text</key>
-					<dict>
-						<key>Text</key>
-						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
-\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
-
-\f0\fs24 \cf0 B}</string>
-					</dict>
-				</dict>
-				<dict>
-					<key>Bounds</key>
-					<string>{{485.95020294189453, 292.625}, {24.250000000000007, 17}}</string>
-					<key>Class</key>
-					<string>ShapedGraphic</string>
-					<key>ID</key>
-					<integer>495</integer>
-					<key>Shape</key>
-					<string>Rectangle</string>
-					<key>Style</key>
-					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
-						<key>shadow</key>
-						<dict>
-							<key>Draws</key>
-							<string>NO</string>
-						</dict>
-					</dict>
-					<key>Text</key>
-					<dict>
-						<key>Text</key>
-						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
-\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
-
-\f0\fs24 \cf0 B}</string>
-					</dict>
-				</dict>
-				<dict>
-					<key>Bounds</key>
-					<string>{{461.70020294189453, 292.625}, {24.250000000000007, 17}}</string>
-					<key>Class</key>
-					<string>ShapedGraphic</string>
-					<key>ID</key>
-					<integer>494</integer>
-					<key>Shape</key>
-					<string>Rectangle</string>
-					<key>Style</key>
-					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
-						<key>shadow</key>
-						<dict>
-							<key>Draws</key>
-							<string>NO</string>
-						</dict>
-					</dict>
-					<key>Text</key>
-					<dict>
-						<key>Text</key>
-						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
-\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
-
-\f0\fs24 \cf0 B}</string>
-					</dict>
-				</dict>
-				<dict>
-					<key>Bounds</key>
-					<string>{{437.45020294189453, 292.625}, {24.250000000000007, 17}}</string>
-					<key>Class</key>
-					<string>ShapedGraphic</string>
-					<key>ID</key>
-					<integer>493</integer>
-					<key>Shape</key>
-					<string>Rectangle</string>
-					<key>Style</key>
-					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
-						<key>shadow</key>
-						<dict>
-							<key>Draws</key>
-							<string>NO</string>
-						</dict>
-					</dict>
-					<key>Text</key>
-					<dict>
-						<key>Text</key>
-						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
-\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
-
-\f0\fs24 \cf0 B}</string>
-					</dict>
-				</dict>
-				<dict>
-					<key>Bounds</key>
-					<string>{{413.20020294189453, 292.625}, {24.250000000000007, 17}}</string>
-					<key>Class</key>
-					<string>ShapedGraphic</string>
-					<key>ID</key>
-					<integer>492</integer>
-					<key>Shape</key>
-					<string>Rectangle</string>
-					<key>Style</key>
-					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
-						<key>shadow</key>
-						<dict>
-							<key>Draws</key>
-							<string>NO</string>
-						</dict>
-					</dict>
-					<key>Text</key>
-					<dict>
-						<key>Text</key>
-						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
-\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
-
-\f0\fs24 \cf0 B}</string>
-					</dict>
-				</dict>
-				<dict>
-					<key>Bounds</key>
-					<string>{{388.95020294189453, 292.625}, {24.250000000000007, 17}}</string>
-					<key>Class</key>
-					<string>ShapedGraphic</string>
-					<key>ID</key>
-					<integer>491</integer>
-					<key>Shape</key>
-					<string>Rectangle</string>
-					<key>Style</key>
-					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
-						<key>shadow</key>
-						<dict>
-							<key>Draws</key>
-							<string>NO</string>
-						</dict>
-					</dict>
-					<key>Text</key>
-					<dict>
-						<key>Text</key>
-						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
-\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
-
-\f0\fs24 \cf0 B}</string>
-					</dict>
-				</dict>
-				<dict>
-					<key>Bounds</key>
-					<string>{{364.70020294189453, 292.625}, {24.250000000000007, 17}}</string>
-					<key>Class</key>
-					<string>ShapedGraphic</string>
-					<key>ID</key>
-					<integer>490</integer>
-					<key>Shape</key>
-					<string>Rectangle</string>
-					<key>Style</key>
-					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
-						<key>shadow</key>
-						<dict>
-							<key>Draws</key>
-							<string>NO</string>
-						</dict>
-					</dict>
-					<key>Text</key>
-					<dict>
-						<key>Text</key>
-						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
-\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
-
-\f0\fs24 \cf0 B}</string>
-					</dict>
-				</dict>
-				<dict>
-					<key>Bounds</key>
-					<string>{{340.45020294189453, 292.625}, {24.250000000000007, 17}}</string>
-					<key>Class</key>
-					<string>ShapedGraphic</string>
-					<key>ID</key>
-					<integer>489</integer>
-					<key>Shape</key>
-					<string>Rectangle</string>
-					<key>Style</key>
-					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
-						<key>shadow</key>
-						<dict>
-							<key>Draws</key>
-							<string>NO</string>
-						</dict>
-					</dict>
-					<key>Text</key>
-					<dict>
-						<key>Text</key>
-						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
-\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
-
-\f0\fs24 \cf0 B}</string>
-					</dict>
-				</dict>
-				<dict>
-					<key>Bounds</key>
-					<string>{{316.20020294189453, 292.625}, {24.250000000000007, 17}}</string>
+					<string>{{316.20020294189453, 292.125}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -1133,231 +1170,11 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{461.70020294189453, 292.625}, {24.250000000000007, 17}}</string>
-					<key>Class</key>
-					<string>ShapedGraphic</string>
-					<key>ID</key>
-					<integer>484</integer>
-					<key>Shape</key>
-					<string>Rectangle</string>
-					<key>Style</key>
-					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
-						<key>shadow</key>
-						<dict>
-							<key>Draws</key>
-							<string>NO</string>
-						</dict>
-					</dict>
-				</dict>
-				<dict>
-					<key>Bounds</key>
-					<string>{{413.20020294189453, 292.625}, {24.250000000000007, 17}}</string>
-					<key>Class</key>
-					<string>ShapedGraphic</string>
-					<key>ID</key>
-					<integer>483</integer>
-					<key>Shape</key>
-					<string>Rectangle</string>
-					<key>Style</key>
-					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
-						<key>shadow</key>
-						<dict>
-							<key>Draws</key>
-							<string>NO</string>
-						</dict>
-					</dict>
-				</dict>
-				<dict>
-					<key>Bounds</key>
-					<string>{{413.20020294189453, 292.625}, {48.500000000000014, 17}}</string>
-					<key>Class</key>
-					<string>ShapedGraphic</string>
-					<key>ID</key>
-					<integer>482</integer>
-					<key>Shape</key>
-					<string>Rectangle</string>
-					<key>Style</key>
-					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
-						<key>shadow</key>
-						<dict>
-							<key>Draws</key>
-							<string>NO</string>
-						</dict>
-					</dict>
-				</dict>
-				<dict>
-					<key>Bounds</key>
-					<string>{{413.20020294189453, 292.625}, {97.000000000000028, 17}}</string>
-					<key>Class</key>
-					<string>ShapedGraphic</string>
-					<key>ID</key>
-					<integer>481</integer>
-					<key>Shape</key>
-					<string>Rectangle</string>
-					<key>Style</key>
-					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
-						<key>shadow</key>
-						<dict>
-							<key>Draws</key>
-							<string>NO</string>
-						</dict>
-					</dict>
-				</dict>
-				<dict>
-					<key>Bounds</key>
-					<string>{{364.70020294189453, 292.625}, {24.250000000000007, 17}}</string>
-					<key>Class</key>
-					<string>ShapedGraphic</string>
-					<key>ID</key>
-					<integer>480</integer>
-					<key>Shape</key>
-					<string>Rectangle</string>
-					<key>Style</key>
-					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
-						<key>shadow</key>
-						<dict>
-							<key>Draws</key>
-							<string>NO</string>
-						</dict>
-					</dict>
-					<key>Text</key>
-					<dict>
-						<key>Text</key>
-						<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
-\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
-
-\f0\fs24 \cf0 B}</string>
-					</dict>
-				</dict>
-				<dict>
-					<key>Bounds</key>
-					<string>{{316.20020294189453, 292.625}, {24.250000000000007, 17}}</string>
+					<string>{{316.20020294189453, 292.125}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
 					<integer>479</integer>
-					<key>Shape</key>
-					<string>Rectangle</string>
-					<key>Style</key>
-					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
-						<key>shadow</key>
-						<dict>
-							<key>Draws</key>
-							<string>NO</string>
-						</dict>
-					</dict>
-				</dict>
-				<dict>
-					<key>Bounds</key>
-					<string>{{316.20020294189453, 292.625}, {97.000000000000028, 17}}</string>
-					<key>Class</key>
-					<string>ShapedGraphic</string>
-					<key>ID</key>
-					<integer>478</integer>
-					<key>Shape</key>
-					<string>Rectangle</string>
-					<key>Style</key>
-					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
-						<key>shadow</key>
-						<dict>
-							<key>Draws</key>
-							<string>NO</string>
-						</dict>
-					</dict>
-				</dict>
-				<dict>
-					<key>Bounds</key>
-					<string>{{316.20020294189453, 292.625}, {48.500000000000014, 17}}</string>
-					<key>Class</key>
-					<string>ShapedGraphic</string>
-					<key>ID</key>
-					<integer>477</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -1956,7 +1773,7 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf0 Literal}</string>
+\f0\fs24 \cf0 Method Class}</string>
 					</dict>
 				</dict>
 				<dict>
@@ -1998,7 +1815,7 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf0 Literal}</string>
+\f0\fs24 \cf0 Selector}</string>
 					</dict>
 				</dict>
 				<dict>
@@ -2243,7 +2060,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{340.45020294189453, 203}, {97.000000000000028, 17}}</string>
+					<string>{{340.45020294189453, 201}, {97.000000000000028, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -2285,7 +2102,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{316.20020294189453, 203}, {24.250000000000007, 17}}</string>
+					<string>{{316.20020294189453, 201}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -2294,18 +2111,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2325,7 +2130,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{485.95020294189453, 184.75}, {24.250000000000007, 17}}</string>
+					<string>{{485.95020294189453, 183.75}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -2334,18 +2139,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2365,7 +2158,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{461.70020294189453, 184.75}, {24.250000000000007, 17}}</string>
+					<string>{{461.70020294189453, 183.75}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -2374,18 +2167,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2405,7 +2186,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{437.45020294189453, 184.75}, {24.250000000000007, 17}}</string>
+					<string>{{437.45020294189453, 183.75}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -2414,18 +2195,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2445,7 +2214,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{413.20020294189453, 184.75}, {24.250000000000007, 17}}</string>
+					<string>{{413.20020294189453, 183.75}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -2454,18 +2223,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2485,7 +2242,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{388.95020294189453, 184.75}, {24.250000000000007, 17}}</string>
+					<string>{{388.95020294189453, 183.75}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -2494,18 +2251,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2525,7 +2270,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{364.70020294189453, 184.75}, {24.250000000000007, 17}}</string>
+					<string>{{364.70020294189453, 183.75}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -2534,18 +2279,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2565,7 +2298,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{340.45020294189453, 184.75}, {24.250000000000007, 17}}</string>
+					<string>{{340.45020294189453, 183.75}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -2574,18 +2307,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2605,7 +2326,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{316.20020294189453, 184.75}, {24.250000000000007, 17}}</string>
+					<string>{{316.20020294189453, 183.75}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -2614,18 +2335,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2645,7 +2354,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{485.95020294189453, 167.75}, {24.250000000000007, 17}}</string>
+					<string>{{485.95020294189453, 166.75}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -2654,18 +2363,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2685,7 +2382,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{461.70020294189453, 167.75}, {24.250000000000007, 17}}</string>
+					<string>{{461.70020294189453, 166.75}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -2694,18 +2391,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2725,7 +2410,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{437.45020294189453, 167.75}, {24.250000000000007, 17}}</string>
+					<string>{{437.45020294189453, 166.75}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -2734,18 +2419,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2765,7 +2438,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{413.20020294189453, 167.75}, {24.250000000000007, 17}}</string>
+					<string>{{413.20020294189453, 166.75}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -2774,18 +2447,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2805,7 +2466,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{388.95020294189453, 167.75}, {24.250000000000007, 17}}</string>
+					<string>{{388.95020294189453, 166.75}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -2814,18 +2475,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2845,7 +2494,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{364.70020294189453, 167.75}, {24.250000000000007, 17}}</string>
+					<string>{{364.70020294189453, 166.75}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -2854,18 +2503,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2885,7 +2522,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{340.45020294189453, 167.75}, {24.250000000000007, 17}}</string>
+					<string>{{340.45020294189453, 166.75}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -2894,18 +2531,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2925,7 +2550,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{316.20020294189453, 167.75}, {24.250000000000007, 17}}</string>
+					<string>{{316.20020294189453, 166.75}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -2934,18 +2559,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -2974,18 +2587,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -3014,18 +2615,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -3054,18 +2643,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -3094,18 +2671,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -3134,18 +2699,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -3174,18 +2727,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -3214,18 +2755,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -3254,18 +2783,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -3285,7 +2802,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{413.20023345947266, 116}, {97.000000000000028, 17}}</string>
+					<string>{{413.20023345947266, 117}, {97.000000000000028, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -3327,7 +2844,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{316.20023345947266, 116}, {97.000000000000028, 17}}</string>
+					<string>{{316.20023345947266, 117}, {97.000000000000028, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -3369,7 +2886,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{316.20023345947266, 99}, {194.00000000000006, 17}}</string>
+					<string>{{316.20023345947266, 100}, {194.00000000000006, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -3420,18 +2937,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -3450,18 +2955,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -3480,18 +2973,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -3510,18 +2991,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -3540,18 +3009,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -3580,18 +3037,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -3610,18 +3055,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -3640,18 +3073,6 @@
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -3661,7 +3082,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{485.95023345947266, 116}, {24.250000000000007, 17}}</string>
+					<string>{{485.95023345947266, 117}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -3691,7 +3112,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{388.95023345947266, 116}, {24.250000000000007, 17.5}}</string>
+					<string>{{388.95023345947266, 117}, {24.250000000000007, 17.5}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -3735,7 +3156,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{461.70023345947266, 116}, {24.250000000000007, 17}}</string>
+					<string>{{461.70023345947266, 117}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -3765,7 +3186,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{413.20023345947266, 116}, {24.250000000000007, 17}}</string>
+					<string>{{413.20023345947266, 117}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -3795,7 +3216,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{413.20023345947266, 116}, {48.500000000000014, 17}}</string>
+					<string>{{413.20023345947266, 117}, {48.500000000000014, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -3825,7 +3246,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{364.70023345947266, 116}, {24.250000000000007, 17}}</string>
+					<string>{{364.70023345947266, 117}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -3869,7 +3290,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{316.20023345947266, 116}, {24.250000000000007, 17}}</string>
+					<string>{{316.20023345947266, 117}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -3913,7 +3334,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{316.20023345947266, 116}, {48.500000000000014, 17}}</string>
+					<string>{{316.20023345947266, 117}, {48.500000000000014, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -3957,7 +3378,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{461.70023345947266, 99}, {24.250000000000007, 17}}</string>
+					<string>{{461.70023345947266, 100}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -3987,7 +3408,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{413.20023345947266, 99}, {24.250000000000007, 17}}</string>
+					<string>{{413.20023345947266, 100}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -4017,7 +3438,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{413.20023345947266, 99}, {48.500000000000014, 17}}</string>
+					<string>{{413.20023345947266, 100}, {48.500000000000014, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -4047,7 +3468,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{413.20023345947266, 99}, {97.000000000000028, 17}}</string>
+					<string>{{413.20023345947266, 100}, {97.000000000000028, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -4077,7 +3498,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{364.70023345947266, 99}, {24.250000000000007, 17}}</string>
+					<string>{{364.70023345947266, 100}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -4107,7 +3528,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{316.20023345947266, 99}, {24.250000000000007, 17}}</string>
+					<string>{{316.20023345947266, 100}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -4137,7 +3558,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{316.20023345947266, 99}, {48.500000000000014, 17}}</string>
+					<string>{{316.20023345947266, 100}, {48.500000000000014, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -4167,7 +3588,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{316.20023345947266, 99}, {97.000000000000028, 17}}</string>
+					<string>{{316.20023345947266, 100}, {97.000000000000028, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -4197,7 +3618,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{388.95020294189453, 203.5}, {24.250000000000007, 17}}</string>
+					<string>{{388.95020294189453, 201.5}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -4227,7 +3648,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{364.70020294189453, 203.5}, {24.250000000000007, 17}}</string>
+					<string>{{364.70020294189453, 201.5}, {24.250000000000007, 17}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -4359,18 +3780,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -4399,18 +3808,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -4439,18 +3836,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -4479,18 +3864,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -4519,18 +3892,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -4559,18 +3920,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -4599,18 +3948,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -4639,18 +3976,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -4679,18 +4004,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -4719,18 +4032,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -4759,18 +4060,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -4799,18 +4088,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -4839,18 +4116,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -4879,18 +4144,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -4919,18 +4172,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -4959,18 +4200,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -4999,18 +4228,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -5039,18 +4256,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -5079,18 +4284,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -5118,11 +4311,11 @@ N = Byte encoding there is no source pointer}</string>
 						<key>Color</key>
 						<dict>
 							<key>b</key>
-							<string>1</string>
+							<string>0</string>
 							<key>g</key>
-							<string>1</string>
+							<string>0</string>
 							<key>r</key>
-							<string>1</string>
+							<string>0</string>
 						</dict>
 					</dict>
 					<key>ID</key>
@@ -5136,11 +4329,11 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Color</key>
 							<dict>
 								<key>b</key>
-								<string>0</string>
+								<string>0.84941</string>
 								<key>g</key>
-								<string>0</string>
+								<string>0.84941</string>
 								<key>r</key>
-								<string>0</string>
+								<string>0.84941</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -5157,7 +4350,7 @@ N = Byte encoding there is no source pointer}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf1 B}</string>
+\f0\fs24 \cf0 B}</string>
 					</dict>
 				</dict>
 				<dict>
@@ -5170,11 +4363,11 @@ N = Byte encoding there is no source pointer}</string>
 						<key>Color</key>
 						<dict>
 							<key>b</key>
-							<string>1</string>
+							<string>0</string>
 							<key>g</key>
-							<string>1</string>
+							<string>0</string>
 							<key>r</key>
-							<string>1</string>
+							<string>0</string>
 						</dict>
 					</dict>
 					<key>ID</key>
@@ -5188,11 +4381,11 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Color</key>
 							<dict>
 								<key>b</key>
-								<string>0</string>
+								<string>0.84941</string>
 								<key>g</key>
-								<string>0</string>
+								<string>0.84941</string>
 								<key>r</key>
-								<string>0</string>
+								<string>0.84941</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -5209,7 +4402,7 @@ N = Byte encoding there is no source pointer}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf1 B}</string>
+\f0\fs24 \cf0 B}</string>
 					</dict>
 				</dict>
 				<dict>
@@ -5222,11 +4415,11 @@ N = Byte encoding there is no source pointer}</string>
 						<key>Color</key>
 						<dict>
 							<key>b</key>
-							<string>1</string>
+							<string>0</string>
 							<key>g</key>
-							<string>1</string>
+							<string>0</string>
 							<key>r</key>
-							<string>1</string>
+							<string>0</string>
 						</dict>
 					</dict>
 					<key>ID</key>
@@ -5240,11 +4433,11 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Color</key>
 							<dict>
 								<key>b</key>
-								<string>0</string>
+								<string>0.84941</string>
 								<key>g</key>
-								<string>0</string>
+								<string>0.84941</string>
 								<key>r</key>
-								<string>0</string>
+								<string>0.84941</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -5261,7 +4454,7 @@ N = Byte encoding there is no source pointer}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf1 B}</string>
+\f0\fs24 \cf0 B}</string>
 					</dict>
 				</dict>
 				<dict>
@@ -5274,11 +4467,11 @@ N = Byte encoding there is no source pointer}</string>
 						<key>Color</key>
 						<dict>
 							<key>b</key>
-							<string>1</string>
+							<string>0</string>
 							<key>g</key>
-							<string>1</string>
+							<string>0</string>
 							<key>r</key>
-							<string>1</string>
+							<string>0</string>
 						</dict>
 					</dict>
 					<key>ID</key>
@@ -5292,11 +4485,11 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Color</key>
 							<dict>
 								<key>b</key>
-								<string>0</string>
+								<string>0.84941</string>
 								<key>g</key>
-								<string>0</string>
+								<string>0.84941</string>
 								<key>r</key>
-								<string>0</string>
+								<string>0.84941</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -5313,7 +4506,7 @@ N = Byte encoding there is no source pointer}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf1 B}</string>
+\f0\fs24 \cf0 B}</string>
 					</dict>
 				</dict>
 				<dict>
@@ -5326,11 +4519,11 @@ N = Byte encoding there is no source pointer}</string>
 						<key>Color</key>
 						<dict>
 							<key>b</key>
-							<string>1</string>
+							<string>0</string>
 							<key>g</key>
-							<string>1</string>
+							<string>0</string>
 							<key>r</key>
-							<string>1</string>
+							<string>0</string>
 						</dict>
 					</dict>
 					<key>ID</key>
@@ -5344,11 +4537,11 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Color</key>
 							<dict>
 								<key>b</key>
-								<string>0</string>
+								<string>0.84941</string>
 								<key>g</key>
-								<string>0</string>
+								<string>0.84941</string>
 								<key>r</key>
-								<string>0</string>
+								<string>0.84941</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -5365,7 +4558,7 @@ N = Byte encoding there is no source pointer}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf1 B}</string>
+\f0\fs24 \cf0 B}</string>
 					</dict>
 				</dict>
 				<dict>
@@ -5379,18 +4572,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -5419,18 +4600,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -5459,18 +4628,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -5499,18 +4656,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -5539,18 +4684,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -5579,18 +4712,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -5619,18 +4740,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -5659,18 +4768,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -5699,18 +4796,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -5739,18 +4824,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -5807,7 +4880,7 @@ N = Byte encoding there is no source pointer}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf0 Literal}</string>
+\f0\fs24 \cf0 Method Class}</string>
 					</dict>
 				</dict>
 				<dict>
@@ -5849,7 +4922,7 @@ N = Byte encoding there is no source pointer}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf0 Literal}</string>
+\f0\fs24 \cf0 Selector}</string>
 					</dict>
 				</dict>
 				<dict>
@@ -5862,11 +4935,11 @@ N = Byte encoding there is no source pointer}</string>
 						<key>Color</key>
 						<dict>
 							<key>b</key>
-							<string>1</string>
+							<string>0</string>
 							<key>g</key>
-							<string>1</string>
+							<string>0</string>
 							<key>r</key>
-							<string>1</string>
+							<string>0</string>
 						</dict>
 					</dict>
 					<key>ID</key>
@@ -5880,11 +4953,11 @@ N = Byte encoding there is no source pointer}</string>
 							<key>Color</key>
 							<dict>
 								<key>b</key>
-								<string>0</string>
+								<string>0.84941</string>
 								<key>g</key>
-								<string>0</string>
+								<string>0.84941</string>
 								<key>r</key>
-								<string>0</string>
+								<string>0.84941</string>
 							</dict>
 						</dict>
 						<key>shadow</key>
@@ -5901,7 +4974,7 @@ N = Byte encoding there is no source pointer}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf1 Literal}</string>
+\f0\fs24 \cf0 Literal}</string>
 					</dict>
 				</dict>
 				<dict>
@@ -6083,18 +5156,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -6113,18 +5174,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -6153,18 +5202,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -6183,18 +5220,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -6213,18 +5238,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -6243,18 +5256,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -6273,18 +5274,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -6303,18 +5292,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -6333,18 +5310,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -6363,18 +5328,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -6393,18 +5346,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -6423,18 +5364,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -6453,18 +5382,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -6493,18 +5410,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -6523,18 +5428,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -6553,18 +5446,6 @@ N = Byte encoding there is no source pointer}</string>
 					<string>Rectangle</string>
 					<key>Style</key>
 					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>b</key>
-								<string>0.887042</string>
-								<key>g</key>
-								<string>0.887042</string>
-								<key>r</key>
-								<string>0.887042</string>
-							</dict>
-						</dict>
 						<key>shadow</key>
 						<dict>
 							<key>Draws</key>
@@ -7714,8 +6595,6 @@ N = Byte encoding there is no source pointer}</string>
 				<string>Canvas 1</string>
 			</dict>
 		</array>
-		<key>Frame</key>
-		<string>{{874, 313}, {965, 925}}</string>
 		<key>ListView</key>
 		<true/>
 		<key>OutlineWidth</key>
@@ -7729,15 +6608,15 @@ N = Byte encoding there is no source pointer}</string>
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{-136, 0}, {830, 783}}</string>
+		<string>{{14.25, 78.25}, {461.25, 281}}</string>
 		<key>Zoom</key>
-		<real>1</real>
+		<real>4</real>
 		<key>ZoomValues</key>
 		<array>
 			<array>
 				<string>Canvas 1</string>
-				<real>1</real>
-				<real>1</real>
+				<real>4</real>
+				<real>2</real>
 			</array>
 			<array>
 				<string>Canvas 2</string>

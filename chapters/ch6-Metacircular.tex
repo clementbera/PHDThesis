@@ -133,7 +133,7 @@ Figure \ref{fig:PartialDisabling} shows the solution proposed. When a hot spot i
 \paragraph{Ahead-of-time optimisation.} 
 Alternatively, we could consider optimising the Scorch optimiser code ahead-of-time.
 
-As the Sista architecture allows to persist optimised code (this is discussed in details in the following chapter), the optimiser code could be optimised ahead of time. The optimised optimiser code would be shipped to production, and no runtime optimisation would happen on the optimiser code in production.
+As Sista allows to persist optimised code (this is discussed in details in the following chapter), the optimiser code could be optimised ahead of time. The optimised optimiser code would be shipped to production, and no runtime optimisation would happen on the optimiser code in production.
 
 To generate the optimised code ahead-of-time, one way is to preheat the optimiser through warm-up runs. For example, the optimiser can be given a list of well-chosen functions to optimise. This way, all hot spots inside the optimiser would be detected ahead of time and optimised. 
 

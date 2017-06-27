@@ -17,14 +17,14 @@
 \minitoc
 
 %Generic intro
-To support the architecture described in the previous chapter, the Pharo runtime had to evolve. We distinguish two kind of evolutions. Some evolutions were required to support the architecture, the Sista runtime could not work without those features. Other evolutions were not mandatory, the Sista architecture could have worked without these features, but each of them were important to improve the overall performance.
+To support the architecture described in the previous chapter, the Pharo runtime had to evolve. We distinguish two kind of evolutions. Some evolutions were required to support the architecture, the Sista runtime could not work without those features. Other evolutions were not mandatory, Sista could have worked without these features, but each of them were important to improve the overall performance.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Required language evolutions}
 
-Five major evolutions were required to have the Sista architecture up and running:
+Five major evolutions were required to have Sista up and running:
 \begin{enumerate}
 	\item Cogit was extended to detect hot spots through profiling counters.
 	\item The interpreter and Cogit were extended to be able to execute and compile the additional instructions of the extended bytecode set.
@@ -53,7 +53,7 @@ Figure \ref{fig:ProfilingCounters} shows a n-function with two profiling counter
 
 \subsection{Extended bytecode set}
 
-The Sista architecture required an extended bytecode set to support all the new operations permitted only in optimised v-functions. The new operations were described in one of our IWST paper\cite{Bera14a}. The extended bytecode set design relies on the assumption that only a small number of new instructions are needed for Cogit to produce efficient machine code. Four main kind of instructions were introduced:
+Our architecture required an extended bytecode set to support all the new operations permitted only in optimised v-functions. The new operations were described in one of our IWST paper\cite{Bera14a}. The extended bytecode set design relies on the assumption that only a small number of new instructions are needed for Cogit to produce efficient machine code. Four main kind of instructions were introduced:
 \begin{itemize}
 \item \textbf{Guards}: Guards are used to ensure an optimisation-time assumption is valid at runtime. If the guard fails at runtime, the dynamic deoptimisation routine is triggered.
 \item \textbf{Object unchecked accesses}: Normally variable-sized objects such as arrays or byte arrays require bounds checks to allow a program to access their fields. Unchecked access directly reads the field of an object without any checks. Instructions to access the size of a variable-sized object without any checks are included.
@@ -86,7 +86,7 @@ The new primitive iterates over the n-function, collecting for each virtual call
 
 \subsection{Scorch}
 
-In the implementation of the Sista architecture, the bulk of the work was the design and the implementation of the Scorch optimiser. The thesis is centered around the Sista architecture in general and there is no big innovative features in Scorch.
+In the implementation of our architecture, the bulk of the work was the design and the implementation of the Scorch optimiser. The thesis is centered around Sista in general and there is no big innovative features in Scorch.
 
 Scorch's optimiser is implemented as a traditionnal optimising compiler. It translates the v-functions to optimise into a single static assignment intermediate representation, represented as a control flow graph. Conditionnal branch and send instructions are annotated with the runtime information provided by Cogit to speculate on what method to inline and on basic block usage.
 
@@ -116,7 +116,7 @@ Five major evolutions were introduced in the language in addition to the require
 \subsection{New memory manager}
 
 %pb with existing representation
-The first version of the Sista architecture was built on the existing VM with a minimum number of modifications. One of the main issue met was related to the memory representation of objects. The existing memory manager was designed and implemented before the implementation of Cogit for a pure interpreter VM. The representation of object did not allow Cogit to produce efficient accesses to object fields in native code.
+The first version of Sista was built on the existing VM with a minimum number of modifications. One of the main issue met was related to the memory representation of objects. The existing memory manager was designed and implemented before the implementation of Cogit for a pure interpreter VM. The representation of object did not allow Cogit to produce efficient accesses to object fields in native code.
 
 %existing class access
 One problem for example was the encoding of the class field in an object. It could be encoded in three different ways:
@@ -178,7 +178,7 @@ To solve these issues, we designed a new closure implementation. In the new impl
     \end{center}
 \end{figure}
 
-Figure \ref{fig:CompiledBlock} shows on the left the old closure function representation and on the right the new representation. In the old representation, the closure function literals and bytecodes are present inside the enclosing function. The creation of a closure in the v-function interpreter requires to jump over the closure instructions. All the function metadata, normally present in the function header, can be computed by disassembling the closure creation instruction or the closure bytecodes. Any change on the closure function impacts the enclosing function and any change on the enclosing function impacts the closure function. When Cogit compiles the v-function to n-function, it compiles both the function and all the inner closure functions at the same time. In the new representation, the two functions are independent. Each function has its own function header. Both functions can be changed independently. Cogit compiles separatedly each v-function to n-function. The closure function has no source pointer as it can be fetched from the enclosing function.
+Figure \ref{fig:CompiledBlock} shows on the left the old closure function representation and on the right the new representation. In the old representation, the closure function literals and bytecodes are present inside the enclosing function. The creation of a closure in the v-function interpreter requires to jump over the closure instructions. All the function metadata, normally present in the function header, can be computed by disassembling the closure creation instruction or the closure bytecodes. Any change on the closure function impacts the enclosing function and any change on the enclosing function impacts the closure function. When Cogit compiles the v-function to n-function, it compiles both the function and all the inner closure functions at the same time. In the new representation, the two functions are independent. Each function has its own function header. Both functions can be changed independently. Cogit compiles separatedly each v-function to n-function. The closure function has no source pointer as it can be fetched from the enclosing function (the last literal of the compiled block).
 
 \section*{Conclusion}
 
