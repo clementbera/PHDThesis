@@ -155,9 +155,11 @@ All these applications of the persistence of optimisations across start-ups of S
 
 Another interesting aspect of Sista is the energy saved at start-up by re-using persisted optimised functions instead of wasting cpu cycles re-generating them. 
 
-The most relevant use-case is Android application. With the Dalvik VM or the Android Runtime, Google's team on the VM for Android application have switched their VM design from JIT compilation to AOT compilation then back to JIT compilation. The main problem is that JIT compilation yields better peak performance, but requires warm-up time for each Android application start-up which wastes many cpu cycles, which corresponds in practice to an important part of the smart phone battery.
+One of the most relevant use-case is Android application. With the Dalvik VM or the Android Runtime, Google's team on the VM for Android application have switched their VM design from JIT compilation to AOT compilation then back to JIT compilation. The main problem is that JIT compilation yields better peak performance, but requires warm-up time for each Android application start-up which wastes many cpu cycles, which corresponds in practice to an important part of the smart phone battery.
 
 Sista would be relevant in this context as the application could be shipped unoptimised, but each time the user would use the application, the optimised functions generated from previous runs would be persisted so further uses won't waste battery. This way, theoretically, the application could have very good peak performance due to the JIT while not wasting too many battery at each Android application start-up.
+
+In addition, power drain is becoming an important factor not just in mobile computing but also computers embedded in things (Internet of Things) and even on servers. Excessive power leads to increased cooling. In flash memory, excessive writes can not only shorten its life but also lead to increased power (writes draw more power than reads).
 
 To work in this direction, one would need to evaluate the energy consumed by the VM to reach peak-performance. We did not work in this direction because we did not have expertise in energy consumption measurement, but this is definitely a relevant future work.
 

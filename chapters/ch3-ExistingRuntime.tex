@@ -180,7 +180,7 @@ Although primitive methods can be used for performance, most of them provides es
 
 Smalltalk features its set of unconventional primitives, non present in most other programming languages. A notable example is \ct{become:}, a primitive which swaps the references of two objects. If \ct{a become: b}, then all references to \ct{a} now refer to \ct{b}, and all the references to \ct{b} now refer to \ct{a}. This primitive is implemented efficiently based on specific strategies~\cite{Mir15a}.
 
-\paragraph{Registered objects.} An array of registered objects~\footnote{Smalltalk developers use the term special object array for this array} can be accessed in the Pharo runtime. This array contains multiple objects that need to be accessed directly by the VM, for example the objects \ct{nil, true} and \ct{false}. Any new object can be registered in the array and the array can grow on demand.
+\paragraph{Registered objects.} An array of registered objects\footnote{Smalltalk developers use the term special object array for this array} can be accessed in the Pharo runtime. This array contains multiple objects that need to be accessed directly by the VM, for example the objects \ct{nil, true} and \ct{false}. Any new object can be registered in the array and the array can grow on demand.
 
 Among registered objects are specific selectors. For example, the \ct{\#doesNotUnderstand:} selector is registered. When a look-up performed by the VM does not find any method to activate (the selector is not implemented for the given receiver), the VM instead performs a virtual call, using the same receiver, the registered \ct{\#doesNotUnderstand:} selector and reifies the virtual call as an object (which class is also registered) containing the original selector, the arguments and the look-up class in case of a super send. 
 
@@ -199,7 +199,7 @@ Pharo features a global interpreter lock, similarly to Python. Only calls to ext
 \paragraph{Snapshots.}
 \label{par:snapshot}
 
-In the context of Smalltalk, a snapshot~\footnote{Smalltalk developers use the term \emph{image} instead of snapshot.} is a sequence of bytes that represents a serialized form of all the objects present at a precise moment in the runtime. As everything is an object in Smalltalk, including green threads, the virtual machine, at start-up, loads all the objects from a snapshot and resumes the execution based on the green thread that was active at snapshot time. In fact, this is the normal way of launching a Smalltalk runtime. 
+In the context of Smalltalk, a snapshot\footnote{Smalltalk developers use the term \emph{image} instead of snapshot.} is a sequence of bytes that represents a serialized form of all the objects present at a precise moment in the runtime. As everything is an object in Smalltalk, including green threads, the virtual machine, at start-up, loads all the objects from a snapshot and resumes the execution based on the green thread that was active at snapshot time. In fact, this is the normal way of launching a Smalltalk runtime. 
 
 One interesting problem in snapshots is how to save the execution stack, \ie the green threads. To perform a snapshot, each stack frame is reified into a context and only objects are saved in the snapshot. When the snapshot is restarted, the VM recreates a stack frame for each context lazily. 
 
