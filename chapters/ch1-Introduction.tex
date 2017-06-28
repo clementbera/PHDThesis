@@ -18,7 +18,7 @@
 
 \section{Context}
 
-Object-oriented languages have been one of the most popular programming languages for the past decades. Many high-level object-oriented programming languages run on top of a virtual machine (VM) which provides certain advantages from running directly on the underlying hardware. The main advantage is the platform-independence: a program running on top of a VM can run on any processor and operating system supported by the VM without any changes in the program. In the whole thesis, the term VM is used to dissertate about virtual machines for high-level programming languages, as opposed to operating system VMs which are not discussed at all.
+Object-oriented languages have been one of the most popular programming languages for the past decades. Many high-level object-oriented programming languages run on top of a virtual machine (VM) which provides certain advantages from running directly on the underlying hardware. The main advantage is platform-independence: a program running on top of a VM can run on any processor and operating system supported by the VM without any changes in the program. In this thesis, the term VM is used to discuss about virtual machines for high-level programming languages, as opposed to operating system VMs which are not discussed at all.
 
 \paragraph{High-performance virtual machines.}
 %Most high-level languages pursue a strict separation between language-side and VM-side. VMs for instance provide automatic memory management or use platform independent instructions such as bytecodes. These properties allow a programming language to develop independently from the underlying hardware.
@@ -130,7 +130,7 @@ The thesis introduces Sista (\textbf{S}peculative \textbf{I}nlining \textbf{S}ma
 	\item Chapter \ref{chap:architecture} details Sista and Chapter \ref{chap:runtimeEvolution} discuss the evolutions done on the Pharo runtime to have the Sista architecture working.
 	\item Chapters \ref{chap:metacircular} and \ref{chap:persistence} 
 	%and \ref{chap:interface} 
-	discuss the architecture in the context of the two subproblems of the thesis. 
+	discuss the architecture in the context of the two subproblems of the thesis, the metacircular optimising JIT and the runtime state persistence. 
 	\item Chapter \ref{chap:validation} evaluates Sista by comparing the performance of the runtime in multiple contexts.
 	\item Chapter \ref{chap:futureWork} details the future work that could be relevant based on this dissertation.
 \end{itemize}
