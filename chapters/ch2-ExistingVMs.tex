@@ -70,6 +70,8 @@ In this context, both v-functions and n-functions can have an optimised version.
 
 %Both runtime compilers can deoptimise stack frames. Cogit can deoptimise any n-frame to a single v-frame. Scorch can deoptimise an optimised v-frame to multiple unoptimised v-frames. 
 
+\paragraph{Basic block.} A \emph{basic block} is a straight-line code sequence with no branches in except to the entry and no branches out except at the exit. A function is sometimes represented, in compiler intermediate representations, as a control flow graph, each node being a basic block and each vertice a control flow operation (conditional or unconditonal jump forward or backward).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Function based architecture}
