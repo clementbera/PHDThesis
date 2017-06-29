@@ -319,7 +319,7 @@ Cogit has reified the optimised n-frame to an optimised v-frame, hence, Scorch's
 
 \paragraph{Stack edition.}
 
-Once all the unoptimised v-frames are reconstructed, the execution stack needs to be edited to use them. This is done using the stack manipulation APIs. Basically, the VM split the current stack page in two, copying one part on another stack page. Deoptimised frames are present in the middle in their single context form, in a similar way to frame divorces described in the previous chapter and as shown in Figure \ref{fig:DeoptStacks}.
+Once all the unoptimised v-frames are reconstructed, the execution stack needs to be edited to use them. This is done using the stack manipulation APIs. Basically, the VM splits the current stack page in two, copying one part on another stack page. Deoptimised frames are present in the middle in their single context form, in a similar way to frame divorces described in the previous chapter and as shown in Figure \ref{fig:DeoptStacks}.
 
 \begin{figure}[h!]
     \begin{center}
@@ -333,7 +333,7 @@ Once all the unoptimised v-frames are reconstructed, the execution stack needs t
 
 \paragraph{Execution restart.}
 
-If the deoptimisation happened due to a guard failure (or due to a return to a discarded function), the application needs to resume execution once deoptimisation is performed. In this case, the application frame is just above the call-back frame so returning should resume execution. There is one little detail, a return instruction in Smalltalk pushes the returned value on the caller stack. The deoptimisation call-back returns the top value of the bottom deoptimised frame to resume execution. The bottom deoptimised frame is guaranteed not to be empty as deoptimisation can be only in position in the code where there is necessarily something on stack.
+If the deoptimisation happened due to a guard failure (or due to a return to a discarded function), the application needs to resume execution once deoptimisation is performed. In this case, the application frame is just above the call-back frame so returning resumes execution. %There is one little detail, a return instruction in Smalltalk pushes the returned value on the caller stack. The deoptimisation call-back returns the top value of the bottom deoptimised frame to resume execution. The bottom deoptimised frame is guaranteed not to be empty as deoptimisation can be only in position in the code where there is necessarily something on stack.
 
 %In those cases, the first deoptimiser frame is just below the bottom restored unoptimised v-frame. Returning from the deoptimiser frame to the application is not as easy as for the optimiser call-back. The optimiser is always triggered on a conditional branch and conditional branches require a value to test to be on stack. Hence, the optimiser could simply return the value to test and the execution resumes just before the branch. 
 
@@ -344,7 +344,7 @@ If the deoptimisation happened due to a guard failure (or due to a return to a d
 \section{Related work}
 \label{sec:relatedWorkArch}
 
-This section compares our architecture against existing work. The first section compares the overall architecture versus the meta-tracing and function based architecture. Section \ref{sec:interface} compares our optimised v-function representation against representations existing in other VMs. Section \ref{sec:codeSharing} discusses how different JIT tiers may or may not share portions of code.
+This section compares our architecture against existing work. The first section compares the overall architecture versus the meta-tracing and function based architectures. Section \ref{sec:interface} compares our optimised v-function representation against representations existing in other VMs. Section \ref{sec:codeSharing} discusses how different JIT tiers may or may not share portions of code.
 
 The two research subproblems and their related work are detailed later in the thesis. Chapter \ref{chap:metacircular} discusses how Scorch is able, under specific constraints, to optimise its own code. Chapter \ref{chap:persistence} details how the runtime state, including optimised v-functions, can be persisted across multiple start-ups.
 
