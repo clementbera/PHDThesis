@@ -252,7 +252,7 @@ There were other attempts to implement meta-circular VMs for other languages tha
 
 The last but not least project is the Truffle framework~\cite{Wur13a}. Truffle is a framework allowing to write efficiently VMs for different programming languages. The Truffle runtime is built on top of Java's Hotspot VM, but the Graal compiler is used as the optimising JIT instead of the Hotspot optimising compiler. 
 Multiple VMs using the Truffle framework were implemented for different programming language in the past years. For each of them, the Graal compiler in the Truffle runtime can optimise both Java code and the programming language run. As Graal is written in Java, it can optimise its own code.
- 
+
 \subsection{Optimising Just-in-time compiler optimising itself}
 
 Overall, very few optimising JITs are written in a programming language they can optimise. Even when they could optimise themselves, the VM development team may choose to compile the JIT code to native code ahead-of-time and the optimising JIT does not optimise itself in production. The main existing case where the optimising JIT is optimising its own code is the Graal optimising JIT. Graal can be used in different contexts. It was built as the Maxine VM optimising JIT. It is now mainly used as the optimising JIT of the Truffle runtime, as an alternative optimising JIT for Java Hotspot.

@@ -74,7 +74,7 @@ Over the years, Deutsch and Schiffman~\cite{Deut84a} changed the VM internal rep
 
 The VM however still provides the ability for the Smalltalk developer to read and write the reified stack as if it was a linked list of contexts according to the original specification. To do so, the stack is reified as a linked list of contexts on demand. 
 
-The reification of the stack is used in three main places: the debugger, exceptions and continuations. For the two latter, they are implemented in Smalltalk on top of the stack reification, without any special VM support. From Smalltalk, any program can use this feature to instrospect and edit the stack.
+The reification of the stack is used in three main places: the debugger, exceptions and continuations. For the latter two, they are implemented in Smalltalk on top of the stack reification, without any special VM support. From Smalltalk, any program can use this feature to instrospect and edit the stack.
 
 Contexts abstract away from low-level details. A context is exactly the same if the VM is started with the interpreter only or with the hybrid interpreter plus baseline JIT runtime. Conceptually, for the Smalltalk developer, the code is interpreted and the contexts always look identical. The VM is responsible to intercept context accesses to read and write concrete v-frames and n-frames.
 
