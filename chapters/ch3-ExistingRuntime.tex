@@ -173,14 +173,15 @@ Classes and method dictionaries are normal objects in Pharo. Hence, the installa
 
 \subparagraph{Primitive methods.}
 \label{par:become}
-
 Virtual methods can be annotated with a primitive number at creation time. A primitive method can be executed through a virtual call, like any other method, but upon activation a low-level function (either a Slang function or the native code generated from an assembly code template, depending on the current state of the runtime) is executed. The low-level code can fail if the receiver and arguments of the primitive method do not meet specific constraints. 
 
 Although primitive methods can be used for performance, most of them provides essential features that could not be implemented otherwise. For example, the addition between two integers is implemented as a primitive, forwarding the operation to the processor's implementation of the addition.
 
 Smalltalk features a set of unconventional primitives, non present in most other programming languages. A notable example is \ct{become:}, a primitive which swaps the references of two objects. If \ct{a become: b}, then all references to \ct{a} now refer to \ct{b}, and all the references to \ct{b} now refer to \ct{a}. This primitive is implemented efficiently based on specific strategies~\cite{Mir15a}.
 
-\paragraph{Registered objects.} An array of registered objects\footnote{Smalltalk developers use the term special object array for this array} is accessible both to the Pharo VM and from the language. This array contains multiple objects that need to be accessed directly by the VM, for example the objects \ct{nil, true} and \ct{false}. Any new object can be registered in the array and the array can grow on demand.
+\paragraph{Registered objects.}
+\label{par:regObjects}
+ An array of registered objects\footnote{Smalltalk developers use the term special object array for this array} is accessible both to the Pharo VM and from the language. This array contains multiple objects that need to be accessed directly by the VM, for example the objects \ct{nil, true} and \ct{false}. Any new object can be registered in the array and the array can grow on demand.
 
 Among registered objects are specific selectors, such as the \ct{\#doesNotUnderstand:} selector. When a look-up performed by the VM does not find any method to activate (the selector is not implemented for the given receiver), the VM instead performs a virtual call, using the same receiver, the registered \ct{\#doesNotUnderstand:} selector and reifies the virtual call as an object (which class is also registered) containing the original selector, the arguments and the look-up class in case of a super send. 
 
