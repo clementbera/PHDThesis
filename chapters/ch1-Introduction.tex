@@ -30,7 +30,7 @@ Originally VMs were built in performance oriented low-level programming language
 
 \paragraph{Existing design: Aosta.}
 
-An optimising JIT design~\cite{Mira02c} for Smalltalk~\cite{Gold83a}, called Aosta (\textbf{A}daptive \textbf{O}ptimisations \textbf{S}mall\textbf{T}alk \textbf{A}rchitecture), emerged in the early 2000s. The design is the convergence of multiple ideas to ease the development of the optimising JIT, to ensure that the maintainance and evolution cost of the resulting implementation is reasonnable and to attract contributors from the community.
+An optimising JIT design~\cite{Mira02c} for Smalltalk~\cite{Gold83a}, called Aosta (\textbf{A}daptive \textbf{O}ptimisations \textbf{S}mall\textbf{T}alk \textbf{A}rchitecture), emerged in the early 2000s. Aosta was designed by Eliot Miranda with contributions from Paolo Bonzini, Steve Dahl, David Griswold, Urs H\"olzle, Ian Piumarta and David Simmons. The design is the convergence of multiple ideas to ease the development of the optimising JIT, to ensure that the maintainance and evolution cost of the resulting implementation is reasonnable and to attract contributors from the community.
 
 One of the key ideas of Aosta is to split the optimising JIT in two parts, as shown on Figure \ref{fig:ExistingDesign}. The first part, the high level part, may deal with Smalltalk-specific optimisation and compiles to well-specified platform independent instructions (bytecodes). The second part, the low-level part, can translate such instructions into machine code, performing machine-specific optimisations.
 
@@ -49,9 +49,9 @@ In addition, the high-level part of the JIT generates platform-independent optim
 
 According to other VM implementors\footnote{We discussed with developers from the V8 team.}, it seems that language-specific optimisations (in this case Smalltalk-specific optimisations) are more important than machine-specific optimisations for performance. The Aosta design allows therefore to push most of the complexity from a low-level language, in which the existing Smalltalk VMs are implemented, to Smalltalk.
 
-As the Smalltalk community has a smaller number of low-level contributors, another idea is then to reuse the existing baseline JIT, already present in the existing Smalltalk VMs, as the low-level part. Reusing the existing baseline JIT as a back-end for the optimising JIT means there is only one code-base to maintain and evolve for all the low-level aspects of both JITs. To ease the implementation of this design, the interface between the two parts of the optimising JIT was conceived as an extended bytecode set (the existing bytecode set with the addition of new operations used only by optimised code). This way, the existing baseline JIT already supporting the existing bytecode set would "just" needs to be slightly extended to support the new operations.
+Another idea is then to reuse the existing baseline JIT, already present in the existing Smalltalk VMs, as the low-level part. Reusing the existing baseline JIT as a back-end for the optimising JIT means there is only one code-base to maintain and evolve for all the low-level aspects of both JITs. To ease the implementation of this design, the interface between the two parts of the optimising JIT is conceived as an extended bytecode set (the existing bytecode set with the addition of new operations used only by optimised code). This way, the existing baseline JIT already supporting the existing bytecode set would "just" needs to be slightly extended to support the new operations.
 
-Some aspects of the design were considered, analyzed and discussed very carefully by part of the Smalltalk community, making the design attractive and interesting. However, the overall design was incomplete so it was unclear how multiple parts of the system would work, especially, as no one really knew how to design and implement the high-level part of the JIT.
+Some aspects of the design were considered, analyzed and discussed very carefully by several VM experts, making the design attractive and interesting. However, the overall design was incomplete so it was unclear how multiple parts of the system would work, especially, as no one really knew how to design and implement the high-level part of the JIT nor if the design could work.
 
 The work done during the Ph.D started from the Aosta proposal: the goal was to complete the design and propose an implementation. The resulting architecture and implementation, presented in the thesis, is Sista (\textbf{S}peculative \textbf{I}nlining \textbf{S}mall\textbf{T}alk \textbf{A}rchitecture). The design of Sista is largely inspired from Aosta, but a working implementation to validate different aspects of the design and able to run a large suite of benchmarks is provided. Multiple aspects of Sista are different from existing VMs, such as the split in the optimising JIT or the ability to persist optimised bytecode methods across start-ups. The advantages and issues of these differences are discussed in the thesis.
 
@@ -83,7 +83,7 @@ The existing production VM is written in a subset of Smalltalk~\cite{Inga97a}, c
 %	\item Pharo have exotic features that may not be supported by such framework. Even if such features are supported, they may be supported without the required performance or they may not be supported in the future as the Pharo community has no major influence on such framework communities.
 %\end{itemize}
 	
-To conclude, the Pharo community is looking for better VM performance and the next step to improve the performance of the existing VM is to add an optimising JIT. To attract open-source contributors from the community, the optimising JIT has to be written in Smalltalk.
+To conclude, the Pharo community is looking for better VM performance and the next step to improve the performance of the existing VM is to add an optimising JIT. %To attract open-source contributors from the community, the optimising JIT has to be written in Smalltalk.
 
 
 
@@ -126,14 +126,38 @@ The main contributions of this thesis are:
 	\item Chapter \ref{chap:stateOfTheArt} defines the terminology and presents existing production and research virtual machines relevant in the context of the thesis. 
 	\item Chapter \ref{chap:existing} discusses the existing Pharo runtime as Sista is built on top of it.
 	\item Chapter \ref{chap:architecture} details Sista and Chapter \ref{chap:runtimeEvolution} discuss the evolutions done on the Pharo runtime to have the Sista architecture working.
-	\item Chapters \ref{chap:metacircular} and \ref{chap:persistence} 
-	%and \ref{chap:interface} 
-	discuss the architecture in the context of the two subproblems of the thesis, the metacircular optimising JIT and the runtime state persistence. 
+	\item Chapters \ref{chap:metacircular} and \ref{chap:persistence} discuss the architecture in the context of metacircular optimising JITs and the runtime state persistence. 
 	\item Chapter \ref{chap:validation} evaluates Sista by comparing the performance of the runtime in multiple contexts.
 	\item Chapter \ref{chap:futureWork} details the future work that could be relevant based on this dissertation.
 \end{itemize}
 
+\section{Thesis and published papers}
 
+In the thesis, the focus is on Sista. However, during the Ph.D I worked on other topics, always related to VMs but not necessarily to Sista, leading to publications. I did not detail such work to keep the thesis concise and structured. This section lists all my publications (the publications in parentheses are waiting for approval):
+
+\paragraph{Conferences and journals:}
+\begin{enumerate}
+	\item Eliot Miranda and Cl\'ement B\'era. A Partial Read Barrier for Efficient Support of Live Object-oriented Programming. In International Symposium on Memory Management, ISMM'15, 2015.
+	\item Cl\'ement B\'era, Eliot Miranda, Marcus Denker and St\'ephane Ducasse. Practical Validation of Bytecode to Bytecode JIT Compiler Dynamic Deoptimization. Journal of Object Technology, JOT'16, 2016.
+\end{enumerate}	
+\begin{enumerate}[label=(\arabic*)]
+	\setcounter{enumi}{2}
+	\item Nevena Milojkovi\'c, Cl\'ement B\'era, Mohammad Ghafari and Oscar Nierstrasz. Mining Inline Cache Data to Order Inferred Types in Dynamic Languages. Accepted with minor revisions in Science of Computer programming, SCP'17, 2017.
+	\item Cl\'ement B\'era, Eliot Miranda, Tim Felgentreff, Marcus Denker and St\'ephane Ducasse. Sista: Saving Optimized Code in Snapshots for Fast Start-Up. Submitted to International Conference on Managed Languages \& Runtimes (ManLang, formerly PPPJ), ManLang'17, 2017.
+\end{enumerate}	
+\paragraph{Workshops:}
+\begin{enumerate}
+	\setcounter{enumi}{4}
+	\item Cl\'ement B\'era and Marcus Denker. Towards a flexible Pharo Compiler. In International Workshop on Smalltalk Technologies, IWST'13, 2013.
+	\item Cl\'ement B\'era and Eliot Miranda. A bytecode set for adaptive optimizations. In International Workshop on Smalltalk Technologies, IWST'14, 2014.
+	\item Nevena Milojkovi\'c, Cl\'ement B\'era, Mohammad Ghafari and Oscar Nierstrasz. Inferring Types by Mining Class Usage Frequency from Inline Caches. In International Workshop on Smalltalk Technologies, IWST'16, 2016.
+	\item Cl\'ement B\'era. A low Overhead Per Object Write Barrier for the Cog VM. In International Workshop on Smalltalk Technologies, IWST'16, 2016.
+\end{enumerate}	
+\begin{enumerate}[label=(\arabic*)]
+	\setcounter{enumi}{8}
+	\item Sophie Kaleba, Cl\'ement B\'era, Alexandre Bergel, and St\'ephane Ducasse. Accurate VM profiler for the Cog VM. Submitted to International Workshop on Smalltalk Technologies, IWST'17, 2017.
+\end{enumerate}
+%\end{itemize}
 
 \ifx\wholebook\relax\else
     \end{document}
