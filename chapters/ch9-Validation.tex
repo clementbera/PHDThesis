@@ -43,6 +43,8 @@ We have found these values to produce good performance across a variety of bench
 
 \subsection{Benchmark descriptions}
 
+This section briefly describes for each benchmark what the benchmark does and what operations are used the most.
+
 	\paragraph{A*.}The A* benchmark is a good approximation for applications where many objects collaborate. It measures parsing of large strings that define the layout of the tree of nodes, message sending between each node, arithmetic to calculate costs, and collection operations. In the benchmark, we alternately parse and traverse two different graphs with 2,500 and 10,000 nodes, respectively. It is also a good benchmark for inlining block closures that are used in iterations.
 
 	\paragraph{Binary tree.}The binary tree benchmark allocates, walks and deallocates binary trees. The benchmark is parameterized with the maximum tree depth, which we have set to 10. The benchmark is focused on object allocation, tree traversal and object deallocation.
@@ -67,7 +69,7 @@ We have found these values to produce good performance across a variety of bench
 
 \subsection{Results}
 
-Figure \ref{fig:measure} shows all the measurements in the form of graphs. The exact values of the measurements are reported in Figure \ref{tbl:benchmark}. The following paragraphs describe each a benchmark and its corresponding performance measurements. We distinguish three categories of benchmarks.
+Figure \ref{fig:measure} shows all the measurements in the form of graphs. The ordinate of each graph is the average time in milliseconds to run one iteration of the corresponding benchmark, so the smaller the column is, the fastest the benchmark is run. The exact values of the measurements are reported in Figure \ref{tbl:benchmark}. The following paragraphs describe each a benchmark and its corresponding performance measurements. We distinguish three categories of benchmarks.
 
 \begin{figure}[p]
     \begin{center}

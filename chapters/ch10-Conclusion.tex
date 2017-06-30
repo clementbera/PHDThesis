@@ -16,24 +16,24 @@
 \label{chap:conclusion}
 \minitoc
 
-In this Chapter we summarise the dissertation, then list the contributions, the published papers and their impact.
+In this chapter we summarise the dissertation, then list the contributions and lastly discuss the impact of the thesis.
 
 \section{Summary}
 
 In the thesis we focused on three problems. First, we investigated how to build an optimising JIT architecture where the optimising JIT is running in the same runtime than the running application on top of an existing VM composed of an interpreter and a baseline JIT. The result is Sista, our optimising JIT architecture. Second, we studied metacircular problems related to an optimising JIT that can optimise its own code. As a result, Scorch is able to optimise its own code with metacircular problems under specific circumstances. Third, we analysed the persistence of the runtime state, including runtime optimisations, across multiple VM start-ups in the context of the warm-up time problem. As a result, Sista is able to avoid most of the warm-up time by persisting optimised v-functions across VM start-ups.
 
 %hspace to simulate non working indent.
-\hspace{0.5cm} \textbf{Chapter \ref{chap:stateOfTheArt}} defined the terminology used in the thesis. The Chapter then described the two most common architectures for optimising JITs, the function-based and the meta-tracing architecture, with examples of VMs using one architecture or the other. Then, work related to Sista in the context of metacircular VMs and the persistence of the runtime state across start-ups were listed.
+\hspace{0.5cm} \textbf{Chapter \ref{chap:stateOfTheArt}} defined the terminology used in the thesis. The chapter then described the two most common architectures for optimising JITs, the function-based and the meta-tracing architecture, with examples of VMs using one architecture or the other. Then, work related to Sista in the context of metacircular VMs and the persistence of the runtime state across start-ups were listed.
 
-\textbf{Chapter \ref{chap:existing}} detailed the existing Pharo runtime. The focus was on the features not present in most other VMs or relevant in the context of the dissertation. Sista is built on top of the existing runtime described in this Chapter.
+\textbf{Chapter \ref{chap:existing}} detailed the existing Pharo runtime. The focus was on the features not present in most other VMs or relevant in the context of the dissertation. Sista is built on top of the existing runtime described in this chapter.
 
-\textbf{Chapter \ref{chap:architecture}} explained Sista, including the inner details of the architecture. Especially, the split between Scorch and Cogit in the optimising JIT architecture was described. The Chapter compared Sista against existing architectures for optimising JITs.
+\textbf{Chapter \ref{chap:architecture}} explained Sista, including the inner details of the architecture. Especially, the split between Scorch and Cogit in the optimising JIT architecture was described. The chapter compared Sista against existing architectures for optimising JITs.
 
 \textbf{Chapter \ref{chap:runtimeEvolution}} discussed the evolutions required to the existing Pharo runtime to implement Sista on top of the existing runtime. This included all the core aspects of the system which needed to be changed to support Sista, such as the implementation of closures or the ability to mark an object as read-only.
 
 \textbf{Chapter \ref{chap:metacircular}} was articulated around a problem happening in metacircular optimising JIT such as Scorch: under specific circumstances, Scorch ends up in an infinite recursion where it calls itself repeatedly. The problem can happen both when Scorch attempts to optimise one of its own function or when it attempts to deoptimise one of its own frame. The problem is solved by disabling temporarily the optimiser when relevant and by making the deoptimisater code completely independent from the rest of Pharo.
 
-\textbf{Chapter \ref{chap:persistence}} detailed how the runtime state is persisted across multiple start-ups in the context of Sista, including optimised v-functions, allowing to decrease warm-up time. 
+\textbf{Chapter \ref{chap:persistence}} detailed how the runtime state is persisted across multiple start-ups in the context of Sista, including optimised v-functions, allowing one to decrease warm-up time. 
 
 \textbf{Chapter \ref{chap:validation}} showed benchmarks run on the existing Pharo runtime and the Sista runtime. The Sista VM is 1.5x to 5x faster at peak performance than the current production runtime and peak performance is reached almost immediately after start-up if optimised v-functions are persisted as part of the snapshot.
 
@@ -43,7 +43,7 @@ In the thesis we focused on three problems. First, we investigated how to build 
 
 The main contributions of this thesis are:
 \begin{itemize}
-	\item The implementation of Sista, which yields 1.5x to 5x speed-up in execution time compared to the existing Pharo runtime and allow to reach peak performance very quickly if optimised v-functions are persisted from previous runs of the VM.
+	\item The implementation of Sista, which yields 1.5x to 5x speed-up in execution time compared to the existing Pharo runtime and allow one to reach peak performance very quickly if optimised v-functions are persisted from previous runs of the VM.
 	\item An alternative bytecode set solving multiple existing encoding limitations.
 	\item A language extension: each object can now be marked as read-only.
 	\item An alternative implementation of closures, both allowing simplifications in existing code and enabling new optimisation possibilities.

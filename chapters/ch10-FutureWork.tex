@@ -16,7 +16,7 @@
 \label{chap:futureWork}
 \minitoc
 
-This Chapter discusses future work related to Sista. The focus is on research-oriented future work, but the first two sections also mention engineering-oriented future work (for instance, moving the architecture to production).
+This chapter discusses future work related to Sista. The focus is on research-oriented future work, but the first two sections also mention engineering-oriented future work (for instance, moving the architecture to production).
 
 Section \ref{sec:archEvo} describes the evolution planned or considered for the overall architecture. Section \ref{sec:newOpt} discusses specifically the optimisations that could be implemented in Scorch and Cogit. Section \ref{sec:useCase} details how the application of Sista on a real-world application requiring quick start-ups would be very valuable to validate further the architecture. Lastly, Section \ref{sec:energy} discusses briefly the potentially low energy consumption of the Sista VM and how it could be valuable in specific use-cases.
 
@@ -47,7 +47,8 @@ The stack-based extended bytecode sets has two main issues:
 However, the extended bytecode set was designed stack-based for two relevant reasons:
 \begin{itemize}
 	\item \textbf{Compatibility:} The existing bytecode set is stack-based, and having the extended bytecode set stack-based allows us to generate optimised functions using existing instructions and not only new ones. This was very convenient to have quickly a working version of Sista (only the new unsafe operations used needed to work to have the architecture working).
-	\item \textbf{Machine-independent:} A stack-based representation allows to abstract away from low-level details such as the exact number of registers. To abstract away from the exact number of registers, both a stack-based IR and a register-based IR with an infinite number of registers are possible. Although at first look it seems the register-based solution is easier to deal with, experts such as the ones which designed WebAssembly~\cite{WebAssembly} chose to use a stack-based IR over a register-based IR. It is not clear which solution is better.
+	\item \textbf{Machine-independent:} A stack-based representation allows one to abstract away from low-level details such as the exact number of registers. To abstract away from the exact number of registers, both a stack-based IR and a register-based IR with an infinite number of registers are possible. 
+	Although at first look it seems the register-based solution is easier to deal with, experts such as the ones which designed WebAssembly~\cite{WebAssembly} chose to use a stack-based IR over a register-based IR. It is not clear which solution is better.
 \end{itemize}	 
 
 One future work is to design another extended bytecode set, register-based, and to evaluate the complexity of the representation in the back-end of Scorch and the front-end of Cogit, as shown on the right part of Figure \ref{fig:FutureWorkredundant}.
@@ -58,7 +59,7 @@ One future work is to design another extended bytecode set, register-based, and 
 	\item the processor used.
 \end{itemize}
 
-We believe abstracting away from the processor used was a good idea as it allows to use snapshot to persist the optimised state across multiple start-ups. However, snapshots are already dependent on the memory representation of objects used, so one could implement a new representation of optimised v-functions with a lower-level representation, object representation dependent but still processor independent. This would allow Scorch to perform additional optimisations, such as better constant propagation (Some constants are currently hidden in high-level instructions), which are currently hard to support in Cogit.
+We believe abstracting away from the processor used was a good idea as it allows one to use snapshot to persist the optimised state across multiple start-ups. However, snapshots are already dependent on the memory representation of objects used, so one could implement a new representation of optimised v-functions with a lower-level representation, object representation dependent but still processor independent. This would allow Scorch to perform additional optimisations, such as better constant propagation (Some constants are currently hidden in high-level instructions), which are currently hard to support in Cogit.
 
 Currently, only the VM code is aware of the memory representation of object. Hence, using such a lower-level representation would require to duplicate the knowledge about the memory representation of objects from the VM code-base to Pharo, so Scorch could be aware of it. 
 
@@ -86,8 +87,8 @@ When implementing an optimising JIT, it is relevant to evaluate the memory footp
 
 Two future works are planned in this direction:
 \begin{itemize}
-	\item Does the split in the optimising JIT induce memory overhead compared to a classical function-based optimising JIT, and how big is the overhead ?
-	\item What is the size of the optimised v-functions and the corresponding deoptimisation metadata that is persisted across start-up ?
+	\item Does the split in the optimising JIT induce memory overhead compared to a classical function-based optimising JIT, and how big is the overhead?
+	\item What is the size of the optimised v-functions and the corresponding deoptimisation metadata that is persisted across start-up?
 \end{itemize}
 
 We did not evaluate the memory footprint because currently the deoptimisation metadata of Scorch is kept uncompressed. As Scorch deoptimiser requires to read deoptimisation metadata, compressing the metadata requires to write a decompressor which is, as all the deoptimiser code, independent from the rest of the system. This is possible but requires a certain amount of engineering work, which is the reason why we postponed it.
@@ -136,17 +137,17 @@ However, in specific libraries or workflow, such operations may be common enough
 \section{Application of Sista for quick start-ups}
 \label{sec:useCase}
 
-One point that is a bit unclear is how to use the Sista for quick start-up in a real-world application. It is possible to persist optimised functions across start-ups. However, how are the optimised functions generated in the first place ? Are they generated from warm-up runs using a test suite or are they generated the first day the application is running ?
+One point that is a bit unclear is how to use the Sista for quick start-up in a real-world application. It is possible to persist optimised functions across start-ups. However, how are the optimised functions generated in the first place? Are they generated from warm-up runs using a test suite or are they generated the first day the application is running?
 
 A good example on how to use persisted optimisations across start-up is the success story of Azul~\cite{Azul}: a trading bank claims that they are able to use the optimised functions generated the day N-1 to improve the start-up performance of the day N. Another good example is the user-base of the cloneable Java VM~\cite{Kawa07a}.
 
 It seems that depending on the use-case where start-up performance matters (distributed application with short-lived slaves, such as the ones on Amazon lambda, Android application or Web pages), different frameworks and solutions require to be set up to improve start-up performance using persisted optimisations. 
 
-It would be very valuable to focus on one of those use-cases and build a solid framework showing how to use the persistence of optimisations to reduce warm-up time and evaluate what is the cost for the application programmer. Does the programmer have to do something specific to persist the optimisations as part of the deployment (warm-up runs, etc.) or is it done automatically as part of a framework ?
+It would be very valuable to focus on one of those use-cases and build a solid framework showing how to use the persistence of optimisations to reduce warm-up time and evaluate what is the cost for the application programmer. Does the programmer have to do something specific to persist the optimisations as part of the deployment (warm-up runs, etc.) or is it done automatically as part of a framework?
 
-In the case of distributed application on Amazon lambda, slaves may live down to a couple seconds in case of a high-variant demand, so that there are very few slaves rent when the application is unused and a lot of slaves when the application is heavily used. Is it possible to build a fraework that automatically learn from the life of previous slaves what optimised functions are worth keeping, so when a new short-lived slaved is instantiated, it can reach peak performance very quickly ?
+In the case of distributed application on Amazon lambda, slaves may live down to a couple seconds in case of a high-variant demand, so that there are very few slaves rent when the application is unused and a lot of slaves when the application is heavily used. Is it possible to build a framework that automatically learn from the life of previous slaves what optimised functions are worth keeping, so when a new short-lived slaved is instantiated, it can reach peak performance very quickly?
 
-In the case of web pages, is it possible to build a global cache so all frequently used web pages would have pre-optimised code available from the runs of the previous users ? How would such a design work with modern security requirements ?
+In the case of web pages, is it possible to build a global cache so all frequently used web pages would have pre-optimised code available from the runs of the previous users? How would such a design work with modern security requirements?
 
 All these applications of the persistence of optimisations across start-ups of Sista are very interesting and could be analysed in future work.
 
@@ -165,7 +166,7 @@ To work in this direction, one would need to evaluate the energy consumed by the
 
 \section*{Conclusion}
 
-This Chapter discussed the future works that may be done based on this thesis. The next Chapter summarises the contents of the thesis and concludes.
+This chapter discussed the future works that may be done based on this thesis. The next chapter summarises the contents of the thesis and concludes.
 
 \ifx\wholebook\relax\else
     \end{document}

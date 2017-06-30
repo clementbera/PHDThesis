@@ -16,7 +16,7 @@
 \label{chap:persistence}
 \minitoc
 
-This chapter describes how the Sista VM persists the runtime state across multiple VM start-ups, including the running green threads and the optimised code. Section \ref{sec:warmup} focuses on the main issue solved by the runtime state persistence: the start-up performance of many VMs today is significantly worse than their peak performance. Several cases where the start-up performance is a problem are described. Section \ref{sec:snaphotpersist} discusses the interactions between existing snapshots in Pharo and Sista, including how the optimised code and the running green threads are persisted across VM start-ups. Section \ref{sec:relWork} compares our approach to existing VMs. Few VMs attempt to persist the runtime state across multiple start-ups, but some VMs include solutions to improve start-up performance, solving the same problem.
+This chapter describes how the Sista VM persists the runtime state across multiple VM start-ups, including the running green threads and the optimised code, for the VM to reach peak performance quickly after start-up. Section \ref{sec:warmup} focuses on the main issue solved by the runtime state persistence: the start-up performance of many VMs today is significantly worse than their peak performance. Several cases where the start-up performance is a problem are described. Section \ref{sec:snaphotpersist} discusses the interactions between existing snapshots in Pharo and Sista, including how the optimised code and the running green threads are persisted across VM start-ups. Section \ref{sec:relWork} compares our approach to existing VMs. Few VMs attempt to persist the runtime state across multiple start-ups, but some VMs include solutions to improve start-up performance, solving the same problem.
 
 \section{Warm-up time problem}
 \label{sec:warmup}
@@ -71,9 +71,9 @@ This section discusses other strategies implemented in other VMs and research pr
 
 The Dart programming language features snapshots for fast application start-up. In Dart, the programmer can generate different kind of snapshots \cite{Anna13a}. Since that publication, the Dart team have added two new kind of snapshots, specialized for iOS and Android application deployment, which are the most similar to our snapshots.
 
-\subparagraph{Android.} A Dart snapshot for an Android application is a complete representation of the application code and the heap once the application code has been loaded but before the execution of the application. The Android snapshots are taken after a warm-up phase to be able to record call site caches in the snapshot. The call site cache is a regular heap object accessed from machine code, and its presence in the snapshot allows to persist type feedback and call site frequency.
+\subparagraph{Android.} A Dart snapshot for an Android application is a complete representation of the application code and the heap once the application code has been loaded but before the execution of the application. The Android snapshots are taken after a warm-up phase to be able to record call site caches in the snapshot. The call site cache is a regular heap object accessed from machine code, and its presence in the snapshot allows one to persist type feedback and call site frequency.
 
-In this case, the code is loaded pre-optimised with inline caches prefilled values. However, optimised functions are not loaded as our architecture allows to do. Only unoptimised code with precomputed runtime information is loaded.
+In this case, the code is loaded pre-optimised with inline caches prefilled values. However, optimised functions are not loaded as in our architecture. Only unoptimised code with precomputed runtime information is loaded.
 
 \subparagraph{iOS.} For iOS, the Dart snapshot is slightly different as iOS does not allow JIT compilers. All reachable functions from the iOS application are compiled ahead of time, using only the features of the Dart optimising compiler that don't require dynamic deoptimisation. A shared library is generated, including all the instructions, and a snapshot that includes all the classes, functions, literal pools, call site caches, etc.
 
@@ -81,13 +81,13 @@ This second case is difficult to compare to our architecture: iOS forbids machin
 
 \paragraph{Cloneable VMs.}
 
-In the work of Kawachiya and all~\cite{Kawa07a}, an extension of the Java VM allows to clone a running VM to quicken the start-up. The heap is cloned, in a similar way to our snapshot, but the n-functions are also cloned. Cloning n-functions improves start-up performance over our approach, but the clone is processor-dependent: there is no way of cloning with their approach a Java runtime from an x86 machine to an ARMv6 machine. Our approach requires slightly more warm-up time to quickly compile our optimised n-functions to n-functions, but our approach is platform-independent.
+In the work of Kawachiya and all~\cite{Kawa07a}, an extension of the Java VM allows one to clone a running VM to quicken the start-up. The heap is cloned, in a similar way to our snapshot, but the n-functions are also cloned. Cloning n-functions improves start-up performance over our approach, but the clone is processor-dependent: there is no way of cloning with their approach a Java runtime from an x86 machine to an ARMv6 machine. Our approach requires slightly more warm-up time to quickly compile our optimised n-functions to n-functions, but our approach is platform-independent.
 
 \subsection{Fast warm-up}
 
 An alternative to snapshots is to improve the JIT compiler so the peak performance can be reached as early as possible. The improvements would consists of decreasing the JIT compilation time by improving the efficiency of the JIT code, or have better heuristic so the JIT can generate optimised code with the correct speculations with little runtime information.
 
-\paragraph{Tiered architecture}
+\paragraph{Tiered architecture.}
 One solution, used the Webkit VM\cite{Webkit15}, is to have a tiered architecture with many tiers. In the version of Webkit in production from March 2015 to February 2016 \cite{Webkit15}, the code is:
 \begin{itemize}
 \item interpreted by a bytecode interpreter the first 6 executions.
