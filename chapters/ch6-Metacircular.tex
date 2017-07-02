@@ -17,7 +17,7 @@
 \minitoc
 
 %Intro
-By design, Scorch's optimiser and deoptimiser are written in Smalltalk and are running in the same runtime than the optimised application. This design leads to recursion problems similar to the ones existing in metacircular virtual machines, detailed in this chapter. 
+By design, Scorch optimiser and deoptimiser are written in Smalltalk and are running in the same runtime than the optimised application. This design leads to recursion problems similar to the ones existing in metacircular virtual machines, detailed in this chapter. 
 
 %single-threaded -> for comparison with Graal and co later
 As Pharo is currently single-threaded, it is not possible to run Scorch in a concurrent native thread. To optimise code, Scorch requires either to temporarily interrupt the application green thread or to postpone the optimisation to a background-priority green thread as described in Section \ref{sec:optModes}. The deoptimiser cannot however postpone the deoptimisation of a frame as it would block completely the running application. The deoptimiser has necessarily to interrupt the application green thread to deoptimise the stack.
@@ -25,7 +25,7 @@ As Pharo is currently single-threaded, it is not possible to run Scorch in a con
 %introduction of the main issue
 Hot spots can be detected in any Smalltalk code using conditional branches, including Scorch optimiser code itself (as Scorch is written in Smalltalk). When a hot spot is detected in the optimiser code, the optimiser interrupts itself and starts to optimise one of its own functions. While doing so, the same hot spot may be detected again before the optimised function is installed, leading the optimiser to interrupt itself repeatedly. This problem is discussed in Section \ref{sec:optRec}.
 
-A similar problem exists for the deoptimiser. As the Scorch deoptimiser is written in Smalltalk, its code base may get optimised. One of the optimisation-time speculation may be incorrect at runtime, leading the deoptimiser to require the deoptimisation of one of its own frames. In this case, the deoptimiser calls itself on one of its own frames, which may require to deoptimise another frame for the same function, leading the deoptimiser to call itself repeatedly. This second problem is detailed in Section \ref{sec:deoptRec}.
+A similar problem exists for the deoptimiser. As Scorch deoptimiser is written in Smalltalk, its code base may get optimised. One of the optimisation-time speculation may be incorrect at runtime, leading the deoptimiser to require the deoptimisation of one of its own frames. In this case, the deoptimiser calls itself on one of its own frames, which may require to deoptimise another frame for the same function, leading the deoptimiser to call itself repeatedly. This second problem is detailed in Section \ref{sec:deoptRec}.
 
 We call this issue where the optimiser or the deoptimiser calls itself repeatedly as the \emph{meta-recursion} problem. The expression meta-recursion comes from other works~\cite{Chib96a,Denk08b} where similar problems are present.
 
@@ -131,11 +131,11 @@ Figure \ref{fig:PartialDisabling} shows the solution proposed. When a hot spot i
 \end{figure}
 
 \paragraph{Ahead-of-time optimisation.} 
-Alternatively, we could consider optimising the Scorch optimiser code ahead-of-time.
+Alternatively, we could consider optimising Scorch optimiser code ahead-of-time.
 
-As Sista allows one to persist optimised code (this is discussed in details in the following chapter, Chapter \ref{chap:persistence}), the optimiser code could be optimised ahead of time. The optimised optimiser code would be shipped to production, and no runtime optimisation would happen on the optimiser code in production.
+As Sista allows one to persist optimised code (this is discussed in details in the following chapter, Chapter \ref{chap:persistence}), the optimiser code could be optimised ahead-of-time. The optimised optimiser code would be shipped to production, and no runtime optimisation would happen on the optimiser code in production.
 
-To generate the optimised code ahead-of-time, one way is to preheat the optimiser through warm-up runs. For example, the optimiser can be given a list of well-chosen functions to optimise. This way, all hot spots inside the optimiser would be detected ahead of time and optimised. 
+To generate the optimised code ahead-of-time, one way is to preheat the optimiser through warm-up runs. For example, the optimiser can be given a list of well-chosen functions to optimise. This way, all hot spots inside the optimiser would be detected ahead-of-time and optimised. 
 
 Alternatively, the optimiser's code could be optimised statically by calling itself on its own code, using types inferred from a static type inferencer instead of types inferred from the runtime. This solution has a significant cost in our case as we have to implement and maintain a library to infer types.
 
@@ -219,7 +219,7 @@ The second and main problem is that several of our benchmarks use multiple green
 \subsection{Independent library}
 \label{sec:independentLib}
 
-As a second solution, we designed the whole deoptimiser as a completely independent Smalltalk library. The deoptimiser may use primitive operations but is not allowed to use any external function. All the deoptimiser classes are marked: their functions do not have profiling counters and the Scorch optimiser is aware that the optimisation of such functions is not allowed. The deoptimiser code is therefore not optimised at runtime, it is running using only the v-function interpreter and the baseline JIT. As the deoptimiser code cannot be optimised and cannot use any external function that could be optimised, the meta-recursion issue cannot happen.
+As a second solution, we designed the whole deoptimiser as a completely independent Smalltalk library. The deoptimiser may use primitive operations but is not allowed to use any external function. All the deoptimiser classes are marked: their functions do not have profiling counters and Scorch optimiser is aware that the optimisation of such functions is not allowed. The deoptimiser code is therefore not optimised at runtime, it is running using only the v-function interpreter and the baseline JIT. As the deoptimiser code cannot be optimised and cannot use any external function that could be optimised, the meta-recursion issue cannot happen.
 
 \paragraph{Constraints.} This solution has three main constraints:
 \begin{enumerate}
@@ -243,36 +243,36 @@ Many metacircular VMs, such as Klein~\cite{Unga05b}, do not feature an optimisin
 
 \subsection{Graal optimising JIT}
 
-The Graal runtime compiler~\cite{Oracle13,Dubo13c} is an optimising JIT written in Java, which is able to optimise its own code at runtime. Graal can be used in different contexts, with different solutions to the meta-recursion problem. Initially, the Graal runtime compiler was designed and implemented as part of the Maxine VM~\cite{Wimm13a}, a metacircular Java VM. Graal was then extracted from Maxine and it can now work on top of the Java Hotspot VM~\cite{Pale01a}. Graal can be used in two main ways on top of the hotspot VM. On the one hand, it can be used as an alternative optimising JIT, replacing the Java Hotspot optimising JIT written in C++. On the other hand, it can be used as a special purpose optimising JIT, optimising only specific libraries or application while the rest of the Java runtime is optimised with hotspot optimising JIT. %VMs built with Truffle~\cite{Wur13a}, a framework allowing to build efficient VMs by simply writting an AST interpreter in Java, are now running using the Java Hotspot VM and the Graal compiler as the optimising JIT.
+The Graal runtime compiler~\cite{Oracle13,Dubo13c} is an optimising JIT written in Java, which is able to optimise its own code at runtime. Graal can be used in different contexts, with different solutions to the meta-recursion problem. Initially, the Graal runtime compiler was designed and implemented as part of the Maxine VM~\cite{Wimm13a}, a metacircular Java VM. Graal was then extracted from Maxine and it can now work on top of the Java Hotspot VM~\cite{Pale01a}. Graal can be used in two main ways on top of the Hotspot VM. On the one hand, it can be used as an alternative optimising JIT, replacing the Java Hotspot optimising JIT written in C++. On the other hand, it can be used as a special purpose optimising JIT, optimising only specific libraries or application while the rest of the Java runtime is optimised with Hotspot optimising JIT. %VMs built with Truffle~\cite{Wur13a}, a framework allowing to build efficient VMs by simply writting an AST interpreter in Java, are now running using the Java Hotspot VM and the Graal compiler as the optimising JIT.
 
-\paragraph{Graal-hotspot architecture.} In our context, the most relevant use-case is when the Graal compiler is used as an alternative optimising JIT on top of the Java Hotspot VM. The interpreter and baseline JIT tiers are in this case present in Java Hotspot VM, written in a low level language (C++) and compiled ahead-of-time to native code. This is very similar to our design, where the Pharo interpreter and baseline JIT are also compiled ahead-of-time to native code. The optimising JIT are in both cases written in the language run by the VM (Graal in Java and Scorch in Smalltalk), they can optimise their own code and they need to interface with the existing VM to trigger runtime compilation and to install optimised code.
+\paragraph{Graal-Hotspot architecture.} In our context, the most relevant use-case is when the Graal compiler is used as an alternative optimising JIT on top of the Java Hotspot VM. The interpreter and baseline JIT tiers are in this case present in Java Hotspot VM, written in a low-level language (C++) and compiled ahead-of-time to native code. This is very similar to our design, where the Pharo interpreter and baseline JIT are also compiled ahead-of-time to native code. The optimising JIT are in both cases written in the language run by the VM (Graal in Java and Scorch in Smalltalk), they can optimise their own code and they need to interface with the existing VM to trigger runtime compilation and to install optimised code.
 
-In the Graal-hotspot runtime, when a hotspot is detected, code in the hotspot VM (written in C++) searches the stack for a function to optimise. Once the function is chosen, Hotspot adds it to a thread-safe compilation queue. The Graal compiler is run in different native threads concurrently to the application native threads. Graal takes functions to optimise from the compilation queue, generates concurrently optimised n-function and hands them over to the hotspot VM for installation. The optimised n-functions handed by Graal to hotspot respect the Graal Java native interface~\cite{Grim13a}. They include deoptimisation metadata that the hot spot VM is able to understand. When dynamic deoptimisation happens, code written in the hotspot VM (in C++) is responsible for the deoptimisation of the stack using the metadata handed at installation time.
+In the Graal-Hotspot runtime, when a hot spot is detected, code in the Hotspot VM (written in C++) searches the stack for a function to optimise. Once the function is chosen, Hotspot adds it to a thread-safe compilation queue. The Graal compiler is run in different native threads concurrently to the application native threads. Graal takes functions to optimise from the compilation queue, generates concurrently optimised n-function and hands them over to the Hotspot VM for installation. The optimised n-functions handed by Graal to Hotspot respect the Graal Java native interface~\cite{Grim13a}. They include deoptimisation metadata that the hot spot VM is able to understand. When dynamic deoptimisation happens, code written in the Hotspot VM (in C++) is responsible for the deoptimisation of the stack using the metadata handed at installation time.
 
 In our work, Scorch optimiser is able to optimise its own code according to different constraints. The stack search code can be optimised only if a hot spot is detected while the optimiser is running in background mode. The code responsible for the optimisation of a function can be optimised only indirectly through the background mode. Scorch deoptimiser code cannot be optimised at all. 
 
 \paragraph{Comparison between the architectures.}Table \ref{tbl:comparison} sumarizes the similarities and the differences between the architectures. We call \emph{the base VM} the core elements of the VM excluding the optimising JIT: the interpreter, the baseline JIT and the GC. We then distinguish three parts in the optimising JIT:
 \begin{enumerate}
 	\item \emph{The stack search:} responsible to find a function to optimise based on a stack with a hot spot.
-	\item \emph{The optimisation of a function:} responsible to generate an optimised function based on a non-optimised function and runtime information. This is by far the largest and most complex part of the optimising JIT.
+	\item \emph{The optimisation of a function:} responsible to generate an optimised function-based on a non-optimised function and runtime information. This is by far the largest and most complex part of the optimising JIT.
 	\item \emph{The deoptimisation of a frame:} responsible to recreate non-optimised stack frames from an optimised frame. 
 \end{enumerate}
-In both architectures, the base VM is optimised and compiled ahead-of-time (AOT) to executable code. The stack search code is also optimised and compiled ahead-of-time in the case of the Graal-hotspot architecture, while it is running in the same runtime as the application in the case of Scorch. The stack search code can be optimised in Scorch if the hot spot is detected while Scorch is running in background mode. The code responsible to generate the optimised function is in both cases running in the same runtime than the application optimised. In the case of Graal-hotspot, the code can be optimised the same way than the application code. In the case of Sista, the optimisation of the function is postponed to the background compilation queue. Lastly, the code responsible for the deoptimisation of a frame is optimised and compiled ahead-of-time in the case of the Graal-hotspot architecture, while it is running in the same runtime than the application in the case of Sista, but cannot be optimised at runtime.
+In both architectures, the base VM is optimised and compiled ahead-of-time (AOT) to executable code. The stack search code is also optimised and compiled ahead-of-time in the case of the Graal-Hotspot architecture, while it is running in the same runtime as the application in the case of Scorch. The stack search code can be optimised in Scorch if the hot spot is detected while Scorch is running in background mode. The code responsible to generate the optimised function is in both cases running in the same runtime than the application optimised. In the case of Graal-Hotspot, the code can be optimised the same way than the application code. In the case of Sista, the optimisation of the function is postponed to the background compilation queue. Lastly, the code responsible for the deoptimisation of a frame is optimised and compiled ahead-of-time in the case of the Graal-Hotspot architecture, while it is running in the same runtime than the application in the case of Sista, but cannot be optimised at runtime.
 
 \begin{table}
-  \caption{Comparison between the Sista and the Graal-hotspot architectures}
+  \caption{Comparison between the Sista and the Graal-Hotspot architectures}
   \vspace{0.1cm}
   \centering
   \begin{tabular}{c||c|c}
     \toprule
-    & Sista & Graal-hotspot \\
+    & Sista & Graal-Hotspot \\
     \midrule
     \midrule
 	Base & Compiled and & Compiled and \\
 	VM & optimised AOT & optimised AOT \\
     \midrule
 	Stack & Application runtime, optimised & Compiled and \\
-	Search & at runtime if hotspot detected & optimised AOT \\
+	Search & at runtime if hot spot detected & optimised AOT \\
 	 & in background mode & \\
     \midrule
 	Optimisation & Application runtime, optimised & Application runtime,\\
@@ -288,7 +288,7 @@ In both architectures, the base VM is optimised and compiled ahead-of-time (AOT)
 
 \paragraph{Notable differences.}Having the stack search and deoptimisation code in Smalltalk, even with constraints, allow us to change part of the design such as the deoptimisation metadata without having to recompile the VM. This is an advantage in our context, as we want Smalltalk developer to be able contribute to the project without having to recompile the VM or look into low-level details. It can however be seen as a draw-back as the constraints, decreases the performance of the deoptimisation of stack frames and the start-up performance of the stack search.
 
-The other difference is how the optimisation of a function is managed. In Sista, Scorch needs to postpone the optimisation to background mode while the Graal-hotspot architecture allows one to optimise the function like any application function. Our constraints comes from the fact that Pharo is currently single-threaded. In Graal-hotspot, the optimisation of a function is done in a concurrent native thread. This allows one to avoid having a critical and a background mode, as well as allowing the optimising JIT to optimise this part of the code without any constraints. The solution of Graal-hotspot has less constraints, but it requires multithreading support.
+The other difference is how the optimisation of a function is managed. In Sista, Scorch needs to postpone the optimisation to background mode while the Graal-Hotspot architecture allows one to optimise the function like any application function. Our constraints comes from the fact that Pharo is currently single-threaded. In Graal-Hotspot, the optimisation of a function is done in a concurrent native thread. This allows one to avoid having a critical and a background mode, as well as allowing the optimising JIT to optimise this part of the code without any constraints. The solution of Graal-Hotspot has less constraints, but it requires multithreading support.
 
 \subsection{Jikes RVM}
 

@@ -17,7 +17,7 @@
 \minitoc
 
 
-To validate our architecture, we evaluated in Section \ref{sec:bench} the execution time of a set of benchmarks on the Pharo VM with and without Sista. The VM was also evaluated in different configurations to show the overhead of profiling counters and the persistance of optimisations across multiple start-ups. Section \ref{sec:otherValid} discusses other strategies we implemented to validate our architecture.
+To validate our architecture, we evaluated in Section \ref{sec:bench} the execution time of a set of benchmarks on the Pharo VM with and without Sista. With Sista, the VM is up to five times faster than the current production VM. The VM was also evaluated in different configurations to show the overhead of profiling counters and the persistance of optimisations across multiple start-ups. Section \ref{sec:otherValid} discusses other strategies we implemented to validate our architecture.
 
 \section{Benchmarks}
 \label{sec:bench}
@@ -124,7 +124,7 @@ Based on these results, we believe the runtime information extracted from the fi
 
 \section*{Conclusion}
 
-This chapter validates Sista by showing on a range of benchmarks the performance gain of the architecture. The next Chapter discusses the future works that could be considered based on this thesis.
+This chapter validates Sista by showing on a range of benchmarks the performance gain of the architecture (up to 5x). The next Chapter discusses the future works that could be considered based on this thesis.
 
 \ifx\wholebook\relax\else
     \end{document}

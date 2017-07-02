@@ -98,7 +98,7 @@ We did not evaluate the memory footprint because currently the deoptimisation me
 
 In Pharo, snapshots are independent of the processor and the OS used. It is proven as the same snapshot can be deployed on x86, ARMv6 and MIPSEL, as well as on Windows, Mac OS X, iOS, Linux, Android or RISC OS. However, the snapshots are dependent on the machine word size: 32 bit or 64 bit snapshots are not compatible. They are not compatible because the size of managed pointers is different, but also because the representation of specific objects, such as floating numbers, is different. It is however possible to convert offline a 32 bit snapshot to 64 bit and vice-versa. 
 
-As some optimisations related to number arithmetics, such as overflow checks elimination, depends on the number representations, Scorch is currently dependent on the machine word size. A fully portable solution would either need not to do optimisations on machine word specific number representations or deoptimise the affected code on startup.
+As some optimisations related to number arithmetics, such as overflow checks elimination, depends on the number representations, Scorch is currently dependent on the machine word size. A fully portable solution would either need not to do optimisations on machine word specific number representations or deoptimise the affected code on start-up.
 
 \subsection{Productisation}
 \label{ss:FWProduct}
