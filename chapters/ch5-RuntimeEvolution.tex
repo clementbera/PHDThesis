@@ -17,12 +17,13 @@
 \minitoc
 
 %Generic intro
-To support the architecture described in the previous chapter, the Pharo runtime had to evolve. We distinguish two kind of evolutions. Some evolutions were required to support the architecture, the Sista runtime could not work without those features. Other evolutions were not mandatory, Sista could have worked without these features, but each of them were important to improve the overall performance.
+To support the architecture described in the previous chapter, the Pharo runtime had to evolve. We distinguish two kind of evolutions. Some evolutions were required to support the architecture, the Sista runtime could not work without those features. Such evolutions are detailed in Section \ref{sec:ReqLangEvol}. Other evolutions were not mandatory, Sista could have worked without these features, but each of them were important to improve the overall performance. Those evolutions are described in Section \ref{sec:OptLangEvol}. To implement Sista, I did not work alone. Section \ref{sec:WorkDistrib} details the distribution of work.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Required language evolutions}
+\label{sec:ReqLangEvol}
 
 Five major evolutions were required to have Sista up and running:
 \begin{enumerate}
@@ -104,7 +105,7 @@ Scorch dependency manager is also much simpler than the optimiser. It keeps trac
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Optional language evolutions}
-
+\label{sec:OptLangEvol}
 
 Five major evolutions were introduced in the language in addition to the required evolutions to allow Scorch to produce more efficient optimised v-functions:
 \begin{enumerate}
@@ -181,6 +182,56 @@ To solve these issues, we designed a new closure implementation. In the new impl
 \end{figure}
 
 Figure \ref{fig:CompiledBlock} shows on the left the old closure function representation and on the right the new representation. In the old representation, the closure function literals and bytecodes are present inside the enclosing function. The creation of a closure in the v-function interpreter requires to jump over the closure instructions. All the function metadata, normally present in the function header, can be computed by disassembling the closure creation instruction or the closure bytecodes. Any change on the closure function impacts the enclosing function and any change on the enclosing function impacts the closure function. When Cogit compiles the v-function to n-function, it compiles both the function and all the inner closure functions at the same time. In the new representation, the two functions are independent. Each function has its own function header. Both functions can be changed independently. Cogit compiles separatedly each v-function to n-function. The closure function has no source pointer as it can be fetched from the enclosing function (the last literal of the compiled block).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Work distribution}
+\label{sec:WorkDistrib}
+
+To implement all these language evolutions, I did not work alone. I did some evolutions alone, but others were done by Eliot Miranda and the remaining evolutions were implemented by both of us. Tim Felgentreff deserves a special mention as he implemented the Squeak speed center which allowed to benchmark Sista and during the performance evaluation he tuned Scorch to get better performance.
+
+\begin{figure}[h!]
+	\noindent \begin{tabular}{l|c|c|c}
+		Task & Estimated & \% done by & \% done by \\
+		 & Complexity & Eliot Miranda &  me \\
+		\midrule
+		\midrule
+		01. Hot spot detection in Cogit & 10 & 99 & 1 \\
+		\midrule
+		02. Interpreter and Cogit extensions & 15 & 20 & 80 \\
+		to support new instructions & & & \\
+		\midrule
+		03. VM call-backs to trigger & 2 & 50 & 50 \\
+		Scorch optimiser and deoptimiser & & & \\
+		\midrule
+		04. \emph{sendAndBranchData} primitive & 5 & 99 & 1 \\
+		\midrule
+		05. Scorch & 1000 & 1 & 99 \\
+		\midrule
+		\midrule
+		06. Spur memory manager & 800 & 99 & 1 \\
+		\midrule
+		07. New bytecode set & 10 & 40 & 60 \\
+		\midrule
+		08. Register allocation in Cogit & 20 & 75 & 25 \\
+		\midrule
+		09. Read-only objects & 10 & 20 & 80 \\
+		\midrule
+		10. New closure implementation & 20 & 50 & 50 \\
+	\end{tabular}
+    \caption{Work distribution of each language evolution}
+    \label{tab:WorkDistrib}
+\end{figure}
+
+Figure \ref{tab:WorkDistrib} describes the work distribution of each language evolution implemented. Only the distribution of work between Eliot Miranda and I is shown as, excluding the validation infrastructure, it represents more than 99\% of the total work done. Sista was implemented on top of the production Pharo VM that existed the day I started my Ph.D and Figure \ref{tab:WorkDistrib} does not consider the work done outside of Sista or done before the beginning of my Ph.D. 
+
+We note that this section focuses on the implementation, not on the documentation. The biggest evolution to support Sista is the implementation of Scorch, which I did mostly alone. The other very large contribution is the Spur memory manager, which was optional for Sista but important for the overall VM performance and it was mainly done by Eliot Miranda.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section*{Conclusion}
 
