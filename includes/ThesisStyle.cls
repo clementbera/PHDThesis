@@ -853,9 +853,9 @@
 
 \newcommand\includesLogo {
 		\includegraphics[scale=0.25]\logoInria\hspace{2em}
-		\includegraphics[scale=0.45]\logoLifl \hspace{2em}
-		\includegraphics[scale=0.4]\logoUSTL\hspace{2em}
-		\includegraphics[scale=0.15]\logoRegion 
+		\includegraphics[scale=0.15]\logoLifl \hspace{2.2em}
+		\includegraphics[scale=0.4]\logoUSTL \hspace{0.2em}
+		\includegraphics[scale=0.14]\logoRegion 
 	}
 	
 \newcommand\Logo{%

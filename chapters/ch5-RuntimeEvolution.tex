@@ -189,7 +189,7 @@ Figure \ref{fig:CompiledBlock} shows on the left the old closure function repres
 \section{Work distribution}
 \label{sec:WorkDistrib}
 
-To implement all these language evolutions, I did not work alone. I did some evolutions alone, but others were done by Eliot Miranda and the remaining evolutions were implemented by both of us. Tim Felgentreff deserves a special mention as he implemented the Squeak speed center which allowed to benchmark Sista and during the performance evaluation he tuned Scorch to get better performance.
+To implement all these language evolutions, I did not work alone. I did some evolutions alone, but others were done by Eliot Miranda and the remaining evolutions were implemented by both of us. Tim Felgentreff deserves also a mention as he implemented the Squeak speed center, allowing to benchmark Sista. During the performance evaluation, he tuned Scorch to get better performance.
 
 \begin{figure}[h!]
 	\noindent \begin{tabular}{l|c|c|c}
@@ -224,11 +224,9 @@ To implement all these language evolutions, I did not work alone. I did some evo
     \label{tab:WorkDistrib}
 \end{figure}
 
-Figure \ref{tab:WorkDistrib} describes the work distribution of each language evolution implemented. Only the distribution of work between Eliot Miranda and I is shown as, excluding the validation infrastructure, it represents more than 99\% of the total work done. Sista was implemented on top of the production Pharo VM that existed the day I started my Ph.D and Figure \ref{tab:WorkDistrib} does not consider the work done outside of Sista or done before the beginning of my Ph.D. 
+Figure \ref{tab:WorkDistrib} describes the work distribution of each language evolution implemented. Only the distribution between Eliot Miranda and I is shown as, excluding the validation infrastructure, it represents more than 99\% of the total work done to get Sista working. Sista was implemented on top of the existing production Pharo VM and Figure \ref{tab:WorkDistrib} does not show the work done to get that existing VM working. 
 
-We note that this section focuses on the implementation, not on the documentation. The biggest evolution to support Sista is the implementation of Scorch, which I did mostly alone. The other very large contribution is the Spur memory manager, which was optional for Sista but important for the overall VM performance and it was mainly done by Eliot Miranda.
-
-
+The biggest evolution to support Sista is the implementation of Scorch, which I did mostly alone. The other very large contribution is the Spur memory manager, which was optional to have Sista working but important for the overall VM performance. The Spur memory manager was mostly done by Eliot Miranda.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
