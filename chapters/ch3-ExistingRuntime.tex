@@ -27,7 +27,7 @@ The chapter successively describes some aspects of the Pharo VM, the interface w
 
 \section{Virtual machine}
 
-The Pharo VM is a flavor of the Cog VM~\cite{Mira08a}. It relies on a v-function interpreter and Cogit, the baseline JIT, to gain performance.
+The Pharo VM is a variant of the Cog VM~\cite{Mira08a}. It relies on a v-function interpreter and Cogit, the baseline JIT, to gain performance.
 
 \paragraph{Executable generation.}
 Most of the existing VM, inheriting from the original Squeak VM~\cite{Inga97a}, is written in Slang, a subset of Smalltalk. Slang is compiled to C and then to native code through standard C compilers. The execution engine (the memory manager, the interpreter and the baseline JIT) are entirely written in Slang.

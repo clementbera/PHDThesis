@@ -16,7 +16,7 @@
 \label{chap:stateOfTheArt}
 \minitoc
 
-The thesis focuses on the design and the implementation of an optimising JIT architecture for Pharo. The main goals of this architecture are to write the optimising JIT in Pharo itself and to have it running in the same runtime than the optimised application on top of the existing VM. The following paragraphs introduce briefly the need of an optimising JIT for performance and how an optimising JIT improves performance of run programs. Concrete examples and references are present in the context of the two most popular optimising JIT architecture in Section \ref{sec:existing1} and \ref{sec:existing2}, which we call respectively the function-based architecture and the meta-tracing architecture.
+The thesis focuses on the design and the implementation of an optimising JIT architecture for Pharo. The main goals of this architecture are to write the optimising JIT in Pharo itself and to have it running in the same runtime than the optimised application on top of the existing VM. The following paragraphs introduce briefly the need of an optimising JIT for performance and how an optimising JIT improves performance of run programs. Concrete examples and references are present in the context of the two most popular optimising JIT architecture in Section \ref{sec:existing1} and \ref{sec:existing2}, which we call respectively the function-based architecture and the tracing architecture.
 
 Standard object-oriented languages feature dynamic dispatch. This feature is typically present in the form of virtual calls: the function to activate for each virtual call depends on information available at runtime but not at compile-time. Because of dynamic dispatch, it is difficult for an ahead-of-time compiler to optimise efficiently the code to execute. This problem is especially important for languages where virtual calls are very common. In our case, in Pharo, every call is a virtual call.
 
@@ -34,7 +34,7 @@ The tier concept is summarized in Figure \ref{fig:GeneralTieredArchitecture} wit
     \end{center}
 \end{figure}
 
-\paragraph{Optimising JIT architectures.} Two main architectures are widely used to design an optimising JIT. One optimising JIT architecture~\cite{UrsPHD}, historically the first one invented, attempts to boost performance by optimising frequently used functions. Such optimising JIT generates native code snippets corresponding to optimised functions. We call this architecture the \emph{Function-based architecture} and we describe it in Section \ref{sec:architecture}. The second architecture focuses on the optimisation of linear sequences of frequently used instructions. We call this architecture the \emph{Meta-tracing architecture}. Typically, meta-tracing JITs optimise the common execution path of one iteration of each frequently used loop. This second architecture is detailed in Section \ref{sec:metaArchitecture}. As Sista is more similar to the function-based architecture, Section \ref{sec:architecture} is more detailed than the other one.
+\paragraph{Optimising JIT architectures.} Two main architectures are widely used to design an optimising JIT. One optimising JIT architecture~\cite{UrsPHD}, historically the first one invented, attempts to boost performance by optimising frequently used functions. Such optimising JIT generates native code snippets corresponding to optimised functions. We call this architecture the \emph{Function-based architecture} and we describe it in Section \ref{sec:architecture}. The second architecture focuses on the optimisation of linear sequences of frequently used instructions. We call this architecture the \emph{Tracing architecture}. Typically, tracing JITs optimise the common execution path of one iteration of each frequently used loop. This second architecture is detailed in Section \ref{sec:metaArchitecture}. As Sista is more similar to the function-based architecture, Section \ref{sec:architecture} is more detailed than the other one.
 
 \paragraph{Research problems.} In the context of the design and implementation of the optimising JIT for Pharo, the thesis focuses on 
 two
@@ -189,14 +189,14 @@ The sketch is then detailed in the context of HPS, the VisualWorks VM, which is 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Meta-tracing architecture}
+\section{Tracing architecture}
 \label{sec:metaArchitecture}
 
-The main alternative to the function-based architecture is the meta-tracing architecture. Meta-tracing JITs do not optimise entire functions but instead focus on optimising linear sequences of instructions. As most meta-tracing JITs focus on the optimisation of loop iterations, we detail this case in this section. The section starts by providing an overview of the architecture and then discusses concrete implementation with references in Section \ref{sec:existing2}.
+The main alternative to the function-based architecture is the tracing architecture. Tracing JITs do not optimise entire functions but instead focus on optimising linear sequences of instructions. As most tracing JITs focus on the optimisation of loop iterations, we detail this case in this section. The section starts by providing an overview of the architecture and then discusses concrete implementation with references in Section \ref{sec:existing2}.
 
 \subsection{Architecture overview}
 
-VMs with meta-tracing JITs generate optimised native code only for the frequently used paths of commonly executed loops and interpret virtual instructions for the rest of the program. Tracing JITs are built on the following basic assumptions:
+VMs with tracing JITs generate optimised native code only for the frequently used paths of commonly executed loops and interpret virtual instructions for the rest of the program. Tracing JITs are built on the following basic assumptions:
 \begin{itemize}
 	\item Programs spend most of their runtime in loops.
 	\item Several iterations of the same loop are likely to take similar code paths.
@@ -206,18 +206,18 @@ Typically, in VMs with tracing JITs, the first executions of a loop are done usi
 
 Being sequential, the trace represents only one of the many possible paths through the code. To ensure correctness, the trace contains a guard at every possible point where the path could have followed another direction, for example at conditional branches or virtual calls. When generating native code, every guard is turned into a quick check to guarantee that the path we are executing is still valid. If a guard fails, the execution immediately quits the native code and resumes the execution by falling back to the interpreter.
 
-\paragraph{Aside from loops.} Some meta-tracing JITs are able to trace code aside from loops. In this case, profiling counters are added on functions to see if they are worth compiling or not.
+\paragraph{Aside from loops.} Some tracing JITs are able to trace code aside from loops. In this case, profiling counters are added on functions to see if they are worth compiling or not.
 
 \subsection{Existing VMs}
 \label{sec:existing2}
 
 Tracing optimisations were initially explored by the Dynamo project~\cite{Bala00a} to dynamically optimise native code at runtime. Its techniques were then successfully used to implement a JIT compiler for a Java VM~\cite{Gal06a}. The technique was used in Mozilla's JavaScript VM from Firefox 3 to Firefox 11~\cite{Gal09a} until Mozilla removed it to replace it by a function-based JIT. 
 
-The most famous meta-tracing JITs in production are certainly the ones generated from the RPython toolchain~\cite{Rigo06a}. The RPython toolchain allows the generation of a meta-tracing JIT for free if one writes a virtual function interpreter in RPython. The most popular example is Pypy~\cite{Rigo06a,PyPyTracing}, a Python VM using a meta-tracing JIT through the RPython toolchain framework.
+The most famous tracing JITs in production are certainly the ones generated from the RPython toolchain~\cite{Rigo06a}. The RPython toolchain allows the generation of a tracing JIT for free if one writes a virtual function interpreter in RPython. The most popular example is Pypy~\cite{Rigo06a,PyPyTracing}, a Python VM using a tracing JIT through the RPython toolchain framework.
 
-\subsection{Sista and meta-tracing JITs}
+\subsection{Sista and tracing JITs}
 
-Sista was not designed as a meta-tracing JIT. There were two main reasons. First, the design was inspired from the Aosta proposal, which is a function-based architecture design. Second, we did not believe that optimising loop bodies would make sense in the context of Smalltalk and we will explain why in the second paragraph of Section \ref{sec:relWArch}.
+Sista was not designed as a tracing JIT. There were two main reasons. First, the design was inspired from the Aosta proposal, which is a function-based architecture design. Second, we did not believe that optimising loop bodies would make sense in the context of Smalltalk and we will explain why in the second paragraph of Section \ref{sec:relWArch}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

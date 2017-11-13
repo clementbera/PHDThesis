@@ -230,7 +230,7 @@ The hot spot is going to be detected on the profiling counter, hence in the meth
 In this case, the hot spot is detected in \ct{Array>>do:}. The hot spot is therefore detected in a method, not a closure. Naive heuritics would have chosen to optimise \ct{Array>>do:}, while it is better to select the caller stack frame's function.
 
 %closure last explanation
-Overall, because of the extensive use of closures, the optimiser almost never chooses to optimise the function where the hot spot is detected. It usually walks up a few frames to find the best function to optimise. 
+Overall, because of the extensive use of closures, the optimiser almost never chooses to optimise the function where the hot spot is detected. It usually walks up a few frames to find the best function to optimise based on multiple heuristics. 
 
 \paragraph{Optimised v-function generation.}
 Once Scorch has selected the v-function to optimise, it generates an optimised v-function. It attempts to do it immediately, within a limited amount of time. If it fails to do it, it postpones the optimisation to background mode. The function's optimisation and installation is using the same code in both cases, so we will discuss only the critical mode optimisation in the following paragraphs.
@@ -319,19 +319,19 @@ The description of objects to recreate specifies what value the deoptimiser has 
 %deopt through metadata 
 Cogit has reified the optimised n-frame to an optimised v-frame, hence, Scorch deoptimiser accesses the optimised v-frame. The frame is necessarily activated on a virtual instruction which is annotated with deoptimisation metadata. The metadata consists of a list of objects to materialize, which allocation has been postponed from runtime to deoptimisation time. As v-frames and closures are reified as objects in Smalltalk, part of those objects to rematerialize are unoptimised v-frames and closures. For each field of each object, the metadata specifies if the value is a specific constant, a value to fetch in the optimised v-frame or a reference to one of the other rematerialized object.
 
-\paragraph{Stack edition.}
+\paragraph{Stack recovery.}
 
 Once all the unoptimised v-frames are reconstructed, the execution stack needs to be edited to use them. This is done using the stack manipulation APIs. Basically, the VM splits the current stack page in two, copying one part on another stack page. Deoptimised frames are present in the middle in their single context form, in a similar way to frame divorces described in the previous chapter and as shown in Figure \ref{fig:DeoptStacks}.
 
 \begin{figure}[h!]
     \begin{center}
 		\includegraphics[width=0.80\linewidth]{DeoptStacks}
-        \caption{Stack edition}
+        \caption{Stack recovery}
         \label{fig:DeoptStacks}
     \end{center}
 \end{figure}
 
-\paragraph{Discard functions.} When new unoptimised functions are installed (for example when a library is loaded), optimisation assumptions may be invalidated because some look-up results cannot be guaranteed anymore. In this case, we cannot really iterate over the whole stack and deoptimise all the frames holding invalidated code as it would take a long time (especially multiple stack manipulations may take a while). Instead, Scorch mutates the discarded optimised v-function to hold only guard failures virtual instructions, so optimised v-frames would always trigger deoptimisation upon return. In addition, Scorch requests Cogit to patch all return native instruction pointers of all optimised n-frames representing discarded function activations to a pointer to a specific routine which will trigger deoptimisation upon return.
+\paragraph{Discard functions.} When new unoptimised functions are installed (for example when a library is loaded), optimisation assumptions may be invalidated because some look-up results cannot be guaranteed anymore. In this case, we cannot really iterate over the whole stack and deoptimise all the frames holding invalidated code as it would take a long time (especially multiple stack manipulations may take a while). Instead, Scorch sets all the virtual instructions of the discarded optimised v-function to guard failures (virtual instruction calling the deoptimiser), so optimised v-frames trigger deoptimisation when returned to. In addition, Scorch requests Cogit to patch all return native instruction pointers of all optimised n-frames representing discarded function activations to a pointer to a specific routine which will trigger deoptimisation upon return.
 
 \paragraph{Execution restart.}
 
@@ -346,7 +346,7 @@ If the deoptimisation happened due to a guard failure (or due to a return to a d
 \section{Related work}
 \label{sec:relatedWorkArch}
 
-This section compares our architecture against existing work. The first section compares the overall architecture versus the meta-tracing and function-based architectures. Section \ref{sec:interface} compares our optimised v-function representation against representations existing in other VMs. Section \ref{sec:codeSharing} discusses how different JIT tiers may or may not share portions of code.
+This section compares our architecture against existing work. The first section compares the overall architecture versus the tracing and function-based architectures. Section \ref{sec:interface} compares our optimised v-function representation against representations existing in other VMs. Section \ref{sec:codeSharing} discusses how different JIT tiers may or may not share portions of code.
 
 The two research subproblems and their related work are detailed later in the thesis. Chapter \ref{chap:metacircular} discusses how Scorch is able, under specific constraints, to optimise its own code. Chapter \ref{chap:persistence} details how the runtime state, including optimised v-functions, can be persisted across multiple start-ups.
 
@@ -355,7 +355,7 @@ The two research subproblems and their related work are detailed later in the th
 
 Compared to the classical three tier function-based architecture described in Chapter \ref{chap:stateOfTheArt}, the existing Pharo runtime featured only the first two tiers. Sista is an implementation of the third tier, the optimising JIT tier. The implementation is however quite different from other VMs. One of the main difference is the split between the high and low-level part of the optimising JIT as well as the optimised v-function representation used to communicate between both parts. As far as we know, no other VM splits its optimising JIT this way. The other main difference is Cogit, which in one code base, can be used both as a baseline JIT and as a back-end for the optimising JIT.
 
-Sista was not designed as a meta-tracing JIT. The main reason is that improving the performance of loop bodies did not seem the right thing to do in the case of Pharo. As explained in the example of Section \ref{ss:stackSearch}, if the Smalltalk code executed respects standard Smalltalk coding conventions, most loops just activate a closure. The optimiser needs to optimise code outside of the loop body to be able to inline the closure activation and improve performance. Hence, it is not clear how to design an efficient meta-tracing JIT for Pharo: the naive strategy of focusing the optimisations on loop bodies is not good enough in our case. The project RSqueak\cite{Felg16f} implements a Squeak VM using the RPython toolchain~\cite{Rigo06a} and the problem described is present.
+Sista was not designed as a tracing JIT. The main reason is that improving the performance of loop bodies did not seem the right thing to do in the case of Pharo. As explained in the example of Section \ref{ss:stackSearch}, if the Smalltalk code executed respects standard Smalltalk coding conventions, most loops just activate a closure. The optimiser needs to optimise code outside of the loop body to be able to inline the closure activation and improve performance. Hence, it is not clear how to design an efficient tracing JIT for Pharo: the naive strategy of focusing the optimisations on loop bodies is not good enough in our case. The project RSqueak\cite{Felg16f} implements a Squeak VM using the RPython toolchain~\cite{Rigo06a} and the problem described is present.
 
 \subsection{Optimised virtual function representation}
 \label{sec:interface}
