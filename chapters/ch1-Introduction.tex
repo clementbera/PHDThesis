@@ -22,7 +22,7 @@ Object-oriented languages have been one of the most popular programming language
 
 \paragraph{High-performance virtual machines.}
 %Most high-level languages pursue a strict separation between language-side and VM-side. VMs for instance provide automatic memory management or use platform independent instructions such as bytecodes. These properties allow a programming language to develop independently from the underlying hardware.
-High performance VMs, such as Java HotSpot~\cite{Pale01a} or Javascript VMs like V8~\cite{V8} achieve high performance through just-in-time compilation techniques: once the VM has detected that a portion of code is frequently used (called \emph{hot spot}), it recompiles it on-the-fly with speculative optimisations based on previous runs of the code. If usage patterns change and the code is not executed as previously speculated anymore, the VM dynamically deoptimises the execution stack and resumes execution with the unoptimised code.
+High performance VMs, such as Java HotSpot~\cite{Pale01a} or Javascript VMs like V8~\cite{V8} achieve high performance through just-in-time compilation techniques: once the VM has detected that a portion of code is frequently used (a \emph{hot spot}), it recompiles it on-the-fly with speculative optimisations based on previous runs of the code. If usage patterns change and the code is not executed as previously speculated anymore, the VM dynamically deoptimises the execution stack and resumes execution with the unoptimised code.
 
 Such performance techniques allow object-oriented languages to greatly improve their peak performance. However, a warm-up time is required for the VM to correctly speculate about frequently used patterns. This warm-up time can be problematic for different use-cases (distributed applications with short-lived slaves, code in web pages, etc.).
 
@@ -53,7 +53,7 @@ Another idea is then to reuse the existing baseline JIT, already present in the 
 
 Some aspects of the design were considered, analyzed and discussed very carefully by several VM experts, making the design attractive and interesting. However, the overall design was incomplete so it was unclear how multiple parts of the system would work, especially, as no one really knew how to design and implement the high-level part of the JIT nor if the design could work.
 
-The work done during the Ph.D started from the Aosta proposal: the goal was to complete the design and propose an implementation. The resulting architecture and implementation, presented in the thesis, is Sista (\textbf{S}peculative \textbf{I}nlining \textbf{S}mall\textbf{T}alk \textbf{A}rchitecture). The design of Sista is largely inspired from Aosta, but a working implementation to validate different aspects of the design and able to run a large suite of benchmarks is provided. Multiple aspects of Sista are different from existing VMs, such as the split in the optimising JIT or the ability to persist optimised bytecode methods across start-ups. The advantages and issues of these differences are discussed in the thesis.
+The work done during the Ph.D started from the Aosta proposal: the goal was to complete the design and propose an implementation. The resulting architecture and implementation, presented in the thesis, is Sista (\textbf{S}peculative \textbf{I}nlining \textbf{S}mall\textbf{T}alk \textbf{A}rchitecture). The design of Sista is largely inspired from Aosta, but a working implementation to validate different aspects of the design and able to run a large suite of benchmarks is provided. Multiple aspects of Sista are different from existing VMs, such as the split in the optimising JIT or the ability to persist optimised bytecode methods across start-ups. The pros and cons of these differences are discussed in the thesis.
 
 \paragraph{Pharo programming language and community.}
 
@@ -145,9 +145,6 @@ In the thesis, the focus is on Sista. However, during the Ph.D I worked on other
 \begin{enumerate}
 	\item Eliot Miranda and Cl\'ement B\'era. A Partial Read Barrier for Efficient Support of Live Object-oriented Programming. In International Symposium on Memory Management, ISMM'15, 2015.
 	\item Cl\'ement B\'era, Eliot Miranda, Marcus Denker and St\'ephane Ducasse. Practical Validation of Bytecode to Bytecode JIT Compiler Dynamic Deoptimization. Journal of Object Technology, JOT'16, 2016.
-\end{enumerate}	
-\begin{enumerate}[label=(\arabic*)]
-	\setcounter{enumi}{2}
 	\item Nevena Milojkovi\'c, Cl\'ement B\'era, Mohammad Ghafari and Oscar Nierstrasz. Mining Inline Cache Data to Order Inferred Types in Dynamic Languages. Accepted with minor revisions in Science of Computer programming, SCP'17, 2017.
 	\item Cl\'ement B\'era, Eliot Miranda, Tim Felgentreff, Marcus Denker and St\'ephane Ducasse. Sista: Saving Optimized Code in Snapshots for Fast Start-Up. Submitted to International Conference on Managed Languages \& Runtimes (ManLang, formerly PPPJ), ManLang'17, 2017.
 \end{enumerate}	
@@ -158,9 +155,6 @@ In the thesis, the focus is on Sista. However, during the Ph.D I worked on other
 	\item Cl\'ement B\'era and Eliot Miranda. A bytecode set for adaptive optimizations. In International Workshop on Smalltalk Technologies, IWST'14, 2014.
 	\item Nevena Milojkovi\'c, Cl\'ement B\'era, Mohammad Ghafari and Oscar Nierstrasz. Inferring Types by Mining Class Usage Frequency from Inline Caches. In International Workshop on Smalltalk Technologies, IWST'16, 2016.
 	\item Cl\'ement B\'era. A low Overhead Per Object Write Barrier for the Cog VM. In International Workshop on Smalltalk Technologies, IWST'16, 2016.
-\end{enumerate}	
-\begin{enumerate}[label=(\arabic*)]
-	\setcounter{enumi}{8}
 	\item Sophie Kaleba, Cl\'ement B\'era, Alexandre Bergel, and St\'ephane Ducasse. Accurate VM profiler for the Cog VM. Submitted to International Workshop on Smalltalk Technologies, IWST'17, 2017.
 \end{enumerate}
 %\end{itemize}
