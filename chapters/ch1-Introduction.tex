@@ -65,7 +65,7 @@ As of today, multiple Smalltalk dialects are available, from commercial Smalltal
 
 In Pharo, everything is an object, including classes, bytecoded versions of methods or processes. It is dynamically-typed and every call is a virtual call. The VM relies on a bytecode interpreter and a baseline just-in-time compiler (JIT) to gain performance. Modern Smalltalk dialects directly inherit from Smalltalk-80~\cite{Gold83a} but have evolved during the past 35 years. For example, real closures and exceptions were added.
 
-As Pharo is evolving, its VM, the Cog VM~\cite{Mira08a}, is improving. For example, a modern memory manager was added over the past few years, improving performance and allowing the VM to use a larger amount of memory. The open-source community is now looking for new directions for VM evolutions, including better VM performance. Compared to many high performance VMs, the Pharo VM is not as efficient because it lacks an optimising JIT with speculative optimisations. The optimising JIT is usually one of the most complex part of high performance VMs. As the Pharo community has a limited amount of ressources to the maintain and evolve the VM, the idea is to design the optimising JIT in a way where open-source contributors can get involved in the maintainance and evolution tasks.
+As Pharo is evolving, its VM, the Cog VM~\cite{Mira08a}, is improving. For example, a modern memory manager was added over the past few years, improving performance and allowing the VM to use a larger amount of memory. The open-source community is now looking for new directions for VM evolutions, including better VM performance. Compared to many high performance VMs, the Pharo VM is not as efficient because it lacks an optimising JIT with speculative optimisations. The optimising JIT is usually one of the most complex parts of high performance VMs. As the Pharo community has a limited amount of resources to the maintain and evolve the VM, the idea is to design the optimising JIT in a way where open-source contributors can get involved in the maintainance and evolution tasks.
 
 Many people in the community have high skills in object-oriented programming, especially Pharo development, while few people have skills in low-level programming such as assembly code or C. Hence, the community on average understands much more Smalltalk programs than low-level programs. Assuming one is more likely to contribute to a program one can understand, the logical choice is to design the optimising JIT in Smalltalk.
 
@@ -102,7 +102,7 @@ In most existing VMs, the optimised code is not persisted across multiple start-
 
 \paragraph{Research problems.}The thesis focuses on three aspects:
 \begin{itemize}
-	\item \emph{Optimising JIT architecture:} {What is a good architecture for an optimising JIT running in the same runtime than the optimised application on top of a non-optimising VM?}
+	\item \emph{Optimising JIT architecture:} {What is a good architecture for an optimising JIT running in the same runtime as the optimised application on top of a non-optimising VM?}
 	\item \emph{Metacircular optimising JIT:} In the context of an optimising JIT written in the single-threaded language it optimises, can the JIT optimise its own code at runtime and if so, under which constraints?
 	\item \emph{Runtime state persistence:} How to persist the runtime state across multiple VM start-ups, including the running green threads and the optimised code?
 	%\item \emph{Virtual function instruction set:} How to design an expressive instruction set between to have the high-level part and the low-level part of the optimising JIT, both completely independent and written in different programming languages, communcating efficiently?
@@ -116,7 +116,7 @@ Publication-wise, in addition to the authors mentioned in each paper, my researc
 
 \section{Contributions}
 
-The thesis introduces Sista (\textbf{S}peculative \textbf{I}nlining \textbf{S}mall\textbf{T}alk \textbf{A}rchitecture). Sista features an optimising JIT written in Smalltalk running on top of the existing Pharo VM. The optimising JIT is running in the same runtime than the optimised application. Sista is able to persist the runtime state of the program across multiple start-ups. %The communication between the rest of the VM and the optimising JIT is done through a minimal interface.
+The thesis introduces Sista (\textbf{S}peculative \textbf{I}nlining \textbf{S}mall\textbf{T}alk \textbf{A}rchitecture). Sista features an optimising JIT written in Smalltalk running on top of the existing Pharo VM. The optimising JIT is running in the same runtime as the optimised application. Sista is able to persist the runtime state of the program across multiple start-ups. %The communication between the rest of the VM and the optimising JIT is done through a minimal interface.
 
 The main contributions of this thesis are:
 \begin{itemize}

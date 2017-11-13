@@ -206,7 +206,7 @@ In the context of Smalltalk, a snapshot\footnote{Smalltalk developers use the te
 
 One interesting problem in snapshots is how to save the execution stack, \ie the green threads. To perform a snapshot, each stack frame is reified into a context and only objects are saved in the snapshot. When the snapshot is restarted, the VM recreates a stack frame for each context lazily. 
 
-In any case, snapshots are platform-independent so they cannot save n-frames. In the Pharo VM for example, a snapshot can be taken on a laptop using a x86 processor and restarted on a raspberry pi using a ARMv6 processor.
+In any case, snapshots are platform-independent so they cannot save n-frames. In the Pharo VM for example, a snapshot can be taken on a laptop using a x86 processor and restarted on a raspberry pi using an ARMv6 processor.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

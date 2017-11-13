@@ -17,7 +17,7 @@
 \minitoc
 
 %Intro
-By design, Scorch optimiser and deoptimiser are written in Smalltalk and are running in the same runtime than the optimised application. This design leads to recursion problems similar to the ones existing in metacircular virtual machines, detailed in this chapter. 
+By design, Scorch optimiser and deoptimiser are written in Smalltalk and are running in the same runtime as the optimised application. This design leads to recursion problems similar to the ones existing in metacircular virtual machines, detailed in this chapter. 
 
 %single-threaded -> for comparison with Graal and co later
 As Pharo is currently single-threaded, it is not possible to run Scorch in a concurrent native thread. To optimise code, Scorch requires either to temporarily interrupt the application green thread or to postpone the optimisation to a background-priority green thread as described in Section \ref{sec:optModes}. The deoptimiser cannot however postpone the deoptimisation of a frame as it would block completely the running application. The deoptimiser has necessarily to interrupt the application green thread to deoptimise the stack.
@@ -237,7 +237,7 @@ Although the constraints are important, we were able to run all our benchmarks w
 
 To have an optimising JIT optimising its own code and encounter the meta-recursion problem we discussed in this chapter, the optimising JIT has to be written in one of the languages it can optimise and run in the same runtime than the optimised application. Such an optimising JIT is not common.
 
-Many production VMs are entirely written in a low-level language such as C++~\cite{V8,Webkit15}. The optimising JIT cannot optimise its own code in such VMs. Other VMs such as the ones written with the RPython toolchain ~\cite{Rigo06a} are written in a language that the optimising JIT could optimise, but the production VMs are compiled ahead-of-time to native code, hence the optimising JIT does not optimise its own code at runtime in production. Metacircular VMs~\cite{Unga05b,Alp99a} are entirely written in a language they can run. H
+Many production VMs are entirely written in a low-level language such as C++~\cite{V8,Webkit15}. The optimising JIT cannot optimise its own code in such VMs. Other VMs such as the ones written with the RPython toolchain ~\cite{Rigo06a} are written in a language that the optimising JIT could optimise, but the production VMs are compiled ahead-of-time to native code, hence the optimising JIT does not optimise its own code at runtime in production. Metacircular VMs~\cite{Unga05b,Alp99a} are entirely written in a language they can run. 
 
 Many metacircular VMs, such as Klein~\cite{Unga05b}, do not feature an optimising JIT\footnote{In 2009, Adam Spitz reported some work in the direction of an inlining JIT compiler in Klein on the project web page, but there has been no further news about it since then.}. There are two main projects where the optimising JIT optimises its own code at runtime. The first project is the Graal compiler~\cite{Oracle13,Dubo13c} which can be used both in the context of the Maxine VM~\cite{Wimm13a} and the Java Hotspot VM~\cite{Pale01a}. The Graal compiler effectively optimises its own code at runtime as it would optimise the application code. The other project is the Jalape\~no VM~\cite{Alp99a}, now called Jikes RVM, features a runtime compiler that can optimise its own code at runtime. 
 
